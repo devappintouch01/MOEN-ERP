@@ -1,0 +1,5 @@
+﻿Scaffold-DbContext "Server=dev.softsuite.co.th;Database=MOENDB;User Id=energyerpadmin;Password=!energy2024!;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models  -Context "MOENDBContext" -f
+Scaffold-DbContext "Server=dev.softsuite.co.th;Database=MOENDOCS;User Id=energyerpadmin;Password=!energy2024!;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models  -Context "MOENDOCSContext" -f
+
+Scaffold-DbContext "Server=dev.softsuite.co.th;Database=DTNERPDOCS;User Id=dtnerpadmin;Password=!dtnerp2020!;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models  -Context "DTNDOCDBContext" -f
+
