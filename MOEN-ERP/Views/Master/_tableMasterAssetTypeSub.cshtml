@@ -1,0 +1,130 @@
+﻿@model MOEN_ERP.Models.ViewModel.MasterAssetTypeDetailModel
+
+@* <div class="card mt-10"> *@
+    <div class="card-body">   
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 " id="TblMasterAssetTypeSub">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center" width="50">
+                            <input type="checkbox" value="1" id="chkSubAll"  onchange="SelectDelAll()"  />
+                        </th>
+                        <th class="text-center" style="width:5%">ลำดับ</th>
+                        <th class="text-center">รายการ</th>
+                        <th class="text-center">อายุการใช้งาน(ทดแทน)</th>
+                        <th class="text-center">อายุการใช้งาน(ค่าเสื่อม)</th>
+                        <th class="text-center">อัตราค่าเสื่อมราคา/ปี(ร้อยละ)</th>
+                    <th style="width:1px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @Html.HiddenFor(x => x.listDelSubId)
+                    @{
+                        var no = 1;
+                        foreach (var item in Model.ListMasterAssetTypeSub)
+                        {
+                                    <tr>
+                                        <td class="text-center">
+                                        <input type="checkbox" value="1" id="chkSub" onchange="SelectDel()" />
+                                        </td>
+                                        <td class="text-center">@no</td>
+                                        <td class="text-center">@item.NameThai</td>
+                                        <td class="text-center">@item.LifeTimeUse</td>
+                                        <td class="text-center">@item.LifeTimeDepreciation</td>
+                                        <td class="text-center">@item.Depreciation</td>
+                                        <td class="text-center" hidden>@item.Id</td>
+                                    </tr>
+                            no++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    
+    </div>
+@* </div> *@
+
+@if (ViewBag.success != null)
+{
+    <script>
+        Swal.fire('@ViewBag.success', '', 'success');
+    </script>
+}
+@if (ViewBag.error != null)
+{
+    <script>
+        Swal.fire('@ViewBag.error', '', 'error');
+    </script>
+}
+
+
+@if (ViewBag.hideModal != null)
+{
+    <script>
+        $('#@(ViewBag.hideModal)').modal('hide');
+        $('#searchForm').submit();
+    </script>
+
+}
+else
+{
+    <script>       
+         
+    </script>
+
+}
+
+<script>
+
+    $('#TblMasterAssetTypeSub').DataTable({
+        language: {
+            url: `${baseURL}/js/th.json`,
+        },
+        "paging": true,
+        "searching": false,
+        "lengthChange": true,
+        "lengthMenu": [25, 50, 100],
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: 'none',
+                target: ''
+            }
+        },
+        "pageLength": 25,
+        deferLoading: 10,
+        dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+    });
+
+    function SelectDelAll() {
+    @*  alert('sel'); *@
+                var grid = null;
+        var checkBoxes = null;
+        grid = document.getElementById("TblMasterAssetTypeSub");
+        checkBoxes = grid.getElementsByTagName("INPUT");
+
+        if (checkBoxes[0].checked) {
+    @*  alert(checkBoxes.length); *@
+                    for (var i = 1; i < checkBoxes.length; i++) {
+                // alert(i);
+                var row = checkBoxes[i].parentNode.parentNode;
+                checkBoxes[i].checked = true;
+                // alert(row.cells[6].innerHTML);
+            }
+        }
+        else {
+            message = "";
+            for (var i = 1; i < checkBoxes.length; i++) {
+                checkBoxes[i].checked = false;
+            }
+        }
+    }
+</script>
+
+
+
+

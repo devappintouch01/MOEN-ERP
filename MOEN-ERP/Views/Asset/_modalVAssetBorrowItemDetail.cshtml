@@ -1,0 +1,108 @@
+﻿@model MOEN_ERP.DAL.Models.VAssetBorrowItem
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlTab2Detail1">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายการครุภัณฑ์</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+
+                    <div class="row col-md-12 mb-3">
+                        <label class="col-form-label">รายการ </label>
+                        <input class="form-control form-control-sm" value="@Model.AssetName" readonly />
+                    </div>
+
+                    <div class="row col-md-6 mb-3">
+                        <label class="col-form-label">Serial Number </label>
+                        <input class="form-control form-control-sm" value="@Model.SerialNumber" readonly />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">เลขครุภัณฑ์ </label>
+                        <input class="form-control form-control-sm" value="@Model.Code" readonly />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">สภาพ </label>
+                        <div class="row fv-row mb-3 mt-2">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="radio" value="false" name="IsUsable" checked="@(Model.IsUsable)" disabled>
+                                    <label class="form-check-label">
+                                        ชำรุด
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="radio" value="true" name="IsUsable" checked="@(Model.IsUsable)" disabled>
+                                    <label class="form-check-label">
+                                        ปกติ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row col-md-6 mb-3">
+                        <label class="col-form-label">หมายเหตุ</label>
+                        <textarea class="form-control form-control-sm" rows="2" readonly>@Model.BorrowDetail</textarea>
+                    </div>
+
+                    <div class="row col-md-6 mb-3">
+                        <label class="col-form-label">สถานะ </label>
+                        <input class="form-control form-control-sm" value="@Model.AssetBorrowStatusName" readonly />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                    </div>
+
+                    <div class="row col-md-6 mb-3">
+                        <label class="col-form-label">ผู้ส่งคืน </label>
+                        <input class="form-control form-control-sm" value="@Model.ReturnOfficerName" readonly />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">วันที่ส่งคืน </label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" value="@Model.ReturnDate?.ToString("dd/MM/yyyy")" readonly />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-6 mb-3">
+                        <label class="col-form-label">ผู้รับคืน </label>
+                        <input class="form-control form-control-sm" value="@Model.ReceiveOfficerName" readonly />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">วันที่รับคืน </label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" value="@Model.ReceiveDate?.ToString("dd/MM/yyyy")" readonly />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#mdlTab2Detail1').modal('show');
+</script>

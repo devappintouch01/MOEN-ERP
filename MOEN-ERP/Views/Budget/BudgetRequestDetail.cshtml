@@ -1,0 +1,976 @@
+﻿@model MOEN_ERP.Models.ViewModel.BudgetRequestDetailViewModel
+
+@section Title {
+	<span class="fs-1 fw-semibold">คำของบประมาณแผ่นดิน</span>
+
+}
+@section Breadcrumb {
+	<li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+	<li class="breadcrumb-item pe-3 text-muted">คำของบประมาณแผ่นดิน</li>
+}
+
+<div class="card">
+	<div class="card-body">
+
+		<form method="post" id="detail"
+		 >
+			<div class="row mb-3">
+
+				<div class="col-md-4 mb-3">
+					<label class="col-form-label">เลขที่คำขอ</label>
+					<input name="Code" class="form-control form-control-sm" readonly value="@Model.Code" />
+				</div>
+
+				<div class="col-md-4 mb-3">
+					<label class="col-form-label">ปีงบประมาณ <span class="text-danger">*</span></label>
+					<input class="form-control form-control-sm" name="BudgetYear" value="@Model.BudgetYear" />
+				</div>
+
+				<div class="col-md-4 mb-3">
+					<label class="col-form-label">หน่วยงาน <span class="text-danger">*</span></label>
+					<select name="OrganizationId" class="form-select form-select-sm" value="@Model.OrganizationId">
+						<option value="">ทั้งหมด</option>
+						@foreach (var org in ViewBag.DropdownOrganization)
+						{
+							if (org.Value == Model.OrganizationId.ToString())
+							{
+								<option value="@org.Value" selected>@org.Text</option>
+							}
+							else
+							{
+								<option value="@org.Value">@org.Text</option>
+							}
+						}
+					</select>
+				</div>
+
+				<div class="col-md-4 mb-3">
+					<label class="col-form-label">รวมเงินคำของบประมาณ</label>
+					<input name="TotalRequestAmount" class="form-control form-control-sm" readonly value="@Model.TotalRequestAmount" />
+				</div>
+
+				<div class="col-md-4 mb-3">
+					<label class="col-form-label">สถานะ</label>
+					<input class="form-control form-control-sm" readonly value="" />
+				</div>
+
+			</div>
+		</form>
+
+		@if (!string.IsNullOrEmpty(Model.Code))
+		{
+			<div class="col-md-12 mb-3 mt-10">
+
+
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+							งบบุคลากร
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+							งบดำเนินงาน
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+							งบเงินอุดหนุน
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="4-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">
+							งบลงทุน
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="5-tab" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="tab5" aria-selected="false">
+							งบรายจ่ายอื่น
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="6-tab" data-bs-toggle="tab" data-bs-target="#tab6" type="button" role="tab" aria-controls="tab6" aria-selected="false">
+							แผนการใช้เงินงบประมาณ
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="7-tab" data-bs-toggle="tab" data-bs-target="#tab7" type="button" role="tab" aria-controls="tab7" aria-selected="false">
+							แผนการจัดซื้อจัดจ้าง
+						</button>
+					</li>
+				</ul>
+
+				<div class="tab-content">
+
+					<div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+						<div class="row mt-5">
+							<div class="col-lg-12 text-end">
+								<button type="button" id="collapser1" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+								<button type="button" id="expander1" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+							</div>
+							<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+								<table id="tbltab1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+									<thead class="table-primary">
+										<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+											<th class="text-center">รายการ</th>
+											<th class="text-center"></th>
+											<th class="text-center">คำของบประมาณ</th>
+											<th class="text-center">เหตุผลความจำเป็น</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-node-id="1">
+											<td>
+												เงินเดือน
+											</td>
+                                            <td class="text-center">
+													<button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0" title="เพิ่ม" onclick="location.href='@Url.Action("BudgetRequestExpensesDetail", "Budget")'">
+														<i class="fa fa-plus fs-4"></i>
+													</button>
+													<button type="button" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0" data-bs-toggle="modal" data-bs-target="#mdltab1"
+															data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+														<i class="fa fa-edit fs-4"></i>
+													</button>
+                                            </td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+										<tr data-node-id="2">
+											<td>
+												ค่าจ้างประจำ
+											</td>
+											<td class="text-center">
+												<button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0" data-bs-toggle="modal" data-bs-target="#mdltab1"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</button>
+												<button type="button" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0" data-bs-toggle="modal" data-bs-target="#mdltab1"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+													<i class="fa fa-edit fs-4"></i>
+												</button>
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+										<tr data-node-id="3">
+											<td>
+												พนักงานราชการ
+											</td>
+											<td class="text-center">
+												<button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0" data-bs-toggle="modal" data-bs-target="#mdltab1"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</button>
+												<button type="button" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0" data-bs-toggle="modal" data-bs-target="#mdltab1"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+													<i class="fa fa-edit fs-4"></i>
+												</button>
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+							<script>
+								$('#tbltab1').simpleTreeTable({
+									expander: $('#expander1'),
+									collapser: $('#collapser1'),
+									storeKey: 'simple-tree-table-basic'
+								});
+							</script>
+
+
+							<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdltab1">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h3 class="modal-title">
+												<label>เพิ่มรายการ</label>
+											</h3>
+											<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+												<i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+											</div>
+										</div>
+
+										<div class="modal-body">
+											<div class="row mb-3">
+												<div class="col-md-12 mb-3">
+													<label class="col-form-label">รายการ</label>
+													<input class="form-control form-control-sm" readonly />
+												</div>
+												<div class="col-md-6 mb-3">
+													<label class="col-form-label">จำนวน</label>
+													<input class="form-control form-control-sm" />
+												</div>
+												<div class="col-md-6 mb-3">
+													<label class="col-form-label">หน่วยนับ</label>
+													<select class="form-select form-select-sm">
+														<option value="">ทั้งหมด</option>
+													</select>
+												</div>
+												<div class="col-md-6 mb-3">
+													<label class="col-form-label">อัตราที่ตั้ง</label>
+													<input class="form-control form-control-sm" />
+												</div>
+												<div class="col-md-6 mb-3">
+													<label class="col-form-label">จำนวนเงิน</label>
+													<div class="input-group input-group-sm">
+														<input type="text" class="form-control form-control-sm" readonly>
+														<span class="input-group-text">บาท</span>
+													</div>
+												</div>
+												<div class="col-md-12 mb-3">
+													<label class="col-form-label">เหตุผลความจำเป็น</label>
+													<textarea class="form-control form-control-sm" rows="2"></textarea>
+												</div>
+											</div>
+										</div>
+
+										<div class="modal-footer">
+											<button type="button" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+											<button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+						<div class="row mt-5">
+							<div class="col-lg-12 text-end">
+								<button type="button" id="collapser2" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+								<button type="button" id="expander2" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+							</div>
+							<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+								<table id="tbltab2" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+									<thead class="table-primary">
+										<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+											<th class="text-center">รายการ</th>
+											<th class="text-center"></th>
+											<th class="text-center">คำของบประมาณ</th>
+											<th class="text-center">เหตุผลความจำเป็น</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-node-id="1">
+											<td>
+												ค่าตอบแทน
+											</td>
+											<td class="text-center">
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" readonly />
+											</td>
+											<td class="text-center">
+											</td>
+										</tr>
+										<tr data-node-id="1.1" data-node-pid="1">
+											<td>
+												ค่าอาหารทำการนอกเวลา
+											</td>
+											<td class="text-center">
+												<button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+														data-bs-toggle="modal" data-bs-target="#mdltab2"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</button>
+												<button type="button" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+														data-bs-toggle="modal" data-bs-target="#mdltab2"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+													<i class="fa fa-edit fs-4"></i>
+												</button>
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+										<tr data-node-id="1.2" data-node-pid="1">
+											<td>
+												ค่าเช่าบ้าน
+											</td>
+											<td class="text-center">
+												<button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+														data-bs-toggle="modal" data-bs-target="#mdltab2"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</button>
+												<button type="button" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+														data-bs-toggle="modal" data-bs-target="#mdltab2"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+													<i class="fa fa-edit fs-4"></i>
+												</button>
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+										<tr data-node-id="2">
+											<td>
+												ค่าใช้สอย
+											</td>
+											<td class="text-center">
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" readonly />
+											</td>
+											<td class="text-center">
+											</td>
+										</tr>
+										<tr data-node-id="2.1" data-node-pid="2">
+											<td>
+												ค่าเบี้ยเลี้ยง ค่าเช่าที่พักและค่าพาหนะ
+											</td>
+											<td class="text-center">
+												<button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+														data-bs-toggle="modal" data-bs-target="#mdltab2"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</button>
+												<button type="button" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+														data-bs-toggle="modal" data-bs-target="#mdltab2"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+													<i class="fa fa-edit fs-4"></i>
+												</button>
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+										<tr data-node-id="2.2" data-node-pid="2">
+											<td>
+												ค่าซ่อมแซมยานพาหนะและขนส่ง
+											</td>
+											<td class="text-center">
+												<button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+														data-bs-toggle="modal" data-bs-target="#mdltab2"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</button>
+												<button type="button" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+														data-bs-toggle="modal" data-bs-target="#mdltab2"
+														data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+													<i class="fa fa-edit fs-4"></i>
+												</button>
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<script>
+								$('#tbltab2').simpleTreeTable({
+									expander: $('#expander2'),
+									collapser: $('#collapser2'),
+									storeKey: 'simple-tree-table-basic'
+								});
+							</script>
+
+
+							<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdltab2">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h3 class="modal-title">
+												<label>เพิ่มรายการ</label>
+											</h3>
+											<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+												<i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+											</div>
+										</div>
+
+										<div class="modal-body">
+											<div class="row mb-3">
+												<div class="col-md-12 mb-3">
+													<label class="col-form-label">รายการ</label>
+													<input class="form-control form-control-sm" readonly />
+												</div>
+												<div class="col-md-6 mb-3">
+													<label class="col-form-label">จำนวน</label>
+													<input class="form-control form-control-sm" />
+												</div>
+												<div class="col-md-6 mb-3">
+													<label class="col-form-label">หน่วยนับ</label>
+													<select class="form-select form-select-sm">
+														<option value="">ทั้งหมด</option>
+													</select>
+												</div>
+												<div class="col-md-6 mb-3">
+													<label class="col-form-label">อัตราที่ตั้ง</label>
+													<input class="form-control form-control-sm" />
+												</div>
+												<div class="col-md-6 mb-3">
+													<label class="col-form-label">จำนวนเงิน</label>
+													<div class="input-group input-group-sm">
+														<input type="text" class="form-control form-control-sm" readonly>
+														<span class="input-group-text">บาท</span>
+													</div>
+												</div>
+												<div class="col-md-12 mb-3">
+													<label class="col-form-label">เหตุผลความจำเป็น</label>
+													<textarea class="form-control form-control-sm" rows="2"></textarea>
+												</div>
+											</div>
+										</div>
+
+										<div class="modal-footer">
+											<button type="button" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+											<button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+						<div class="row mt-5">
+							<div class="col-lg-12 text-end">
+								<button type="button" id="collapser3" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+								<button type="button" id="expander3" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+							</div>
+							<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+								<table id="tbltab3" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+									<thead class="table-primary">
+										<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+											<th class="text-center" colspan="2">รายการ</th>
+											<th class="text-center"></th>
+											<th class="text-center"></th>
+											<th class="text-center">คำของบประมาณ</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-node-id="1">
+											<td colspan="2">
+												โครงการเพิ่มสมรรถนะด้านการบริหาร
+											</td>
+											<td class="text-center">
+												<a class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+												   href="@Url.Action("BudgetRequestSubsidyDetail", "Budget")"
+												   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</a>
+											</td>
+											<td>
+											</td>
+											<td>
+												<input class="form-control form-control-sm text-center" readonly value="" />
+											</td>
+										</tr>
+										<tr data-node-id="1.1" data-node-pid="1">
+											<td>
+											</td>
+											<td colspan="4">
+												<table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+													<thead class="table-primary">
+														<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+															<th class="text-center" width="70"></th>
+															<th class="text-center">ลำดับ</th>
+															<th class="text-center">โครงการ</th>
+															<th class="text-center">งบประมาณดำเนินงาน(บาท)</th>
+															<th class="text-center">เหตุผลความจำเป็น</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td class="text-center">
+																<a class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+																   href="@Url.Action("BudgetRequestSubsidyDetail", "Budget")"
+																   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+																	<i class="fa fa-edit fs-4"></i>
+																</a>
+															</td>
+															<td class="text-center">1</td>
+															<td class="text-center">โครงการเพิ่มสมรรถนะด้านการบริหารและจัดการพลังงานครบวงจรในชุมชนระดับตำบลและเครือข่ายพลังงานชุมชน</td>
+															<td class="text-center">28,440,000</td>
+															<td class="text-center">
+																<input class="form-control form-control-sm text-center" value="" />
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<script>
+								$('#tbltab3').simpleTreeTable({
+									expander: $('#expander3'),
+									collapser: $('#collapser3'),
+									storeKey: 'simple-tree-table-basic'
+								});
+							</script>
+
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+						<div class="row mt-5">
+							<div class="col-lg-12 text-end">
+								<button type="button" id="collapser4" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+								<button type="button" id="expander4" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+							</div>
+							<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+								<table id="tbltab4" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+									<thead class="table-primary">
+										<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+											<th class="text-center">รายการ</th>
+											<th class="text-center"></th>
+											<th class="text-center" width="200">คำของบประมาณ</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-node-id="1">
+											<td>
+												ค่าครุภัณฑ์
+											</td>
+											<td class="text-center">
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" readonly />
+											</td>
+										</tr>
+										<tr data-node-id="1.1" data-node-pid="1">
+											<td>
+												ค่าครุภัณฑ์สำนักงาน
+											</td>
+											<td>
+												<a class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+												   href="@Url.Action("BudgetRequestInvestmentDetail", "Budget")"
+												   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</a>
+
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+										<tr data-node-id="1.1" data-node-pid="1">
+											<td>
+											</td>
+											<td colspan="2">
+												<table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+													<thead class="table-primary">
+														<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+															<th class="text-center" width="70"></th>
+															<th class="text-center" width="70">ลำดับ</th>
+															<th class="text-center">หมวดหมู่ครุภัณฑ์</th>
+															<th class="text-center">หมวดหมู่ย่อย</th>
+															<th class="text-center">ชื่อรายการ</th>
+															<th class="text-center">งบประมาณ</th>
+															<th class="text-center">จำนวน</th>
+															<th class="text-center">หน่วยนับ</th>
+															<th class="text-center" width="200">เหตุผลความจำเป็น</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<a class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+																   href="@Url.Action("BudgetRequestInvestmentDetail", "Budget")"
+																   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+																	<i class="fa fa-edit fs-4"></i>
+																</a>
+															</td>
+															<td class="text-center">1</td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+										<tr data-node-id="1.2" data-node-pid="1">
+											<td>
+												ค่าครุภัณฑ์คอมพิวเตอร์
+											</td>
+											<td>
+												<a class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+												   href="@Url.Action("BudgetRequestInvestmentDetail", "Budget")"
+												   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</a>
+
+											</td>
+											<td class="text-center">
+												<input class="form-control form-control-sm" />
+											</td>
+										</tr>
+										<tr data-node-id="1.2" data-node-pid="1">
+											<td>
+											</td>
+											<td colspan="2">
+												<table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+													<thead class="table-primary">
+														<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+															<th class="text-center" width="70"></th>
+															<th class="text-center" width="70">ลำดับ</th>
+															<th class="text-center">หมวดหมู่ครุภัณฑ์</th>
+															<th class="text-center">หมวดหมู่ย่อย</th>
+															<th class="text-center">ชื่อรายการ</th>
+															<th class="text-center">งบประมาณ</th>
+															<th class="text-center">จำนวน</th>
+															<th class="text-center">หน่วยนับ</th>
+															<th class="text-center" width="200">เหตุผลความจำเป็น</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<a class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+																   href="@Url.Action("BudgetRequestInvestmentDetail", "Budget")"
+																   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+																	<i class="fa fa-edit fs-4"></i>
+																</a>
+															</td>
+															<td class="text-center">1</td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+															<td class="text-center"></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+
+
+									</tbody>
+								</table>
+							</div>
+							<script>
+								$('#tbltab4').simpleTreeTable({
+									expander: $('#expander4'),
+									collapser: $('#collapser4'),
+									storeKey: 'simple-tree-table-basic'
+								});
+							</script>
+
+
+
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
+						<div class="row mt-5">
+							<div class="col-lg-12 text-end">
+								<button type="button" id="collapser5" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+								<button type="button" id="expander5" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+							</div>
+							<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+								<table id="tbltab5" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+									<thead class="table-primary">
+										<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+											<th class="text-center" colspan="2">รายการ</th>
+											<th class="text-center"></th>
+											<th class="text-center"></th>
+											<th class="text-center">คำของบประมาณ</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-node-id="1">
+											<td colspan="2">
+												โครงการเจรจาและประชุมนานาชาติ
+											</td>
+											<td class="text-center">
+												<a class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+												   href="@Url.Action("BudgetRequestOtherExpensesDetail", "Budget")"
+												   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="เพิ่ม">
+													<i class="fa fa-plus fs-4"></i>
+												</a>
+											</td>
+											<td>
+											</td>
+											<td>
+												<input class="form-control form-control-sm text-center" value="" />
+											</td>
+										</tr>
+										<tr data-node-id="1.1" data-node-pid="1">
+											<td>
+											</td>
+											<td colspan="4">
+												<table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+													<thead class="table-primary">
+														<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+															<th class="text-center" width="70"></th>
+															<th class="text-center">ลำดับ</th>
+															<th class="text-center">โครงการ</th>
+															<th class="text-center">รูปแบบโครงการ</th>
+															<th class="text-center">งบประมาณดำเนินงาน(บาท)</th>
+															<th class="text-center">เหตุผลความจำเป็น</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td class="text-center">
+																<a class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+																   href="@Url.Action("BudgetRequestOtherExpensesDetail", "Budget")"
+																   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+																	<i class="fa fa-edit fs-4"></i>
+																</a>
+															</td>
+															<td class="text-center">1</td>
+															<td class="text-center">โครงการการเจรจาและประชุมนานาชาติ</td>
+															<td class="text-center">ดำเนินการเอง</td>
+															<td class="text-center">12,425,300</td>
+															<td class="text-center"></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<script>
+								$('#tbltab5').simpleTreeTable({
+									expander: $('#expander5'),
+									collapser: $('#collapser5'),
+									storeKey: 'simple-tree-table-basic'
+								});
+							</script>
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="tab6-tab">
+						<div class="row mt-5">
+							<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+								<table id="tbltab6" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+									<thead class="table-primary">
+										<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+											<th class="text-center">รายการ</th>
+											<th class="text-center">งบประมาณ</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-node-id="1">
+											<td>
+												โครงการเจรจาประชุมนานาชาติ
+											</td>
+											<td class="text-center">
+												19,000,000.00
+											</td>
+										</tr>
+										<tr data-node-id="1.1" data-node-pid="1" class="simple-tree-table-empty" style="">
+											<td colspan="2">
+												<span class="simple-tree-table-handler simple-tree-table-icon" style="margin-left: 20px;"></span>
+												<table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+													<thead class="table-primary">
+														<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+															<th class="text-center">#</th>
+															<th class="text-center">ชื่อโครงการ</th>
+															<th class="text-center">รวมเป็นเงิน</th>
+															<th class="text-center">ต.ค.</th>
+															<th class="text-center">พ.ย.</th>
+															<th class="text-center">ธ.ค.</th>
+															<th class="text-center">ม.ค.</th>
+															<th class="text-center">ก.พ.</th>
+															<th class="text-center">มี.ค.</th>
+															<th class="text-center">เม.ย.</th>
+															<th class="text-center">พ.ค.</th>
+															<th class="text-center">มิ.ย.</th>
+															<th class="text-center">ก.ค.</th>
+															<th class="text-center">ส.ค.</th>
+															<th class="text-center">ก.ย.</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td class="text-center">1</td>
+															<td class="text-center">โครงการเจรจาประชุมนานาชาติ</td>
+															<td class="text-center">3,117,500</td>
+															<td class="text-center">292,100</td>
+															<td class="text-center">1,118,300</td>
+															<td class="text-center">1,707,100</td>
+															<td class="text-center">0.00</td>
+															<td class="text-center">0.00</td>
+															<td class="text-center">0.00</td>
+															<td class="text-center">0.00</td>
+															<td class="text-center">0.00</td>
+															<td class="text-center">0.00</td>
+															<td class="text-center">0.00</td>
+															<td class="text-center">0.00</td>
+															<td class="text-center">0.00</td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="col-md-10">
+							</div>
+							@*   <div class="col-md-2">
+                        <label class="col-form-label">รวมเป็นเงินทั้งสิ้น</label>
+                        <input class="form-control form-control-sm text-end" readonly value="12,000,000.00" />
+                        </div> *@
+
+							<script>
+								$('#tbltab6').simpleTreeTable({
+									expander: $('#expander6'),
+									collapser: $('#collapser6'),
+									storeKey: 'simple-tree-table-basic'
+								});
+							</script>
+
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="tab7" role="tabpanel" aria-labelledby="tab7-tab">
+						<div class="row mt-5">
+							<div class="col-lg-12 text-end">
+								<button type="button" id="collapser7" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+								<button type="button" id="expander7" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+							</div>
+							<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+								<table id="tbltab7" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+									<thead class="table-primary">
+										<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+											<th class="text-center">รายการ</th>
+											<th class="text-center">วิธีจัดซื้อจัดจ้าง</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-node-id="1">
+											<td>
+												โครงการเจรจาและประชุมนานาชาติ
+											</td>
+
+											<td class="text-center">
+												วิธีเฉพาะเจาะจง
+											</td>
+										</tr>
+										<tr data-node-id="1.1" data-node-pid="1">
+											<td>
+											</td>
+											<td>
+												<table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+													<thead class="table-primary">
+														<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+															<th class="text-center">ลำดับ</th>
+															<th class="text-center">ขั้นตอน</th>
+															<th class="text-center">เดือน</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td class="text-center">1</td>
+															<td class="text-center">จัดทำแผนจัดซื้อจัดจ้าง</td>
+															<td class="text-center">ตุลาคม</td>
+														</tr>
+														<tr>
+															<td class="text-center">2</td>
+															<td class="text-center">จัดทำ ร่าง TOR</td>
+															<td class="text-center">พฤศจิกายน</td>
+														</tr>
+														<tr>
+															<td class="text-center">3</td>
+															<td class="text-center">จัดทำรายงานขอซื้อขอจ้าง</td>
+															<td class="text-center">ธันวาคม</td>
+														</tr>
+														<tr>
+															<td class="text-center">4</td>
+															<td class="text-center">หัวหน้าหน่วยงานให้ความเห็นชอบรายงานขอซื้อขอจ้าง</td>
+															<td class="text-center">มกราคม</td>
+														</tr>
+														<tr>
+															<td class="text-center">5</td>
+															<td class="text-center">เชิญชวน/เจรจาต่อรอง/ประกาศผู้ได้รับการคัดเลือก</td>
+															<td class="text-center">กุมภาพันธ์</td>
+														</tr>
+														<tr>
+															<td class="text-center">6</td>
+															<td class="text-center">ทำสัญญา</td>
+															<td class="text-center">มีนาคม</td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<script>
+								$('#tbltab7').simpleTreeTable({
+									expander: $('#expander7'),
+									collapser: $('#collapser7'),
+									storeKey: 'simple-tree-table-basic'
+								});
+							</script>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			}
+		
+
+		<div class="row mt-10">
+			<div class="col-8">
+				<button type="submit" form="detail" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+				<button type="submit" class="btn btn-info btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button>
+				<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> ลบ</button>
+				<button class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้าหลัก</button>
+				<button type="submit" class="btn btn-success btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+			</div>
+			<div class="col-4 text-end">
+				<button type="button" class="btn btn-success btn-sm"><i class="fa fa-check"></i> อนุมัติ</button>
+				<button type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> ไม่อนุมัติ</button>
+				<button class="btn btn-warning btn-sm"><i class="fas fa-share"></i> ส่งกลับแก้ไข</button>
+				<button class="btn btn-primary btn-sm "><i class="fa fa-history"></i> ประวัติการพิจารณา</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<script>
+	function onpenModal(id) {
+		$('#' + id).modal('show');
+	}
+</script>

@@ -1,0 +1,117 @@
+﻿@model MOEN_ERP.DAL.Models.AssetImage
+
+@{
+    var eleId = TempData["eleId"];
+    var refId = TempData["refId"];
+    var refGuidId = TempData["refGuidId"];
+    var fileGuidId = TempData["fileGuidId"];
+    var refTable = TempData["refTable"];
+    var refCmp = TempData["refCmp"];
+    var read = Convert.ToBoolean(TempData["readOnly"]);
+
+    int i = 1;
+    var idImg = $"desimg{eleId}" + i;
+    var inputId = $"txtNameimg{eleId}" + i;
+    var pic = "";
+}
+
+<style>
+
+    .dropzone {
+        width: 100%;
+        height: 400px;
+        cursor: pointer;
+        display: flex;
+            flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+    }
+
+</style>
+
+
+@if (Model?.Id != 0)
+{
+    <div class="row" id="@idImg">
+        <div class="dropzone img-wrapper">
+            <div class="imgplace p-5 @(Model?.RowGuid != null ? "showimg":"") ">
+                <input type="hidden" name="@refGuidId" value="@Model.RowGuid" id="@(refGuidId?.ToString() + refCmp?.ToString())" />
+                <img src="@Url.Action("ViewAttachFileImage", "AttachFile", new { @id = Model.RowGuid, refCmp=Model.ReferenceGroup })" class="pointer" onclick="window.open('@Url.Action("ViewAttachFileImage", "AttachFile", new { @id = Model.RowGuid, refCmp=Model.ReferenceGroup })', '_blank');" />
+                @if (read == null || read == false)
+                {
+                    <a href="javascript:;" class="img-delete" onclick="Swal.fire({title: 'ต้องการลบไฟล์ ใช่หรือไม่?',icon: 'info',showDenyButton: true,confirmButtonText: 'ตกลง',denyButtonText: `ยกเลิก`,}).then((result) => {if (result.isConfirmed) {showWait();deleteImage('@Model.RowGuid','@eleId', '@refId', '@refGuidId', '', '@refTable', '@refCmp', '@read');}});"><i class="fa fa-trash text-danger"></i></a>
+                }
+
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+    idImg = $"desimg{eleId}" + i + 1;
+    <div class="row" id="@idImg">
+        <div class="dropzone needsclick">
+            <div class="dz-message ">
+                <input type="hidden" name="@refGuidId" id="@(refGuidId?.ToString() + refCmp?.ToString())" />
+                <i class="ki-duotone ki-file-up fs-3x text-primary"><span class="path1"></span><span class="path2"></span></i>
+                <div class="ms-4 mt-5">
+                    <h3 class="fs-5 fw-bold text-gray-900 mb-1 ">วางรูปที่นี่หรือคลิกเพื่ออัปโหลด</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        initFileImageDropArea('@idImg', '@eleId', '@TempData["refId"]', '@TempData["refGuidId"]', '@TempData["fileGuidId"]', '@TempData["refTable"]', '@TempData["refCmp"]', '@read');
+
+    </script>
+}
+
+
+<script>
+    var refId = @TempData["refId"];
+    var refGuidId = '@TempData["refGuidId"]';
+    var refTable = '@TempData["refTable"]';
+    var refCmp = '@TempData["refCmp"]';
+    var read = '@TempData["readOnly"]';
+
+    function addImgInDiv(res) {
+
+        //console.log(res.id);
+
+        var arrImgId = $('input[name="@refGuidId"]').map(function () {
+            return this.value;
+        }).get();
+        var arrImgNameId = $('input[name="imageName"]').map(function () {
+            return this.value;
+        }).get();
+
+        $.ajax({
+            url: "@Url.Action("AddItemImage", "AttachFile")",
+            data: {
+                fileGuidId: arrImgId,
+                imageName: arrImgNameId, refId: refId, refGuidId: refGuidId, refTable: refTable, refCmp: refCmp, eleId: res.id, read: read
+            },
+            type: "Post",
+            success: function (result) {
+                $("#" + res.id).empty();
+                $("#" + res.id).html(result);
+            }
+        });
+
+    }
+
+    @if (ViewBag.errorAddImg != null)
+    {
+        <text>
+            Swal.fire({
+                title: "@ViewBag.errorAddImg",
+                icon: "error",
+                buttons: "ปิด",
+            });
+        </text>
+    }
+
+</script>

@@ -1,0 +1,238 @@
+﻿@model MOEN_ERP.Models.Data.MaterialInDetailModel
+
+@section Title {
+    <span class="fs-1 fw-semibold">รับพัสดุ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รับพัสดุ</li>
+}
+@using (Html.BeginForm("SaveAssetParcelReceiveProvinceDetail", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.materialIn.Id)
+    @Html.HiddenFor(x => x.materialIn.CreateBy)
+    @Html.HiddenFor(x => x.materialIn.CreateOn)
+    @Html.HiddenFor(x => x.guidPage)
+    <div class="card mt-10">
+        <div class="card-body">
+            <fieldset disabled="@(Model.materialIn.Status == "A")">
+                <div class="row mb-3">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">เลขที่รับ</label>
+                        <input class="form-control form-control-sm" readonly asp-for="materialIn.Code" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">วันที่รับ <span class="text-danger">*</span></label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm datepickerinput" asp-for="materialIn.ReceiveDate" id="ReceiveDate" placeholder="วว/ดด/ปปปป" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                        <small class="text-danger d-none" id="reqReceiveDate">
+                            กรุณากรอกวันที่รับ
+                        </small>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">สถานะ</label>
+                        @{
+                            string txtStatus = Model.materialIn.Status == "A" ? "ยืนยันรับ" : "ร่าง";
+                        }
+                        @Html.HiddenFor(x => x.materialIn.Status)
+                        <input class="form-control form-control-sm" value="@txtStatus" readonly />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">เลขที่สัญญา/ใบสั่งซื้อ</label>
+                        <input class="form-control form-control-sm" asp-for="materialIn.ProcurementNumber" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">วันที่สัญญา/ใบสั่งซื้อ</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm datepickerinput" asp-for="materialIn.PurchaseDate" id="PurchaseDate" placeholder="วว/ดด/ปปปป" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">ชื่อผู้ขาย/ผู้รับจ้าง/ผู้จำหน่าย</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" asp-for="materialIn.SupplierName" id="SupplierName">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#mdlSupplier" onclick="OpenMdlSupplier()"><i class="fa fa-search"></i></button>
+                        </div>
+                        <input type="hidden" class="form-control form-control-sm" asp-for="materialIn.SupplierId" id="SupplierId">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">หน่วยงาน <span class="text-danger">*</span></label>
+
+                        @if (Model.materialIn.Status == "A")
+                        {
+                            <select class="form-select form-select-sm" asp-for="materialIn.WarehouseId" id="WarehouseId" asp-items="ViewBag.VMasterWarehouse" required>
+                                <option value="">กรุณาเลือก</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="form-select form-select-sm" data-control="select2" asp-for="materialIn.WarehouseId" id="WarehouseId" asp-items="ViewBag.VMasterWarehouse" required>
+                                <option value="">กรุณาเลือก</option>
+                            </select>
+                        }
+
+                        <small class="text-danger d-none" id="reqWarehouseId">
+                            กรุณาเลือกหน่วยงาน
+                        </small>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="row mb-3" id="divlstVMaterialInItems">
+                @await Html.PartialAsync("_tableVMaterialInItems", Model)
+            </div>
+
+            <div class="mt-10 row">
+                <div class="col-8">
+                    @if (Model.materialIn.Status != "A")
+                    {
+                        <button type="button" id="btnBeforSave" onclick="submitForm('btnSave')" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                        <button type="submit" id="btnSave" class="d-none"></button>
+                    }
+                    @if (Model.materialIn.Status == "N" && Model.materialIn.Id != 0)
+                    {
+                        <button type="button" id="btnBeforSave" onclick="submitForm('btnSend')" class="btn btn-info btn-sm"><i class="fa fa-check"></i> ยืนยัน</button>
+                        <button type="submit" id="btnSend" name="status" value="A" class="d-none"></button>
+                    }
+                    <a href="@Url.Action((ViewBag.History ? "AssetParcelReceiveHistory" : "AssetMaterialProvinceList"),"Asset")" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้าหลัก</a>
+                </div>
+                <div class="col-4 text-end">
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlSupplier">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายละเอียดผู้ขาย</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.AjaxBeginForm("GetTableVSupplier", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblVSupplier" }, new { enctype = "multipart/form-data", id = "searchForm" }))
+                {
+                    <div class="row mb-3">
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                                <label class="col-form-label">ชื่อผู้ขาย</label>
+                            </div>
+                            <div class="col-8">
+                                <input class="form-control form-control-sm" name="nameThai" id="nameThai" />
+                            </div>
+                        </div>
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                            </div>
+                            <div class="col-8">
+                                <button type="submit" id="btnSearch" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                                <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                            </div>
+                        </div>
+                        <div id="divTblVSupplier"></div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnColseMdlSupplier" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div id="divMdlDetail"></div>
+
+@section Scripts {
+
+    <script>
+        SetInputDate('ReceiveDate');
+        SetInputDate('PurchaseDate');
+
+        function OpenMdlSupplier() {
+            $('#nameThai').val('');
+            $('#searchForm').submit();
+        }
+
+        $('#btnResetSearch').click(function () {
+            setTimeout(
+                function () {
+                    $('#searchForm').submit();
+                }, 500);
+        });
+
+        function AddSupplier(name, id, address, phone) {
+            $('#SupplierName').val(name);
+            $('#SupplierId').val(id);
+            $('#btnColseMdlSupplier').click();
+        }
+
+
+        function submitForm(type) {
+            var submit = true;
+            if ($("#ReceiveDate").val() == "") {
+                $('#reqReceiveDate').removeClass("d-none");
+                submit = false;
+            }
+            if ($("#WarehouseId").val() == "") {
+                $('#reqWarehouseId').removeClass("d-none");
+                submit = false;
+            }
+
+            if (submit) {
+                $("#" + type).click();
+            }
+        }
+
+        function onSubmit() {
+            Swal.fire({
+                title: "กรุณาบันทึกก่อนทำรายการ",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "บันทึก",
+                confirmButtonColor: '#3085d6',
+                cancelButtonText: "ยกเลิก",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#btnBeforSave").click();
+                }
+            });
+        }
+
+
+    </script>
+
+
+    @if (ViewBag.success != null)
+    {
+        <script>
+            Swal.fire('@ViewBag.success', '', 'success');
+        </script>
+    }
+    @if (ViewBag.error != null)
+    {
+        <script>
+            Swal.fire('@ViewBag.error', '', 'error');
+        </script>
+    }
+}

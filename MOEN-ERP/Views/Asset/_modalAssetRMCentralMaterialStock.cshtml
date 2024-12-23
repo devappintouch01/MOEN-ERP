@@ -1,0 +1,169 @@
+﻿@using Newtonsoft.Json
+@model MOEN_ERP.Models.ViewModel.AssetRequisitionMaterialCentralMatStockModel
+
+<input type="hidden" asp-for="guidPage" name="guidPage" id="pGuidPage" />
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlMaterialStock">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>รายการวัสดุ</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                                <label class="col-form-label">ชื่อวัสดุ</label>
+                            </div>
+                            <div class="col-10 text-end">
+                                <input class="form-control form-control-sm" id="MaterialName" />
+                            </div>
+                        </div>
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                                <label class="col-form-label">GPSC</label>
+                            </div>
+                            <div class="col-10 text-end">
+                                <input class="form-control form-control-sm" id="GPSC" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-center">
+                    <button type="button" id="btnSearch" onclick="SearchData('btnSearch')" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                    <button type="reset" id="btnResetSearch" onclick="SearchData('btnResetSearch')" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                    </div>
+                    <br />
+                    <hr />
+                    <div id="divTblAssetRMCentralMaterialStock">
+                        @await Html.PartialAsync("_tableAssetRMCentralMaterialStock", Model)
+                    </div>
+                </div>
+                    <div class="modal-footer justify-content-end gap-5">                  
+                    <button type="submit" class="btn btn-sm btn-primary" onclick="SelectRows('Row')"><i class="fa fa-save"></i> เลือกรายการที่ระบุ</button>
+                    <button type="submit" class="btn btn-sm btn-warning" onclick="SelectRows('All')"><i class="fa fa-check"></i> เลือกรายการทั้งหมด</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+@* } *@
+   
+
+<div id="mdlMaterialStock"> </div>
+
+<script>   
+
+    function SelectRows(type) {
+        //Previous RMItem
+        var arrayRMItem = [];
+        var RequisitionId;
+        var pGuidPage;
+        arrayRMItem = @Html.Raw(JsonConvert.SerializeObject(Model.arrayRequisitionMaterialItem));       
+        RequisitionId = @Html.Raw(JsonConvert.SerializeObject(Model.RequisitionId));
+        pGuidPage = document.getElementById("pGuidPage");
+                   
+        let lengthlst = arrayRMItem.length;          
+
+        //New RMItem
+        var grid = null;
+        var checkBoxes = null;
+        var materialStockId;
+        var newValue;
+        var rowscount;
+        var blnChkSelect;        
+
+        grid = document.getElementById("tblMaterialStock");
+        rowscount = grid.rows.length;
+        for (let i = 1; i < rowscount; i++) {
+
+            blnChkSelect = false;
+            if (type == 'Row') {
+                blnChkSelect = grid.rows[i].cells[0].getElementsByTagName('input')[0].checked;
+            }
+            else if (type == 'All') { 
+                blnChkSelect = true;
+            }         
+
+            if (blnChkSelect == true) { 
+                materialStockId = grid.rows[i].cells[5].innerHTML;             
+                newValue = "0," + materialStockId + ",0,0," 
+                arrayRMItem.push(newValue);
+               
+            } 
+        }
+      
+
+        $.ajax({
+            url: '@Url.Action("SelectMaterialStockToTableItem", "Asset")',
+            data: {
+                arrayRMItem: arrayRMItem,
+                requisitionId: RequisitionId,
+                guidPage: pGuidPage.value
+            },
+            type: "Post",
+            //dataType: "json",
+            traditional: true,
+            success: function (data) { 
+                
+                $("#divtableAssetRequisitionMaterialCentralItem").html(data);
+                $('#mdlMaterialStock').find('.modal').modal('hide'); 
+            }
+        });  
+    }
+
+
+     function SearchData(type)
+        {
+
+         if (type == 'btnResetSearch') {
+             document.getElementById("MaterialName").value = '';
+             document.getElementById("GPSC").value = '';
+         }
+
+
+               var pMaterialName = document.getElementById("MaterialName");
+               var pGPSC = document.getElementById("GPSC");
+
+        //Previous RMItem
+        var arrayRMItem = [];
+        var RequisitionId;
+        arrayRMItem = @Html.Raw(JsonConvert.SerializeObject(Model.arrayRequisitionMaterialItem));
+        RequisitionId = @Html.Raw(JsonConvert.SerializeObject(Model.RequisitionId));
+
+        let lengthlst = arrayRMItem.length;
+
+        $.ajax({
+            url: '@Url.Action("SearchListMaterialStockByconditions", "Asset")',
+            data: {
+                      MaterialName: pMaterialName.value,
+                      Gpsccode: pGPSC.value,
+                      arrayRMItem: arrayRMItem,
+                      requisitionId: RequisitionId
+            },
+            type: "Post",
+            //dataType: "json",
+            traditional: true,
+            success: function (data) {               
+                $("#divTblAssetRMCentralMaterialStock").html(data);
+
+            }
+        });
+   
+        }
+       
+        $('#btnResetSearch').click(function () {
+            setTimeout(
+                function () {
+                    $('#searchForm').submit();
+                    SearchData();
+                }, 500);
+        });       
+
+</script>

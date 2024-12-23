@@ -1,0 +1,93 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">จัดสรรงบเบิกจ่ายแทนกันกรมธุรกิจพลังงาน</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">จัดสรรงบเบิกจ่ายแทนกันกรมธุรกิจพลังงาน</li>
+}
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="row mb-3">
+
+            <div class="row col-xl-12 col-lg-12 col-md-12 mb-3">
+                <div class="col-xxl col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                    <label class="col-form-label">ปีงบประมาณ</label>
+                    <input type="text" class="form-control form-control-sm" disabled />
+                </div>
+                <div class="col-xxl col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                    <label class="col-form-label">สถานะ</label>
+                    <input type="text" class="form-control form-control-sm" disabled />
+                </div>
+                <div class="col-xxl col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                    <label class="col-form-label">งบประมาณที่ได้รับอนุมัติ</label>
+                    <input type="text" class="form-control form-control-sm text-end" value="244,500" />
+                </div>
+            </div>
+
+            <div class="row col-xl-12 col-lg-12 col-md-12 mb-3">
+                <div class="col-xxl col-xl-3 col-lg-3 col-md-3 col-sm-12 offset-8">
+                    <label class="col-form-label">งบประมาณหลังปรับเกลี่ย</label>
+                    <input type="text" class="form-control form-control-sm text-end" value="244,500" style="background-color:#C8FFCD" />
+                </div>
+            </div>
+
+        </div>
+
+        @* <div class="separator separator-dashed mt-5 mb-5"></div> *@
+
+        <div class="row mb-3">
+            <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                    <thead class="table-primary">
+                        <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                            <th class="text-center">ลำดับ</th>
+                            <th class="text-center">จังหวัด</th>
+                            <th class="text-center">งบประมาณจัดสรร</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td class="text-center">อำนาจเจริญ</td>
+                            <td class="text-center">
+                                <input type="text" class="form-control form-control-sm text-center" value="3,142" />
+                            </td>                           
+                        </tr>
+                         <tr>
+                            <td class="text-center">2</td>
+                            <td class="text-center">อุดรธานี</td>
+                            <td class="text-center">
+                                <input type="text" class="form-control form-control-sm text-center" value="3,457" />
+                            </td>                           
+                        </tr>
+                        <tr>
+                            <td class="text-center">3</td>
+                            <td class="text-center">อุตรดิตถ์</td>
+                            <td class="text-center">
+                                <input type="text" class="form-control form-control-sm text-center" value="3,142" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">4</td>
+                            <td class="text-center">อุทัยธานี</td>
+                            <td class="text-center">
+                                <input type="text" class="form-control form-control-sm text-center" value="3,142" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i> ยืนยัน</button>    
+        <a href="@Url.Action("BudgetAllocateDisbursementInsteadList","Budget")" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้าหลัก</a>
+        <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+    </div>
+</div>

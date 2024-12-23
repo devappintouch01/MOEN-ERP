@@ -1,0 +1,55 @@
+﻿@model MOEN_ERP.Models.ViewModel.AssetRequisitionMaterialCentralDetailModel
+
+@using (Html.AjaxBeginForm("SaveAssetRMCentralSendBack", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tbl" }, new { enctype = "multipart/form-data", @class = "needs-validation", @novalidate = "novalidate" }))
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlSendBack">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>ส่งกลับ</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(x => x.materialRequisition.Id)
+                    <div class="row mb-5">
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">เหตุผลในการส่งกลับ:  <span class="text-danger">*</span></label>
+                            <textarea id="txtReturnRemark" class="form-control form-control-sm" rows="3" name="materialRequisition.ReturnRemark" required>@Model.materialRequisition.ReturnRemark</textarea>
+                        </div>                        
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> ยืนยันการส่งกลับ</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="mdlSendBack"></div>
+
+<script>
+
+    // $('#mdlSendBack').modal('show');
+
+    (function () {
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        hideWait();
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+</script>

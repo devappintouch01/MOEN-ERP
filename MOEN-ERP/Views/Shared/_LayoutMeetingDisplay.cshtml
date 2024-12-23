@@ -1,0 +1,58 @@
+﻿@*<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
+*@
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<title>@ViewBag.Title</title>*@
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/global/plugins.bundle.css" />
+    <link rel="stylesheet" href="~/assets/css/style.bundle.css" />
+    <link rel="stylesheet" href="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/datatables.bundle.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/zfont.css" />
+
+    <style>
+        /* .nav.navbar-nav.navbar-dark li a {
+                    color: blue;
+                }*/
+       
+    </style>
+</head>
+@*<body style="background-color: #151674;">*@
+<body>
+    <div class="img-background">
+        @RenderBody()
+    </div>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="~/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/assets/js/scripts.bundle.js"></script>
+    <script src="~/js/moment-timezone.js"></script>
+    <script src="~/js/index.global.min.js"></script>
+
+    <!--Validation-->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/sweetalert2@11.js"></script>
+
+    <script src="~/js/datatables.bundle.js"></script>
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

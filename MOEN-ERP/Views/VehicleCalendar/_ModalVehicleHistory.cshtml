@@ -1,0 +1,73 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleCalendar.VehicleCalendarCarHistory
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalModalManageVideoConferenceBookingDetail">
+
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">ประวัติการใช้งาน @Model?.Vehicle?.VtypeName @Model?.Vehicle?.VehicleRegistration</h3>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+
+                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                    <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                        <thead class="table-primary">
+                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                <th class="text-center" style="width:5%">ลำดับ</th>
+                                <th class="text-center">วันที่เดินทาง</th>
+                                <th class="text-center">เวลาเดินทาง</th>
+                                <th class="text-center">จุดเริ่มต้น</th>
+                                <th class="text-center">จุดหมายการเดินทาง</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rown = 1;
+                            }
+                            @foreach (var row in Model?.VehicleBookingList)
+                            {
+                                <tr>
+                                    <td class="text-center">@rown</td>
+                                    <td class="text-center">
+                                        @(
+                                            row.TravelToDate.HasValue && row.TravelToDate.Value.ToString("dd/MM/yyyy") != row.TravelFromDate.Value.ToString("dd/MM/yyyy") ?
+                                            string.Format("{0:dd/MM/yyyy}", row.TravelFromDate) + " - " + string.Format("{0:dd/MM/yyyy}", row.TravelToDate) :
+                                            string.Format("{0:dd/MM/yyyy}", row.TravelFromDate)
+                                            )
+                                    </td>
+                                    <td class="text-center">
+                                        @(
+                                            string.Format("{0:HH:mm}", row.BookingTravelFromDate) + " - " + string.Format("{0:HH:mm}", row.BookingTravelToDate)
+                                            )
+                                    </td>
+                                    <td class="text-center">@row.TravelFromLocation</td>
+                                    <td class="text-center">@row.TravelToLocation</td>
+                                </tr>
+                                rown++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="~/js/custom/datatable.js"></script>
+

@@ -1,0 +1,408 @@
+﻿@model MOEN_ERP.Models.Data.AssetRequisitionDetailModel
+
+@section Title {
+    <span class="fs-1 fw-semibold">เบิกจ่ายครุภัณฑ์</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">เบิกจ่ายครุภัณฑ์</li>
+}
+
+@using (Html.BeginForm("SaveAssetRequisition", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.assetRequisition.StatusId)
+    @Html.HiddenFor(x => x.assetRequisition.Id)
+    @Html.HiddenFor(x => x.guidPage)
+
+    if (Model.assetRequisition.RequestDate == null)
+    {
+        Model.assetRequisition.RequestDate = DateTime.Now;
+    }
+    var statusName = "";
+    if (Model.assetRequisition.StatusId != null)
+    {
+        var listSatus = ViewBag.MasterStatus as List<SelectListItem>;
+        statusName = listSatus?.Where(x => x.Value == Model.assetRequisition.StatusId.ToString()).FirstOrDefault()?.Text;
+    }
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขที่เอกสาร</label>
+                    <input class="form-control form-control-sm" readonly asp-for="assetRequisition.Code" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">วันที่เอกสาร</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" id="RequestDate"
+                               name="assetRequisition.RequestDate" value="@Model.assetRequisition.RequestDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                    <small class="text-danger d-none" id="reqRequestDate">
+                        กรุณากรอกวันที่เอกสาร
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">สถานะ</label>
+                    <input class="form-control form-control-sm" readonly value="@statusName" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">ผู้เบิกพัสดุ</label>
+                    <select class="form-select form-select-sm" data-control="select2"
+                            asp-for="assetRequisition.RequestOfficerId" id="RequestOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqRequestOfficerId">
+                        กรุณาเลือกผู้เบิกพัสดุ
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">หน่วยงาน</label>
+                    <select class="form-select form-select-sm" data-control="select2"
+                            asp-for="assetRequisition.RequestOrganizationId" id="RequestOrganizationId" asp-items="ViewBag.MasterOrganization">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ต้องการใช้ภายในวันที่</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" id="ExpectDate"
+                               name="assetRequisition.ExpectDate" value="@Model.assetRequisition.ExpectDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 mb-3">
+                    <label class="col-form-label">รายละเอียด</label>
+                    <textarea class="form-control form-control-sm" rows="2" name="assetRequisition.Detail">@Model.assetRequisition.Detail</textarea>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">สถานที่ใช้งาน</label>
+                    <textarea class="form-control form-control-sm" rows="2" name="assetRequisition.StorePlaceDetail">@Model.assetRequisition.StorePlaceDetail</textarea>
+                </div>
+
+                <br />
+                <hr />
+
+                <div class="col-md-12 mb-3">
+
+                    <div class="row mb-5">
+                        <label class="fw-bold fs-4">รายการครุภัณฑ์</label>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-end">
+                        <button type="button" class="btn btn-success btn-sm" onclick="OpenMdlVAsset()">
+                            <i class="fa fa-plus"></i> เพิ่มรายการ
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeTableTab1()"><i class="fa fa-trash"></i> ลบรายการ</button>
+                    </div>
+
+                    <div id="divTableTab1">
+                        @await Html.PartialAsync("_tableAssetRequisitionListTab1", Model)
+                    </div>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้สั่งจ่าย</label>
+                    <select class="form-select form-select-sm" data-control="select2"
+                            asp-for="assetRequisition.DeliverApproveOfficerId" id="DeliverApproveOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้จ่ายพัสดุ</label>
+                    <select class="form-select form-select-sm" data-control="select2"
+                            asp-for="assetRequisition.DeliverOfficerId" id="DeliverOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้รับพัสดุ</label>
+                    <select class="form-select form-select-sm" data-control="select2"
+                            asp-for="assetRequisition.ReceiveOfficerId" id="ReceiveOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่สั่งจ่าย</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" id="DeliverApproveDate"
+                               name="assetRequisition.DeliverApproveDate" value="@Model.assetRequisition.DeliverApproveDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่จ่ายพัสดุ</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" id="DeliverDate"
+                               name="assetRequisition.DeliverDate" value="@Model.assetRequisition.DeliverDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่รับพัสดุ</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" id="ReceiveDate"
+                               name="assetRequisition.ReceiveDate" value="@Model.assetRequisition.ReceiveDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="col-form-label">ไฟล์แนบ</label>
+                    <div id="fileList"></div>
+                </div>
+
+            </div>
+
+            <div class="mt-10 row">
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="submitForm('btnsave')"><i class="fa fa-save"></i> บันทึก</button>
+                    <button class="d-none" id="btnsave"></button>
+                    @*<button class="btn btn-warning btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button>*@
+                    @if (Model.assetRequisition.Id != 0)
+                    {
+                        <a class="btn btn-danger btn-sm text-end" onclick="return confirm('ต้องการลบรายการนี้หรือไม่')"
+                           href="@Url.Action("DelAssetRequisitionDetail", "Asset", new {arId = Model.assetRequisition.Id , guidPage = Model.guidPage})">
+                            <i class="fa fa-trash"></i> ลบ
+                        </a>
+                    }
+                    <a href="@Url.Action("AssetRequisitionDurableArticlesList","Asset")" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้าหลัก</a>
+                    @*<button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button> *@
+                </div>
+                <div class="col-6 text-end">
+                    @*<button type="button" class="btn btn-success btn-sm"><i class="fa fa-check"></i> อนุมัติ</button>
+                <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> ไม่อนุมัติ</button>
+                <button class="btn btn-warning btn-sm"><i class="fas fa-share"></i> ส่งกลับแก้ไข</button>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDetailHistory"><i class="fa fa-history"></i> ประวัติการพิจารณา</button>*@
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailVasset">
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายการทรัพย์สิน</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.AjaxBeginForm("GetTableRequisitionVAsset", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblVAsset" }, new { enctype = "multipart/form-data", id = "searchFormVAsset" }))
+                {
+                    <div class="row mb-3">
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขครุภัณฑ์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <input class="form-control form-control-sm" name="vasCode" id="vasCode" />
+                            </div>
+                        </div>
+
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขสินทรัพย์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <input class="form-control form-control-sm" name="vasAssetNumberGFMIS" id="vasAssetNumberGFMIS" />
+                            </div>
+                        </div>
+
+                        <div class="row col-md-6  mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">วันที่ได้รับทรัพย์สิน</label>
+                            </div>
+                            <div class="col-8">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป"
+                                           name="vasReceiveDateFrom" id="vasReceiveDateFrom" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-md-6  mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">ถึง</label>
+                            </div>
+                            <div class="col-8">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป"
+                                           name="vasReceiveDateTo" id="vasReceiveDateTo" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-md-6  mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">หน่วยงาน</label>
+                            </div>
+                            <div class="col-8">
+                                <select class="form-select form-select-sm" data-control="select2"
+                                        name="vasOrganizationId" id="vasOrganizationId" asp-items="ViewBag.MasterOrganization">
+                                    <option value="">กรุณาระบุ</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer text-center mb-4">
+                        <button type="submit" id="btnSearch" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                        <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                    </div>
+                }
+                <div id="divTblVAsset"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" onclick="AddVAsset()"><i class="fa fa-check"></i> เลือกรายการที่ระบุ</button>
+                <button type="button" class="btn btn-warning btn-sm" onclick="AddAllVAsset()"><i class="fa fa-check"></i> เลือกรายการทั้งหมด</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        function OpenMdlVAsset() {
+            $('#mdlDetailVasset').modal('show');
+            $('#btnResetSearch').click();
+        }
+        $('#btnResetSearch').click(function () {
+            $('#vasCode').val('');
+            $('#vasAssetNumberGFMIS').val('');
+            $('#vasReceiveDateFrom').val('');
+            $('#vasReceiveDateTo').val('');
+            $('#vasOrganizationId').val('');
+            $('#searchFormVAsset').submit();
+        });
+        
+        function submitForm(type) {
+            var submit = true;
+
+            if ($("#RequestOfficerId").val() == "") {
+                $('#reqRequestOfficerId').removeClass("d-none");
+                $(window).scrollTop($('#RequestOfficerId').offset().top - 150);
+                submit = false;
+            }
+
+            if ($("#RequestDate").val() == "") {
+                $('#reqRequestDate').removeClass("d-none");
+                $(window).scrollTop($('#RequestDate').offset().top - 150);
+                submit = false;
+            }
+
+            if (submit) {
+                $("#" + type).click();
+            }
+        }
+
+        function AddAllVAsset() {
+            var checkboxes = document.querySelectorAll('.item-checkbox-Vasset');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = true;
+            });
+            AddVAsset();
+        }
+        function AddVAsset() {
+            var selectedIds = [];
+            var checkboxes = document.querySelectorAll('.item-checkbox-Vasset:checked');
+
+            checkboxes.forEach(function (checkbox) {
+                selectedIds.push(checkbox.value);
+            });
+
+            if (selectedIds.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("SaveVAssetRequisitionVAssetSelect", "Asset")',
+                    type: 'POST',
+                    data: { lstId: selectedIds, guidPage: '@Model.guidPage' },
+                    success: function (response) {
+                        $('#divTableTab1').html(response);
+                    },
+                    error: function () {
+                        alert('เกิดข้อผิดพลาดในการบันทึก');
+                    }
+                });
+            } else {
+                alert('กรุณาเลือกอย่างน้อย 1 รายการ');
+            }
+        }
+
+        SetInputDate('RequestDate');
+        SetInputDate('ExpectDate');
+        SetInputDate('DeliverApproveDate');
+        SetInputDate('DeliverDate');
+        SetInputDate('ReceiveDate');
+        AttachFile('fileList', '@Model.assetRequisition.Id', 'FileGuidId', null, 'AssetRequisition', null, false, false);
+
+        $('#tblTab1').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+    </script>
+}

@@ -1,0 +1,158 @@
+﻿@model MOEN_ERP.Models.Data.AssetDetailModel
+
+<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+    <table id="tblTab3" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+        <thead class="table-primary">
+            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                <th class="text-center" width="50">
+                    <input type="checkbox" id="allCheckTab3" onclick="toggleAllCheckboxesTba3(this)" />
+                </th>
+                <th class="text-center"></th>
+                <th class="text-center" style="width:5%">#</th>
+                <th class="text-center">ครั้งที่</th>
+                <th class="text-center">วัน เดือน ปี</th>
+                <th class="text-center">รายการ</th>
+                <th class="text-center">จำนวนเงิน</th>
+                <th class="text-center">หมายเหตุ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var no = 1;
+            }
+            @foreach (var item in Model.vAssetMaintenances ?? new List<MOEN_ERP.DAL.Models.VAssetMaintenance>())
+            {
+                <tr>
+                    <td class="text-center">
+                        <input type="checkbox" name="chkIdTab3" value="@(no-1)" class="item-checkbox-tab3" />
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                           data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ดูรายละเอียด"
+                           data-ajax="true"
+                           data-ajax-method="POST"
+                           data-ajax-mode="replace"
+                           data-ajax-update="#mdlMaintenanceDetail"
+                           href='@Url.Action("AssetMaintenanceDetail", "Asset", new {rowId = no-1,guidPage = Model.guidPage, read = true})'>
+
+                            <i class="fa fa-search fs-4"></i>
+                        </a>
+                        <a class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                           data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด"
+                           data-ajax="true"
+                           data-ajax-method="POST"
+                           data-ajax-mode="replace"
+                           data-ajax-update="#mdlMaintenanceDetail"
+                           href='@Url.Action("AssetMaintenanceDetail", "Asset", new {rowId = no-1,guidPage = Model.guidPage })'>
+                            <i class="fa fa-edit fs-4"></i>
+                        </a>
+                    </td>
+                    <td class="text-center">@no</td>
+                    <td class="text-center">@item.RowNumber</td>
+                    <td class="text-center">@item.RequestDate?.ToString("dd/MM/yyyy")</td>
+                    <td class="text-center">@item.MaintenanceDetail</td>
+                    <td class="text-center">@item.TotalCost</td>
+                    <td class="text-center">@item.Remark</td>
+                </tr>
+                no++;
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function toggleAllCheckboxesTba3(source) {
+        var checkboxes = document.querySelectorAll('.item-checkbox-tab3');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = source.checked;
+        });
+    }
+
+    function removeTableTab3() {
+        var selectedIds = [];
+        var checkboxes = document.querySelectorAll('.item-checkbox-tab3:checked');
+
+        checkboxes.forEach(function (checkbox) {
+            selectedIds.push(checkbox.value);
+        });
+
+        if (selectedIds.length > 0) {
+            Swal.fire({
+                text: 'ต้องการลบรายการที่เลือกใช่หรือไม่',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("RemoveVAssetMaintenance", "Asset")',
+                        type: 'POST',
+                        data: { lstNo: selectedIds, guidPage: '@Model.guidPage' },
+                        success: function (response) {
+                            Swal.fire({
+                                text: 'รายการที่เลือกถูกลบเรียบร้อยแล้ว',
+                                icon: 'success',
+                            });
+                            $('#divTableTab3').html(response);
+                        },
+                        error: function () {
+                            Swal.fire({
+                                title: 'เกิดข้อผิดพลาด',
+                                text: 'ไม่สามารถลบรายการได้',
+                                icon: 'error',
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            alert('กรุณาเลือกอย่างน้อย 1 รายการ');
+        }
+    }
+</script>
+
+
+@if (Model.changeData)
+{
+    <script>
+        $('#mdlDetail3').modal('hide');
+
+        $('#tblTab3').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+    </script>
+}
+@if (ViewBag.success != null)
+{
+    <script>
+        Swal.fire('@ViewBag.success', '', 'success');
+    </script>
+}
+@if (ViewBag.error != null)
+{
+    <script>
+        Swal.fire('@ViewBag.error', '', 'error');
+    </script>
+}

@@ -1,0 +1,439 @@
+﻿@model MOEN_ERP.Models.Data.AssetReturnDetailModel
+
+@section Title {
+    <span class="fs-1 fw-semibold">ส่งคืนพัสดุ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">ส่งคืนพัสดุ</li>
+}
+@using (Html.BeginForm("SaveAssetReturn", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.assetReturn.StatusId)
+    @Html.HiddenFor(x => x.assetReturn.Id)
+    @Html.HiddenFor(x => x.guidPage)
+
+
+    if (Model.assetReturn.ReturnDate == null)
+    {
+        Model.assetReturn.ReturnDate = DateTime.Now;
+    }
+
+    var statusName = "";
+    if (Model.assetReturn.StatusId != null)
+    {
+        var listSatus = ViewBag.MasterStatus as List<SelectListItem>;
+        statusName = listSatus?.Where(x => x.Value == Model.assetReturn.StatusId.ToString()).FirstOrDefault()?.Text;
+    }
+    <div class="card mt-10">
+        <div class="card-body">
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขที่ใบส่งคืน</label>
+                    <input class="form-control form-control-sm" readonly asp-for="assetReturn.Code" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">วันที่ส่งคืน</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="assetReturn.ReturnDate" id="ReturnDate" value="@Model.assetReturn.ReturnDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                    <small class="text-danger d-none" id="reqReturnDate">
+                        กรุณากรอกวันที่ส่งคืน
+                    </small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">สถานะ</label>
+                    <input class="form-control form-control-sm" readonly value="@statusName" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">ผู้ส่งคืน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetReturn.ReturnOfficerId" id="ReturnOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqReturnOfficerId">
+                        กรุณาเลือกผู้ส่งคืน
+                    </small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">หน่วยงาน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetReturn.ReturnOrganizationId" id="ReturnOrganizationId" asp-items="ViewBag.MasterOrganization">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqReturnOrganizationId">
+                        กรุณาเลือกหน่วยงาน
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ประเภทการส่งคืน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetReturn.AssetReturnType" id="AssetReturnType" onchange="AssetReturnTypeChange(this)">
+                        <option value="">กรุณาระบุ</option>
+                        <option value="R">ส่งคืนพัสดุ</option>
+                        <option value="C">เปลี่ยนผู้เบิก</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3 @(Model.assetReturn.AssetReturnType == "C" ? "" : "d-none")" id="divAssetReturnTypeC">
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">ผู้เบิกต่อ</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetReturn.NewResponsibleOfficerId" id="NewResponsibleOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqNewResponsibleOfficerId">
+                        กรุณาเลือกผู้เบิกต่อ
+                    </small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">หน่วยงาน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetReturn.NewResponsibleOrganizationId" id="NewResponsibleOrganizationId" asp-items="ViewBag.MasterOrganization">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqNewResponsibleOrganizationId">
+                        กรุณาเลือกหน่วยงาน
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+
+                <br />
+                <hr />
+
+                <div class="col-md-12 mb-3">
+
+                    <div class="row mb-5">
+                        <label class="fw-bold fs-4">รายการครุภัณฑ์</label>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-end mt-5">
+                        <a class="btn btn-success btn-sm"
+                           data-ajax="true"
+                           data-ajax-method="POST"
+                           data-ajax-mode="replace"
+                           data-ajax-update="#divMdlDetail"
+                           href='@Url.Action("GetAssetReturnItem", "Asset" , new {guidPage = Model.guidPage})'>
+                            <i class="fa fa-plus"></i> เพิ่มรายการ
+                        </a>
+                        <button class="btn btn-danger btn-sm text-end" type="button" onclick="removeTableTab1()"><i class="fa fa-trash"></i> ลบรายการ</button>
+                    </div>
+
+                    <div id="divlstTab1">
+                        @await Html.PartialAsync("_tableAssetReturnDetailTab1", Model)
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้รับคืน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetReturn.ReceiveOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้ตรวจสอบ (หัวหน้ากลุ่มงานพัสดุ)</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetReturn.ApproveOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้ตรวจสอบ (เจ้าหน้าที่ ศทส.)</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetReturn.CheckOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+
+                @Html.HiddenFor(x => x.assetReturn.ReceiveDate)
+                @Html.HiddenFor(x => x.assetReturn.ApproveDate)
+                @Html.HiddenFor(x => x.assetReturn.CheckDate)
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่รับคืน</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" disabled value="@Model.assetReturn.ReceiveDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่หัวหน้ากลุ่มงานพัสดุตรวจสอบ</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" disabled value="@Model.assetReturn.ApproveDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่เจ้าหน้าที่ ศทส.ตรวจสอบ</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" disabled value="@Model.assetReturn.CheckDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <hr />
+
+                <div class="col-md-6 mb-3">
+                    <label class="col-form-label">ไฟล์แนบ</label>
+                    <div id="fileList"></div>
+                </div>
+            </div>
+
+            <div class="mt-10 row">
+                <div class="col-8">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="submitForm('btnsave')"><i class="fa fa-save"></i> บันทึก</button>
+                    <button class="d-none" id="btnsave"></button>
+                    @*<button class="btn btn-warning btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button>*@
+                    @if (Model.assetReturn.Id != 0)
+                    {
+                        <a class="btn btn-danger btn-sm text-end" onclick="return confirm('ต้องการลบรายการนี้หรือไม่')"
+                           href="@Url.Action("DelAssetReturnDetail", "Asset", new {arId = Model.assetReturn.Id , guidPage = Model.guidPage})">
+                            <i class="fa fa-trash"></i> ลบ
+                        </a>
+                    }
+                    <a href="@Url.Action("AssetReturnList","Asset")" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้าหลัก</a>
+                    @*<button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>*@
+                </div>
+                <div class="col-4 text-end">
+                    <button id="btHistory" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#mdlHistoryDetail">
+                        <i class="fa fa-history"></i> ประวัติการพิจารณา
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<div id="divMdlDetail"></div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlHistoryDetail">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+
+                    <div class="tab-content" id="myTabHistory">
+                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                            <div class="row mt-5">
+                                <div class="col-md-12 mb-3">
+                                    <table id="tbl1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 tblAsset">
+                                        <thead class="table-primary">
+                                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+
+                                                <th class="text-center" style="width:5%">#</th>
+                                                <th class="text-center">วันที่</th>
+                                                <th class="text-center">ผู้ดำเนินการ</th>
+                                                <th class="text-center">ผู้ดำเนินการลำดับถัดไป</th>
+                                                <th class="text-center">การดำเนินการ</th>
+                                                <th class="text-center">ความคิดเห็น</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">09/08/2567</td>
+                                                <td class="text-center">เจ้าหน้าที่ทดสอบ1</td>
+                                                <td class="text-center">เจ้าหน้าที่พัสดุ1</td>
+                                                <td class="text-center">ส่งเรื่องพิจารณา</td>
+                                                <td class="text-center">เรียบร้อยสมบูรณ์ดี</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2</td>
+                                                <td class="text-center">10/08/2567</td>
+                                                <td class="text-center">เจ้าหน้าที่พัสดุ1</td>
+                                                <td class="text-center">เจ้าหน้าที่ทดสอบ1</td>
+                                                <td class="text-center">ส่งกลับแก้ไข</td>
+                                                <td class="text-center"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlSearchAsset">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>ครุภัณฑ์</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                @using (Html.AjaxBeginForm("GetTableVAssetItem", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblVAssetItem" }, new { enctype = "multipart/form-data", id = "searchForm" }))
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">เลขครุภัณฑ์</label>
+                            <input class="form-control form-control-sm" name="vasCode" id="vasCode" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">เลขสินทรัพย์</label>
+                            <input class="form-control form-control-sm" name="vasAssetNumberGFMIS" id="vasAssetNumberGFMIS" />
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-center">
+                        <button type="submit" id="btnSearch" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                        <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                    </div>
+                }
+
+                <div id="divTblVAssetItem"></div>
+
+            </div>
+
+            <div class="modal-footer justify-content-end gap-5">
+                <button id="btnCloseMdlSearchAsset" type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+
+
+        function submitForm(type) {
+            var submit = true;
+
+            if ($("#AssetReturnType").val() == 'C') {
+                if ($("#NewResponsibleOrganizationId").val() == "") {
+                    $('#reqNewResponsibleOrganizationId').removeClass("d-none");
+                    $(window).scrollTop($('#NewResponsibleOrganizationId').offset().top - 150);
+                    submit = false;
+                }
+
+                if ($("#NewResponsibleOfficerId").val() == "") {
+                    $('#reqNewResponsibleOfficerId').removeClass("d-none");
+                    $(window).scrollTop($('#NewResponsibleOfficerId').offset().top - 150);
+                    submit = false;
+                }
+            }
+
+
+            if ($("#ReturnOrganizationId").val() == "") {
+                $('#reqReturnOrganizationId').removeClass("d-none");
+                $(window).scrollTop($('#ReturnOrganizationId').offset().top - 150);
+                submit = false;
+            }
+
+            if ($("#ReturnOfficerId").val() == "") {
+                $('#reqReturnOfficerId').removeClass("d-none");
+                $(window).scrollTop($('#ReturnOfficerId').offset().top - 150);
+                submit = false;
+            }
+
+            if ($("#ReturnDate").val() == "") {
+                $('#reqReturnDate').removeClass("d-none");
+                $(window).scrollTop($('#ReturnDate').offset().top - 150);
+                submit = false;
+            }
+
+            if (submit) {
+                $("#" + type).click();
+            }
+        }
+
+
+        function OpenMdlSearchAsset() {
+            $('#mdlSearchAsset').modal('show');
+            $('#vasAssetNumberGFMIS').val('');
+            $('#vasCode').val('');
+            $('#searchForm').submit();
+        }
+
+        $('#btnResetSearch').click(function () {
+            setTimeout(
+                function () {
+                    $('#searchForm').submit();
+                }, 500);
+        });
+
+        function AssetReturnTypeChange(selectObject){
+            var value = selectObject.value;
+
+            if(value == 'C'){
+                $("#divAssetReturnTypeC").removeClass("d-none")
+            }
+            else{
+                $("#divAssetReturnTypeC").addClass("d-none")
+            }
+        }
+
+
+        SetInputDate('ReturnDate');
+        AttachFile('fileList', '@Model.assetReturn.Id', 'FileGuidId', null, 'AssetReturn', null, false, false);
+
+        $('#tblTab1').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+    </script>
+}

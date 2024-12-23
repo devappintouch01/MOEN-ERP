@@ -1,0 +1,279 @@
+﻿@model MOEN_ERP.Models.Data.BudgetRequestFilter
+
+@section Title {
+	<span class="fs-1 fw-semibold">คำของบประมาณแผ่นดิน</span>
+
+}
+@section Breadcrumb {
+	<li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+	<li class="breadcrumb-item pe-3 text-muted">คำของบประมาณแผ่นดิน</li>
+}
+
+<div class="card">
+
+	<div class="card-header align-items-center py-5 gap-2 gap-md-5">
+		<div class="card-title">
+			<div class="d-flex align-items-center position-relative my-1">
+				<h2>ค้นหา</h2>
+			</div>
+		</div>
+		<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+			<a id="btnAdd" class="btn btn-success btn-sm" href="@Url.Action("BudgetRequestDetail","Budget")">
+				<i class="fa fa-plus"></i> สร้างใหม่
+			</a>
+		</div>
+	</div>
+
+	<div class="card-body">
+		<form method="post" data-ajax="true"
+			  data-ajax-method="post"
+			  data-ajax-url="@Url.Action("SearchBudgetRequestList", "Budget")"
+			  data-ajax-loading="#loading"
+			  data-ajax-update="#updateDiv">
+			<div class="row mb-3">
+				<div class="row col-md-6 mb-3">
+					<div class="col-4 text-end">
+						<label class="col-form-label">ปีงบประมาณ</label>
+					</div>
+					<div class="col-8">
+						<input name="BudgetYear" class="form-control form-control-sm" />
+					</div>
+				</div>
+
+				<div class="row col-md-6 mb-3">
+					<div class="col-4 text-end">
+						<label class="col-form-label">หน่วยงาน</label>
+					</div>
+					<div class="col-8">
+						<select name="OrganizationId" class="form-select form-select-sm">
+							<option value="">ทั้งหมด</option>
+							@foreach (var org in ViewBag.DropdownOrganization)
+							{
+								<option value="@org.Value">@org.Text</option>
+							}
+						</select>
+					</div>
+				</div>
+
+				<div class="row col-md-6 mb-3">
+					<div class="col-4 text-end">
+						<label class="col-form-label">สถานะ</label>
+					</div>
+					<div class="col-8">
+                        <select name="StatusId" class="form-select form-select-sm" asp-items="ViewBag.DropdownStatus">
+							<option value="">ทั้งหมด</option>		
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer text-center">
+                <button id="btnSearch" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+				<button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+@* <div class="card mt-10">
+	<div class="card-body">
+		<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+			<table id="table1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+				<thead class="table-primary">
+					<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+						<th class="text-center"></th>
+						<th class="text-center" style="width:5%">#</th>
+						<th class="text-center">ปีงบประมาณ</th>
+						<th class="text-center">หน่วยงาน</th>
+						<th class="text-center">สถานะ</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="text-center">
+							<a href="@Url.Action("BudgetRequestDetail","Budget")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+							   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+								<i class="fa fa-edit fs-4"></i>
+							</a>
+							<a href="#" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+							   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ">
+								<i class="fa fa-trash fs-4"></i>
+							</a>
+						</td>
+						<td class="text-center">1</td>
+						<td class="text-center">2567</td>
+						<td class="text-center">กก.</td>
+						<td class="text-center">ส่งเรื่อง</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div> *@
+<div id="updateDiv"></div>
+
+
+@section Scripts {
+    <script>
+
+        $("#btnSearch").click();
+
+    </script>
+
+}
+@*
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="row mb-3 ">
+            <div class="col-md-10">
+                <div class="col-lg-12 text-right">
+                    <button type="button" id="collapser" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+                    <button type="button" id="expander" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="col-form-label">รวมเป็นเงินทั้งสิ้น</label>
+                <input class="form-control form-control-sm text-end" readonly value="6,400.00" />
+            </div>
+        </div>
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="tbl1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center" width="85">#</th>
+                        <th class="text-center"></th>
+                        <th class="text-center">ปีงบประมาณ</th>
+                        <th class="text-center">สถานะ</th>
+                        <th class="text-center">ประเภทงบ</th>
+                        <th class="text-center">ชื่อรายการ</th>
+                        <th class="text-center">ชื่อโครงการ</th>
+                        <th class="text-center">รวมเงิน</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-node-id="1">
+                        <td>
+                            1
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("BudgetRequestDetail","Budget")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ">
+                                <i class="fa fa-trash fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">2567</td>
+                        <td class="text-center">จัดการ</td>
+                        <td class="text-center">งบลงทุน</td>
+                        <td class="text-center">รายการที่ 1</td>
+                        <td class="text-center">โครงการที่ 1 </td>
+                        <td class="text-end">2,400.00</td>
+                    </tr>
+                    <tr data-node-id="1.1" data-node-pid="1">
+                        <td>
+                            1.1
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("BudgetRequestDetail","Budget")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ">
+                                <i class="fa fa-trash fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">2567</td>
+                        <td class="text-center">จัดการ</td>
+                        <td class="text-center">งบลงทุน</td>
+                        <td class="text-center">รายการที่ 1.1</td>
+                        <td class="text-center">โครงการที่ 1.1</td>
+                        <td class="text-end">1,000.00</td>
+                    </tr>
+                    <tr data-node-id="1.2" data-node-pid="1">
+                        <td>
+                            1.2
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("BudgetRequestDetail","Budget")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ">
+                                <i class="fa fa-trash fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">2567</td>
+                        <td class="text-center">จัดการ</td>
+                        <td class="text-center">งบลงทุน</td>
+                        <td class="text-center">รายการที่ 1.2</td>
+                        <td class="text-center">โครงการที่ 1.2</td>
+                        <td class="text-end">1,000.00</td>
+                    </tr>
+                    <tr data-node-id="2">
+                        <td>
+                            2
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("BudgetRequestDetail","Budget")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ">
+                                <i class="fa fa-trash fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">2568</td>
+                        <td class="text-center">จัดการ</td>
+                        <td class="text-center">งบลงทุน</td>
+                        <td class="text-center">รายการที่ 2</td>
+                        <td class="text-center">โครงการที่ 2 </td>
+                        <td class="text-end">1,500.00</td>
+                    </tr>
+                    <tr data-node-id="2.1" data-node-pid="2">
+                        <td>
+                            2
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("BudgetRequestDetail","Budget")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ">
+                                <i class="fa fa-trash fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">2568</td>
+                        <td class="text-center">จัดการ</td>
+                        <td class="text-center">งบลงทุน</td>
+                        <td class="text-center">รายการที่ 2.1</td>
+                        <td class="text-center">โครงการที่ 2.1 </td>
+                        <td class="text-end">500.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row mb-3 ">
+            <div class="col-md-10">
+            </div>
+            <div class="col-md-2">
+                <label class="col-form-label">รวมเป็นเงินทั้งสิ้น</label>
+                <input class="form-control form-control-sm text-end" readonly value="6,400.00" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#tbl1').simpleTreeTable({
+        expander: $('#expander'),
+        collapser: $('#collapser'),
+        storeKey: 'simple-tree-table-basic'
+    });
+</script> *@

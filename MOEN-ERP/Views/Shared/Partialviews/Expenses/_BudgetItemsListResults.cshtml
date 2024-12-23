@@ -1,0 +1,90 @@
+﻿@model List<MOEN_ERP.Models.RawData.VBudgetRequest>
+
+
+<div id="divTableBudgetItemsListResults" class="row table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+    <table id="tblBudgetItemsListResults" class="table table-row-dashed table-row-gray-300 align-middle gy-5 gs-7 js-table-search">
+        <thead class="table-primary">
+            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                <th class="text-center">#</th>
+                <th class="text-center">ลำดับ</th>
+                <th class="text-center">ปีงบประมาณ</th>
+                <th class="text-center">สถานะ</th>
+                <th class="text-center">ชื่อรายการ</th>
+                <th class="text-center">รายการย่อย</th>
+                <th class="text-center">จำนวนเงิน</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                var rown = 1;
+            }
+            @foreach (var row in Model)
+            {
+
+                <tr>
+
+                    <td class="text-center">
+                        <button type="button" onclick="SetSelectBudgetItem('@row.Id','@row.Name')" class="btn btn-icon btn-sm btn-light-primary text-gray-800 text-hover-white fw-bold mb-0">
+                            <i class="fa fa-plus fs-4"></i>
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        @rown
+                    </td>
+                    <td class="text-center">
+                        @row.BudgetYear
+                    </td>
+                    <td class="text-center">
+                        @row.StatusName
+                    </td>
+                    <td class="text-center">
+                        @row.BudgetAllocateName
+                    </td>
+                    <td class="text-center">
+                        @row.Name
+                    </td>
+                    <td class="text-center">
+                        @string.Format("{0:#,##0.00}",row.TotalAmount)
+                    </td>
+                </tr>
+
+                rown++;
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    $('#tblBudgetItemsListResults').DataTable({      
+        language: {
+            url: `${baseURL}/js/th.json`,
+        },
+        "paging": true,
+        "searching": false,
+        "lengthChange": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: 'none',
+                target: ''
+            }
+        },
+        "pageLength": 10,
+        deferLoading: 10,
+        dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+      
+    });
+
+    function SetSelectBudgetItem(_BudgetRequestId, _BudgetRequestName) {
+        document.getElementById("BudgetRequestId").value = _BudgetRequestId;
+        document.getElementById("BudgetRequestName").value = _BudgetRequestName;
+        $('#modalSelectBudgetItems').modal('hide');
+    }
+</script>

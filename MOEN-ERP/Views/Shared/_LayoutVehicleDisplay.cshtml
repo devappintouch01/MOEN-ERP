@@ -1,0 +1,119 @@
+﻿
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<title>@ViewBag.Title</title>*@
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/global/plugins.bundle.css" />
+    <link rel="stylesheet" href="~/assets/css/style.bundle.css" />
+    <link rel="stylesheet" href="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/datatables.bundle.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/zfont.css" />
+    @*<link rel="stylesheet" href="~/css/vehicle-display.css" />*@
+
+    <style>
+        /* .nav.navbar-nav.navbar-dark li a {
+                    color: blue;
+                }*/
+    </style>
+</head>
+@*<body style="background-color: #151674;">*@
+<body>
+    <div id="content-body">
+        @RenderBody()
+    </div>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="~/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/assets/js/scripts.bundle.js"></script>
+    <script src="~/js/moment-timezone.js"></script>
+    <script src="~/js/index.global.min.js"></script>
+
+    <!--Validation-->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/sweetalert2@11.js"></script>
+
+    <script src="~/js/datatables.bundle.js"></script>
+    <script src="~/js/site.js"></script>
+    @*<script src="~/js/pages/vehicle-display.min.js"></script>*@
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+       
+        $(function(){
+
+            //const el = document.getElementById('full-screen');
+
+            //const hiddenDiv = document.getElementById('div-outer');
+
+            //// ✅ Show hidden DIV on hover
+            //el.addEventListener('mouseover', function handleMouseOver() {
+            //    hiddenDiv.style.visibility = 'visible';
+            //});
+
+            //// ✅ (optionally) Hide DIV on mouse out
+            //el.addEventListener('mouseout', function handleMouseOut() {
+            //    // 👇️ if you used visibility property to hide div
+            //    hiddenDiv.style.visibility = 'hidden';
+            //});
+
+
+
+            var timedelay = 1;
+            var _delay = setInterval(delayCheck, 500);
+
+            $('#content-body').on('mousemove', showAllEvent);
+
+            function delayCheck() {
+                if (timedelay == 5) {
+                    $('.lg-outer').fadeOut();
+                    timedelay = 1;
+                }
+                timedelay = timedelay + 1;
+            }
+
+            function showAllEvent() {
+                $('.lg-outer').fadeIn();
+                timedelay = 1;
+                clearInterval(_delay);
+                _delay = setInterval(delayCheck, 500);
+            }
+
+
+
+          
+
+        
+        });
+
+        function openFullscreen() {
+            if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+                (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+                if (document.documentElement.requestFullScreen) {
+                    document.documentElement.requestFullScreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullScreen) {
+                    document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                if (document.cancelFullScreen) {
+                    document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+

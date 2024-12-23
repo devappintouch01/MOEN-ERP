@@ -1,0 +1,89 @@
+﻿@model MOEN_ERP.Models.MockupViewModel
+@{
+    var actionType = Model.ActionType;
+    var formType = Model.FormType;
+}
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalManageVDOConferences">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                @if (actionType == "cancel")
+                {
+                    <h3 class="modal-title"><span class="btn btn-icon bg-danger"><i class="fa fa-close"></i></span> ยกเลิกการจองห้องประชุมออนไลน์</h3>
+                }
+                else if (actionType == "request-cancel")
+                {
+                    <h3 class="modal-title"><span class="btn btn-icon bg-danger"><i class="fa fa-close"></i></span> ขอยกเลิกการจองห้องประชุมออนไลน์</h3>
+                }
+                else if (actionType == "dis-approve")
+                {
+                    <h3 class="modal-title"><span class="btn btn-icon bg-danger"><i class="fa fa-close"></i></span> ไม่อนุมัติการจองห้องประชุมออนไลน์</h3>
+                }
+                else if (actionType == "approve")
+                {
+
+                    <h3 class="modal-title"><span class="btn btn-icon bg-success"><i class="fa fa-check"></i></span> อนุมัติการจองห้องประชุมออนไลน์</h3>
+                }
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                @if (actionType == "cancel" || actionType == "request-cancel" || actionType == "cancel" || actionType == "request-cancel")
+                {
+
+                    <div class="row mb-3">
+                        @if (actionType == "cancel" || actionType == "request-cancel")
+                        {
+                            <label class="col-form-label col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">เหตุผลการยกเลิก <span class="required"></span> : </label>
+
+                        }
+                        else if (actionType == "dis-approve")
+                        {
+
+                            <label class="col-form-label col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">เหตุผลการไม่อนุมัติ <span class="required"></span> : </label>
+                        }
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <textarea class="form-control form-control-sm" rows="4"></textarea>
+                        </div>
+                    </div>
+
+                }
+                else if (actionType == "approve")
+                {
+                    <div class="row mb-3">
+                        <label class="col-form-label col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">ลิงค์ห้องประชุมออนไลน์ <span class="required"></span> : </label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <textarea class="form-control form-control-sm" rows="4" placeholder="ระบุลิงค์ห้องประชุมออนไลน์"></textarea>
+                        </div>
+                    </div>
+                         <div class="row mb-3">
+                            <label class="col-form-label col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">รายละเอียดเพิ่มเติม : </label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <textarea class="form-control form-control-sm" rows="4" placeholder="ระบุ Meeting ID / Passcode"></textarea>
+                            </div>
+                        </div>
+                }
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">ยืนยัน</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>

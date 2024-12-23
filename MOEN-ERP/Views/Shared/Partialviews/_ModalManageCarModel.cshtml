@@ -1,0 +1,84 @@
+﻿@model MOEN_ERP.Models.MockupViewModel
+@{
+    var actionType = Model.ActionType;
+}
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalManageMaintainType">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if (actionType == "new")
+                {
+                    <h3 class="modal-title"><span class="btn btn-icon bg-success"><i class="fa fa-plus"></i></span> เพิ่มข้อมูลยี่ห้อยานพาหนะ/รุ่นยานพาหนะ</h3>
+                }
+                else
+                {
+                    <h3 class="modal-title"><span class="btn btn-icon bg-warning"><i class="fa fa-edit"></i></span> แก้ไขข้อมูลยี่ห้อยานพาหนะ/รุ่นยานพาหนะ</h3>
+                }
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <label class="col-form-label col-lg-4 text-lg-end">ยี่ห้อยานพาหนะ <span class="required"></span> : </label>
+                    <div class="col-xxl-8 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <input class="form-control form-control-sm" placeholder="กรุณาระบุ" />
+                    </div>
+                </div>
+
+                 <div class="row mb-3">
+                    <label class="col-form-label col-lg-4 text-lg-end">รุ่นยานพาหนะ <span class="required"></span> : </label>
+                    <div class="col-xxl-8 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <input class="form-control form-control-sm" placeholder="กรุณาระบุ" />
+                    </div>
+                </div>
+
+                  <div class="row mb-3">
+                    <label class="col-form-label col-lg-4 text-lg-end">ประเภทเชื้อเพลิง <span class="required"></span> : </label>
+                    <div class="col-xxl-8 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <select class="form-control form-select form-select-sm" data-control="select2">
+                            <option>เลือกรายการ</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <label class="col-form-label col-lg-4 text-lg-end">สถานะการใช้งาน : </label>
+                    <div class="col-xxl-8 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex mt-2">
+
+                            <div class="form-check  form-check-custom form-check-solid  me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="radio" name="status" checked>
+                                <label class="form-check-label" for="status">
+                                    ใช้งาน
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="radio" name="status">
+                                <label class="form-check-label" for="status">
+                                    ไม่ใช้งาน
+                                </label>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal"><i class="fa fa-save"></i>บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>

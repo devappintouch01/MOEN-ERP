@@ -1,0 +1,204 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleManagementBooking
+
+
+<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+    <table id="tblAssignList" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+        <thead class="table-primary">
+            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                <th class="text-center" style="width:10%">ลำดับ</th>
+                <th class="text-center">วันที่เดินทาง</th>
+                <th class="text-center">วันที่กลับ</th>
+                <th class="text-center">ประเภทยานพาหนะ</th>
+                <th class="text-center">เลขทะเบียน</th>
+                <th class="text-center">พนักงานขับรถ</th>
+                <th class="text-center" style="width:10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @if (Model != null && Model?.VehicleBookingAssignList?.Count > 0)
+            {
+                int i = 0;
+                int sno = 0;
+
+                foreach (var item in Model.VehicleBookingAssignList)
+                {
+
+                    <tr>
+                        <td class="text-center">
+                            @{
+                                sno++;
+                            }
+                            @sno
+                            <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].VehicleBookingAssignId">
+                            <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].VehicleBookingId">
+
+                        </td>
+                        <td class="text-center">
+                            @if (Model.VehicleBookingAssignList[i].TravelFromDate.HasValue)
+                            {
+                                <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].TravelFromDate">
+                                @string.Format("{0:dd/MM/yyyy}",Model.VehicleBookingAssignList[i].TravelFromDate)
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (Model.VehicleBookingAssignList[i].TravelToDate.HasValue)
+                            {
+                                <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].TravelToDate">
+                                @string.Format("{0:dd/MM/yyyy}",Model.VehicleBookingAssignList[i].TravelToDate)
+                            }
+                        </td>
+                        <td class="text-center">
+                            <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].VehicleTypeId">
+                            <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].VehicleTypeName">
+                            @Model.VehicleBookingAssignList[i].VehicleTypeName
+                        </td>
+                        <td class="text-center">
+                            <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].VehicleId">
+                            <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].VehicleRegistration">
+                            @Model.VehicleBookingAssignList[i].VehicleRegistration
+                        </td>
+                        <td class="text-center">
+                            <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].DriverId">
+                            <input type="hidden" asp-for="@Model.VehicleBookingAssignList[i].DriverName">
+                            @Model.VehicleBookingAssignList[i].DriverName
+                        </td>
+                        <td class="text-center">
+                            <button type="button" data-queue-assign="edit" data-url="@Url.Action("EventVehicleManagementBookingAssign","Shared", new { pAssignId = @Model.VehicleBookingAssignList[i].VehicleBookingAssignId , pActionType = "edit" })" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0">
+                                <i class="fa fa-edit fs-4"></i>
+                            </button>
+                            <button type="button" data-queue-assign="remove" data-url="@Url.Action("EventDeleteVehicleManagementBookingAssign","Shared", new { pAssignId = @Model.VehicleBookingAssignList[i].VehicleBookingAssignId , pActionType = "remove" })" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0">
+                                <i class="fa fa-close fs-4"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+
+     $('button[data-queue-assign="edit"]').click(function (e) {
+        e.preventDefault();
+        showWait();
+        var url = $(this).data('url');
+
+
+        //var sd = $('#frmEventVehicleManagementBooking').serializeArray();
+        //console.log(sd);
+
+        $.ajax({
+            type: "POST",
+            //data: sd,
+            url: url,
+        }).done(function (newTable) {
+            $('#divModalManageAssign').html(newTable);
+            $('#divModalManageAssign').find('.modal').modal('show');
+            hideWait();
+        });
+
+    });
+
+    $('button[data-queue-assign="remove"]').click(function (e) {
+
+        e.preventDefault();
+
+        var url = $(this).data('url');
+        //--
+        Swal.fire({
+            title: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
+            text: '',
+            icon: 'warning',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#3B9EF8',
+            showCancelButton: true,
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //--confirm
+                showWait();
+                $.post(url).done(function (res) {
+                    //--res
+                    hideWait();
+                    if (res.type == "success") {
+                        Swal.fire({ title: 'ลบข้อมูลสำเร็จ', text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                            .then((result) => {
+                                if (result.isConfirmed) {
+                                    //window.location.reload();
+
+                                    var urlGetAssign = '@Url.Action("GetVehicleManagementBookingAssignList","Shared")';
+                                    $.get(urlGetAssign, { pVehicleBookingId: $('#VehicleBooking_BookingId').val() }).done(function (data) {
+                                        $('#divTableAssignList').html(data);
+                                        $('#divTableAssignList').find('.modal').modal('show');
+                                        hideWait();
+                                    });
+
+                                }
+                            });
+                    }
+                    else {
+                        Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+                    }
+                    //--res end.
+                });
+
+                //--confirm end.
+            }
+        });
+
+        //--
+
+
+    });
+
+    //$(function(){
+    //    $('#tblDevicelList > tbody > tr').each(function () {
+    //        var row = $(this);
+    //        row.find('TD').find('select[name="StatusIdList"]').select2({
+    //            dropdownParent: $('#modalManageMeetingRoomDevice')
+    //        });
+    //    });
+    //});
+
+
+
+    //var divTableDeviceList = $('#divTableDeviceList');
+    ////--------------------- Remove Status ---------------------
+    //$('button[data-remove-status="event"]').click(function (event) {
+
+
+    //    const tmpTableDevicelList = [];
+    //    var url = $(this).data('url');
+
+
+    //    $('#tblDevicelList > tbody > tr').each(function () {
+    //        var row = $(this);
+    //        var tmpData = {};
+
+    //        tmpData.Id = parseInt(row.find('TD').find('input[name="MeetingRoomDeviceIdList"]').val()) || 0;
+    //        tmpData.MeetingRoomId = parseInt($('input[name="VMeetingRoomDevice.MeetingRoomId"]').val()) || 0;
+    //        tmpData.DeviceId = parseInt($('#VMeetingRoomDevice_DeviceId option:selected').val()) || 0;
+    //        tmpData.DeviceName = $('#VMeetingRoomDevice_DeviceId option:selected').text();
+    //        tmpData.StatusId = parseInt(row.find('TD').find('select[name="MeetingRoomStatusIdList"]').val()) || 0;
+
+    //        tmpTableDevicelList.push(tmpData);
+
+    //    });
+
+    //    //console.log(tmpTableDevicelList);
+
+    //    //-- Post data
+    //    $.post(url, { pData: tmpTableDevicelList }).done(function (res) {
+    //        divTableDeviceList.html(res);
+    //        $('input[name="VMeetingRoomDevice.UsedPerRoom"]').val(tmpTableDevicelList.length - 1);
+    //    });
+
+    //});
+
+</script>

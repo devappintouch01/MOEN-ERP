@@ -1,0 +1,308 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleManagementBooking
+
+<form id="frmModalEventVehicleManagementBooking" asp-action="EventVehicleManagementBooking" asp-controller="Shared" method="post">
+    <div class="modal fade" id="modalEventVehicleManagementBooking" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalUploadMultiple" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    @if (Model.ActionType == "assign-approve")
+                    {
+                        <h5 class="modal-title"><span class="btn btn-sm btn-icon bg-success"><i class="fa fa-check text-white"></i></span> ยืนยันการจัดยานพาหนะ</h5>
+                    }
+                    else if (Model.ActionType == "assigned-edit")
+                    {
+                        <h5 class="modal-title"><span class="btn btn-sm btn-icon bg-warning"><i class="fa fa-edit text-white"></i></span> เเก้ไขการจัดยานพาหนะ </h5>
+
+                    }
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    @Html.HiddenFor(x => x.VehicleBooking.BookingId)
+                    @Html.HiddenFor(x => x.ActionType)
+
+                    <div class="row fv-row mb-3">
+                        <label class="col-form-label col-lg-2 text-lg-end">สถานะการใช้งาน : </label>
+                        <div class="col-xxl-8 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex mt-2">
+
+                                <div class="form-check  form-check-custom form-check-solid  me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="radio" value="false" name="LastStatus12" checked=@(Model?.VehicleBooking?.LastStatusId != 12) onchange="ChangeStatus12('false')">
+                                    <label class="form-check-label">
+                                        ดำเนินการจัดยานพาหนะ
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="radio" value="true" name="LastStatus12" checked=@(Model?.VehicleBooking?.LastStatusId == 12) onchange="ChangeStatus12('true')">
+                                    <label class="form-check-label">
+                                        ยืนยันและรอการจัดยานพาหนะ
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="separator separator-dashed mt-5 mb-5"></div>
+
+                    <div id="divAssignDetail" class="@(Model?.VehicleBooking?.LastStatusId == 12 ? "d-none" : "")">
+
+                        @{
+                            var dateString = "";
+                            if (Model.VehicleBooking.TravelFromDate.Value.ToString("dd/MM/yyyy") == Model.VehicleBooking.TravelToDate.Value.ToString("dd/MM/yyyy"))
+                            {
+                                dateString = string.Format("{0}", Model.VehicleBooking.TravelFromDate.Value.ToString("dd/MM/yyyy"));
+                            }
+                            else if (Model.VehicleBooking.TravelFromDate.HasValue)
+                            {
+                                dateString = string.Format("{0} - {1}"
+                                , Model.VehicleBooking.TravelFromDate.Value.ToString("dd/MM/yyyy")
+                                , Model.VehicleBooking.TravelToDate.Value.ToString("dd/MM/yyyy")
+                                );
+                            }
+                        }
+
+                        <input type="hidden" id="hddTravelFromDate" value="@Model.VehicleBooking.TravelFromDate.Value.ToString("dd/MM/yyyy")" />
+
+                        <div class="row fv-row mb-3">
+                            <div class="d-flex bd-highlight">
+                                <div class="p-2 flex-grow-1 bd-highlight">
+
+                                    @string.Format("ผู้จองต้องการยานพาหนะ {0} คัน สำหรับร่วมเดินทาง {1} คน เดินทางวันที่ {2}"
+                                    ,Model?.VehicleBooking?.Vehicles
+                                    ,Model?.VehicleBooking?.Passengers
+                                    ,dateString
+                                    )
+
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button id="btnQueue" type="button" data-url="@Url.Action("ViewVehicleQueue","Shared")" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> คิวการเดินรถ</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button data-queue-assign="new" type="button" data-url="@Url.Action("EventVehicleManagementBookingAssign","Shared",
+                                    new { pAssignId = 0, pVehicleBookingId= Model?.VehicleBooking?.BookingId, pActionType = "new", dateTo = Model?.VehicleBooking.TravelToDate , dateForm = Model?.VehicleBooking.TravelFromDate })" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-plus"></i> เพิ่ม
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator separator-dashed mt-5 mb-5"></div>
+
+                    </div>
+
+                    <div id="divTableAssignList" class="@(Model?.VehicleBooking?.LastStatusId == 12 ? "d-none" : "")">
+                        @await Html.PartialAsync("Partialviews/Vehicle/_TableManageVehicleManagementBookingListResults", Model)
+                    </div>
+
+                    <div id="divTableAssignRemark" class="@(Model?.VehicleBooking?.LastStatusId != 12 ? "d-none" : "")">
+                        <div class="row mb-4">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="row fv-row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                        <label class="fw-bold">เหตุผลการรอจัดยานพาหนะ : </label>
+                                    </div>
+
+                                    <div class="col-lg-10 col-md-10 col-sm-12">
+                                        <textarea asp-for="ActionRemark" class="form-control" data-kt-autosize="true"></textarea>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+
+
+                    <div>
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                        @*<button data-url="@Url.Action("VehicalModalEventPreviewBookingConfirm","Shared")" type="button" class="btn btn-sm btn-success" data-toggle="ajax-modal-confirm"><i class="fas fa-check"></i> ยืนยันการจอง</button>
+                        <button data-url="@Url.Action("VehicalModalEventPreviewBookingRefuse","Shared")" type="button" class="btn btn-sm btn-danger" data-toggle="ajax-modal-refuse"><i class="fas fa-close"></i> ปฏิเสธการจอง</button>*@
+                        <button type="submit" class="btn btn-sm btn-primary">ตกลง</button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div id="divModalQueue"></div>
+<div id="divModalManageAssign"></div>
+
+<script>
+    //$(function () {
+
+    //    var divModalApprove = $('#divModalApprove');
+
+    //    $('button[data-toggle="ajax-modal-confirm"]').click(function () {
+    //        var url = $(this).data('url');
+    //        $.get(url).done(function (data) {
+    //            divModalApprove.html(data);
+    //            divModalApprove.find('.modal').modal('show');
+    //        });
+    //    });
+
+    //    $('button[data-toggle="ajax-modal-refuse"]').click(function () {
+    //        var url = $(this).data('url');
+    //        $.get(url).done(function (data) {
+    //            divModalApprove.html(data);
+    //            divModalApprove.find('.modal').modal('show');
+    //        });
+    //    });
+
+    //});
+
+
+
+
+    function ChangeStatus12(_status) {
+        if (_status == 'true') {
+            document.getElementById("divAssignDetail").classList.add("d-none");
+            document.getElementById("divTableAssignList").classList.add("d-none");
+            document.getElementById("divTableAssignRemark").classList.remove("d-none");
+
+        } else if (_status == 'false') {
+            document.getElementById("divAssignDetail").classList.remove("d-none");
+            document.getElementById("divTableAssignList").classList.remove("d-none");
+            document.getElementById("divTableAssignRemark").classList.add("d-none");
+        }
+    }
+
+
+    $('#btnQueue').click(function (e) {
+        e.preventDefault();
+        showWait();
+        var url = $(this).data('url');
+
+        $.get(url).done(function (data) {
+            $('#divModalQueue').html(data);
+            $('#divModalQueue').find('.modal').modal('show');
+            hideWait();
+        });
+    });
+
+
+    $('button[data-queue-assign="new"]').click(function (e) {
+        e.preventDefault();
+        showWait();
+        var url = $(this).data('url');
+
+
+        //var sd = $('#frmEventVehicleManagementBooking').serializeArray();
+        //console.log(sd);
+
+        $.ajax({
+            type: "POST",
+            //data: sd,
+            url: url,
+        }).done(function (newTable) {
+            $('#divModalManageAssign').html(newTable);
+            $('#divModalManageAssign').find('.modal').modal('show');
+            hideWait();
+        });
+
+    });
+
+
+
+
+
+    var validatorformModalEventVehicleManagementBooking;
+    $(function () {
+        // Define form element
+        const formModalEventVehicleManagementBooking = document.getElementById('frmModalEventVehicleManagementBooking');
+
+        validatorformModalEventVehicleManagementBooking = FormValidation.formValidation(
+            formModalEventVehicleManagementBooking,
+            {
+
+                fields: {
+
+                    'ActionRemark': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเหตุผลการรอจัดยานพาหนะ'
+                            },
+
+                        }
+                    },
+
+                },
+
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        );
+
+
+    });
+
+
+
+    //---- Save ----//
+
+    $('#frmModalEventVehicleManagementBooking').submit(async function (e) {
+        //--
+        // debugger
+        e.preventDefault();
+
+
+        var value = $('input[name = "LastStatus12"]:checked').val();
+        if (value == 'true') {
+            var $valid = await validatorformModalEventVehicleManagementBooking.validate().then(function (status) { return status });
+            if ($valid != 'Valid') return false;
+        }
+
+
+
+
+        //--
+        showWait();
+        //--post
+        $.post($(this).attr('action'), $(this).serialize(), function (res) {
+            hideWait();
+            if (res.type == "success") {
+                Swal.fire({ title: res.message, text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+
+                            window.location.reload();
+
+
+                        }
+                    });
+            }
+            else {
+                Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+            }
+        }, 'json');
+
+        //--post end
+        return false;
+        //--
+    });
+
+</script>

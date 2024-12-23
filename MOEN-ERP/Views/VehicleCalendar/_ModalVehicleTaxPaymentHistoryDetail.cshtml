@@ -1,0 +1,67 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleCalendar.VehicleCalendarCarTaxPaymentHistory
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalModalManageVideoConferenceBookingDetail">
+
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">ประวัติการเสียภาษี พ.ร.บ. @Model?.Vehicle?.VtypeName @Model?.Vehicle?.VehicleRegistration</h3>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+
+                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                    <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                        <thead class="table-primary">
+                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                <th class="text-center" style="width:5%">ลำดับ</th>
+                                <th class="text-center">วันสิ้นอายุภาษี</th>
+                                <th class="text-center">วันสิ้นอายุภาษีครั้งต่อไป</th>
+                                <th class="text-center">จำนวนเงินชำระภาษี</th>
+                                <th class="text-center">วันที่ชำระภาษี</th>                             
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rown = 1;
+                            }
+                            @if (Model?.VehicleTaxPaymentList != null)
+                            {
+                                @foreach (var row in Model?.VehicleTaxPaymentList)
+                                {
+                                    <tr>
+                                        <td class="text-center">@rown</td>
+                                        <td class="text-center">@string.Format("{0:dd/MM/yyyy}", row.TaxExpireDate)</td>
+                                        <td class="text-center">@string.Format("{0:dd/MM/yyyy}", row.NextTaxExpireDate)</td>
+                                        <td class="text-center">@string.Format("{0:#,##0.00}",row.TaxValue ?? 0)</td>
+                                        <td class="text-center">@string.Format("{0:dd/MM/yyyy}", row.TaxPaymentDate)</td>
+                                    </tr>
+                                    rown++;
+                                }
+                            }
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="~/js/custom/datatable.js"></script>
+

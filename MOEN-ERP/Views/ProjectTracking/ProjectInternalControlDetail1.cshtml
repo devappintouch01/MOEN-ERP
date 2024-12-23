@@ -1,0 +1,210 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายละเอียดแบบ ปค.1</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายละเอียดแบบ ปค.1</li>
+}
+
+<div class="card">  
+    <div class="card-body" id="divFilter">
+        <div class="row mb-3">
+            
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขที่อ้างอิง</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ<span class="text-danger">*</span></label>
+                <input class="form-control form-control-sm" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หน่วยงาน <span class="text-danger">*</span> </label>
+                <select select-search>
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">วันที่</label>
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" readonly />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+            <div class="col-md-4 mb-3">                
+            </div>            
+        </div>
+    </div>
+</div>
+
+<div class="card mt-10">
+    
+    <div class="card-body">
+        <div class="row fv-row mb-3">
+            <div class="col-md-12 text-end">
+                <button id="btnAdd" class="btn btn-success btn-sm" onclick="onpenModal('mdlMainAdd')">
+                    <i class="fa fa-plus"></i> เพิ่มรายการ
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> ลบรายการ</button>
+            </div>
+        </div>
+
+         <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="tblMain" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center" width="20"><input type="checkbox" /></th>
+                        <th class="text-center" width="30"></th>
+                        <th class="text-center" width="60">ลำดับ</th>
+                        <th class="text-center">ความเสี่ยงที่มีอยู่ที่ต้องกำหนดปรับปรุงการควบคุมภายใน</th>
+                        <th class="text-center">การปรับปรุงการควบคุมภายใน</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <input type="checkbox" />
+                        </td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="modal" data-bs-target="#mdlMainEdit"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">
+                            การกำหนดท่าทีด้านพลังงานในการประชุมระหว่างประเทศ(กกต.)
+                            - หากเกิดสถานะการ์ณที่ส่งผลกระทบกับนโยบายด้านพลังงาน เช่น วิกฤตสงคราม การเปลี่ยนรัฐบาลหรือผู้บริหาร ภัยธรรมชาติ โรคระบาด
+                            อาจจะทำให้การกำหนดแนวทางในการดำเนินความร่วมมือกับประเทศคู่เจรจาหรือองค์กรระหว่างประเทศไม่ราบรื่นและส่งผลการะทบต่อความสัมพันธ์ระหว่างประเทศ
+                        </td>
+                        <td class="text-center">
+                            กกต.
+                            ต้องมีการติดตามสถานการ์ณอย่างใกล้ชิดและมีความระมัดระวัง เพื่อใช้ประกอบการจัดทำท่าทีในการหารือกับคู่เจราจาหรือองค์กรระหว่างประเทศ
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-10 row">
+            <div class="col-8">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>               
+                <button class="btn btn-danger btn-sm text-end"><i class="fa fa-trash"></i> ลบ</button>
+                <a href="@Url.Action("ProjectInternalControlList","ProjectTracking")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+            </div>         
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlMainAdd">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>เพิ่มรายการ</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">ความเสี่ยงที่มีอยู่ที่ต้องกำหนดปรับปรุงการควบคุมภายใน<span class="text-danger">*</span></label>
+                        <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">การปรับปรุงการควบคุมภายใน</label>
+                        <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlMainEdit">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>เเก้ไขรายละเอียด</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">ความเสี่ยงที่มีอยู่ที่ต้องกำหนดปรับปรุงการควบคุมภายใน<span class="text-danger">*</span></label>
+                        <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">การปรับปรุงการควบคุมภายใน</label>
+                        <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#tblMain').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": false,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+
+        function onpenModal(id) {
+            $('#' + id).modal('show');
+        }
+       
+    </script>
+}
+

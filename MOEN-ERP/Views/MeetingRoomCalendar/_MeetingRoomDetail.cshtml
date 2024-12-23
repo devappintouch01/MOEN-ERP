@@ -1,0 +1,247 @@
+﻿@model MOEN_ERP.Models.ViewModel.MeetingRoomCalendar.MeetingRoomCalendarDetail
+
+
+<link rel="stylesheet" href="~/css/gallery.min.css" />
+<link rel="stylesheet" href="~/assets/css/style.bundle.css" />
+
+@if (Model.MeetingRoom != null && Model.AttachFileList != null)
+{
+    <div class="card-body">
+        <div class="col-xxl-12 col-xl-12 col-md-12">
+
+            <h5 class="text-center">
+                รายละเอียด @Model?.MeetingRoom?.RoomName
+            </h5>
+
+            <div class="row">
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                        <div class="row py-3 shadow-5">
+
+
+                            <div class="col-md-6 offset-md-3 mb-1">
+                                <div class="lightbox">
+                                    @if (Model?.AttachFileList.Count() > 0)
+                                    {
+                                        <img src="@Url.Action("ViewAttachFileImage", "AttachFile", new { @Id = Model?.AttachFileList?.FirstOrDefault()?.RowGuid })" alt="@Model?.AttachFileList?.FirstOrDefault()?.Filename" class="ecommerce-gallery-main-img active w-100" />
+
+                                    }
+                                    else
+                                    {
+                                        <img src="~/assets/media/misc/image.png" class="card-image-fit" alt="No data">
+                                    }
+
+                                </div>
+                            </div>
+
+                            <!---->
+                            <div class="tns tns-default" style="direction: ltr">
+
+
+                                <!--begin::Slider-->
+                                <div data-tns="true"
+                                     data-tns-loop="false"
+                                     data-tns-swipe-angle="false"
+                                     data-tns-speed="200"
+                                     data-tns-autoplay="false"
+                                     data-tns-autoplay-timeout="18000"
+                                     data-tns-controls="true"
+                                     data-tns-nav="false"
+                                     data-tns-items="7"
+                                     data-tns-center="false"
+                                     data-tns-dots="false"
+                                     data-tns-prev-button="#vehicle_prev1"
+                                     data-tns-next-button="#vehicle_next1">
+
+                                    <!--begin::Item-->
+                                    @{
+                                        var setActive = false;
+                                    }
+                                    @foreach (var attImg in Model.AttachFileList)
+                                    {
+                                        <div class="col-2 m-1">
+                                            <img src="@Url.Action("ViewAttachFileImage", "AttachFile", new { @Id = attImg.RowGuid })"
+                                                 data-mdb-img="@Url.Action("ViewAttachFileImage", "AttachFile", new { @Id = attImg.RowGuid })"
+                                                 alt="@attImg.Filename"
+                                                 class="@(setActive == false ? "active" : "" ) w-100" />
+                                        </div>
+                                        setActive = true;
+                                    }
+                                    <!--end::Item-->
+
+                                </div>
+                                <!--end::Slider-->
+                                @if (Model?.AttachFileList.Count() > 1)
+                                {
+                                    <!--begin::Slider button-->
+                                    <button class="btn btn-icon btn-active-color-primary" id="vehicle_prev1">
+                                        <span class="svg-icon svg-icon-3x">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M11.2657 11.4343L15.45 7.25C15.8642 6.83579 15.8642 6.16421 15.45 5.75C15.0358 5.33579 14.3642 5.33579 13.95 5.75L8.40712 11.2929C8.01659 11.6834 8.01659 12.3166 8.40712 12.7071L13.95 18.25C14.3642 18.6642 15.0358 18.6642 15.45 18.25C15.8642 17.8358 15.8642 17.1642 15.45 16.75L11.2657 12.5657C10.9533 12.2533 10.9533 11.7467 11.2657 11.4343Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <!--end::Slider button-->
+                                    <!--begin::Slider button-->
+                                    <button class="btn btn-icon btn-active-color-primary" id="vehicle_next1">
+                                        <span class="svg-icon svg-icon-3x">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12.6343 12.5657L8.45001 16.75C8.0358 17.1642 8.0358 17.8358 8.45001 18.25C8.86423 18.6642 9.5358 18.6642 9.95001 18.25L15.4929 12.7071C15.8834 12.3166 15.8834 11.6834 15.4929 11.2929L9.95001 5.75C9.5358 5.33579 8.86423 5.33579 8.45001 5.75C8.0358 6.16421 8.0358 6.83579 8.45001 7.25L12.6343 11.4343C12.9467 11.7467 12.9467 12.2533 12.6343 12.5657Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <!--end::Slider button-->
+                                }
+
+
+
+
+                            </div>
+                            <!---->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="mt-4">
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">ห้องประชุม : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.RoomName</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">สถานที่ตั้ง : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.Location</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">ชั้น : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.Floor</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">จำนวนที่รองรับได้ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.Participants คน</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">อุปกรณ์ภายในห้องประชุม: </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                @*<label class="form-control-label"></label>*@
+                                @if (Model?.DeviceList?.Count() > 0)
+                                {
+
+                                    for (var i = 1; i <= Model?.DeviceList?.Count(); i++)
+                                    {
+                                        <label class="form-control-label">@Model?.DeviceList[i-1]?.DeviceName</label>
+                                        if (i < Model?.DeviceList?.Count())
+                                        {
+                                            <br />
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    <label class="form-control-label">-</label>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">หน่วยงานรับผิดชอบ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.OrganizationName</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">ผู้รับผิดชอบ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.OfficerName</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">เบอร์โทรผู้รับผิดชอบ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.OfficerPhone</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">รายละเอียดเพิ่มเติม : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.Detail</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label class="fw-bold">หมายเหตุ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">@Model?.MeetingRoom?.Remark</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <hr />
+            <div class="text-center">
+                @* <button type="button" onclick="showCarHistory(@Model?.Vehicle?.VehicleId)" class="btn btn-sm btn-secondary me-3">ประวัติการใช้งาน</button>
+            <button type="button" onclick="showCarTaxPaymentHistory(@Model?.Vehicle?.VehicleId)" class="btn btn-sm btn-secondary me-3">ประวัติการเสียภาษี พ.ร.บ.</button>
+            <button type="button" onclick="showCarMaintenanceHistory(@Model?.Vehicle?.VehicleId)" class="btn btn-sm btn-secondary me-3">ประวัติการซ่อมบำรุงรักษา</button>*@
+                <a href="@Url.Action("MeetingRoomBookingDetail","MeetingRoomBooking",new { pMeetingRoomId = @Model?.MeetingRoom?.RoomId})" class="btn btn-sm btn-primary me-3">จอง</a>
+                <button type="button" class="btn btn-sm btn-secondary me-3" data-bs-dismiss="detail-room">ปิด</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal-->
+    <div id="divModal"></div>
+}
+<script src="~/js/gallery.min.js"></script>
+@*<script src="~/assets/js/scripts.bundle.js"></script>
+*@
+<script>
+
+
+    $('button[data-bs-dismiss="detail-room"]').click(function () {
+        document.getElementById("divCalendarRoom").classList.remove("d-none");
+        document.getElementById("divDetailRoom").classList.add("d-none");
+    });
+</script>

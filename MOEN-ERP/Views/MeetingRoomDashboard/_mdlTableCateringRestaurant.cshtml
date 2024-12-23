@@ -1,0 +1,78 @@
+﻿@model List<MOEN_ERP.Models.RawData.VDashboardCateringRestaurant>
+<div class="modal fade" id="mdl1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">ร้านอาหาร</h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                    <table id="tbl1" class="table table-row-dashed table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                        <thead class="table-primary">
+                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                <th class="text-center" width="75">ลำดับ</th>
+                                <th class="text-center">ร้านอาหาร</th>
+                                <th class="text-center">ประเภทอาหาร</th>
+                                <th class="text-center">สถานที่ตั้ง</th>
+                                <th class="text-center">เบอร์ติดต่อ</th>
+                                <th class="text-center">ไฟล์แนบ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int row = 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center">@row</td>
+                                    <td class="text-center">@item.RestaurantName</td>
+                                    <td class="text-center">@item.CategoryGroupName</td>
+                                    <td class="text-center">@item.Location</td>
+                                    <td class="text-center">@item.Phone</td>
+                                    <td class="text-center"> @await Html.PartialAsync("Partialviews/_DisplayAttachFileListByRef", item.RestaurantId)</td>
+
+
+                                </tr>
+                                row++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#mdl1').modal('show');
+    $('#tbl1').DataTable({
+        language: {
+            url: `${baseURL}/js/th.json`,
+        },
+        "paging": true,
+        "searching": false,
+        "lengthChange": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: 'none',
+                target: ''
+            }
+        },
+        "pageLength": 10,
+        deferLoading: 10,
+        dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>',
+    });
+</script>

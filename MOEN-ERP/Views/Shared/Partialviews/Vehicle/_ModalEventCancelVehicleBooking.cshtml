@@ -1,0 +1,166 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleBooking.VehicleBookingFormEvent
+@using MOEN_ERP.Services;
+<form id="frmModalEventCancelVehicleBooking" asp-action="EventCancelVehicleBooking" asp-controller="Shared">
+
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalEventCancelVehicleBooking">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+
+
+                    <h3 class="modal-title">
+                        <span class="btn btn-sm btn-icon bg-danger">
+                            <i class="fa fa-close text-white"></i>
+                        </span>
+                        @if (Model.VehicleBookingForm.LastStatusId == 1)
+                        {
+                            <label>ยกเลิกการจองยานพาหนะ</label>
+                        }
+                        else if (Model.VehicleBookingForm.LastStatusId != 1)
+                        {
+                            <label>ขอยกเลิกการจองยานพาหนะ</label>
+                        }
+                        </h3>
+
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookingId)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookingCode)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookerId)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookerName)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookerPosId)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookerPosName)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookerOrgId)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookerOrgName)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.DivisionId)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.DivisionName)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookingDate)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookingFormatId)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookingFormatName)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.TravelFromDate)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.TravelToDate)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.TravelFromTime)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.TravelToTime)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.Passengers)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.TravelFromLocation)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.TravelToLocation)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookingPurpose)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookerPhone)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookingTypeId)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.BookingTypeName)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.IsSpecialCase)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.SpecialCaseRemark)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.Remark)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.LastStatusId)
+                    @Html.HiddenFor(m => m.VehicleBookingForm.FileGuidId)
+
+                    <div class="row mb-3">
+                        <label class="col-form-label col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">เหตุผลการยกเลิก <span class="required"></span> : </label>                      
+                    </div>
+
+                    <div class="row fv-row mb-3">                      
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <textarea asp-for="ActionRemark" class="form-control form-control-sm" data-kt-autosize="true" autocomplete="off"></textarea>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>บันทึก</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</form>
+
+<script>
+    
+
+
+    var validator;
+    $(function () {
+        // Define form element
+        const form = document.getElementById('frmModalEventCancelVehicleBooking');
+
+        validator = FormValidation.formValidation(
+            form,
+            {
+               
+                fields: {
+                    'ActionRemark': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเหตุผลการยกเลิก'
+                            }
+                        }
+                    },
+                },
+
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        );
+
+
+    });
+
+    //---- Save ----//
+
+    $('#frmModalEventCancelVehicleBooking').submit(async function (e) {
+        //--
+        // debugger
+        e.preventDefault();
+        var $valid = await validator.validate().then(function (status) { return status });
+        if ($valid != 'Valid') return false;
+        //--
+        showWait();
+        //--post
+        $.post($(this).attr('action'), $(this).serialize(), function (res) {
+            hideWait();
+            if (res.type == "success") {
+                Swal.fire({ title: 'บันทึกข้อมูลสำเร็จ', text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            $('.modal').modal('hide');
+                            $('.modal-backdrop').remove();                           
+                            window.location.replace(`@MyHttpContext.AppBaseUrl/VehicleBooking/VehicleBookingList`);
+                        }
+                    });
+            }
+            else {
+                Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+            }
+        }, 'json');
+
+        //--post end
+        return false;
+        //--
+    });
+
+
+    //$('#DirectorApproveId').select2({
+    //    dropdownParent: $('#modalEventVehicleBookingDetailSelectDirectorApprove')
+    //});
+
+
+</script>

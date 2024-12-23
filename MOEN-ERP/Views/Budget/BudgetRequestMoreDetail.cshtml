@@ -1,0 +1,131 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">คำขอเงินงบประมาณเพิ่มเติม</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">คำขอเงินงบประมาณเพิ่มเติม</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">วันที่</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขที่คำขอ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label required">หน่วยงาน</label>
+                <select class="form-select form-select-sm" >
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label required">ศูนย์ต้นทุน</label>
+                <input class="form-control form-control-sm"  />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label required">ปีงบประมาณ</label>
+                <input class="form-control form-control-sm" />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label required">งบรายจ่าย</label>
+                <select class="form-select form-select-sm" >
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label required">แหล่งเงิน</label>
+                <select class="form-select form-select-sm" >
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="col-form-label required">ชื่อรายการ</label>
+                <input class="form-control form-control-sm" />
+            </div>
+
+            <div class="col-md-8 mb-3">
+                <label class="col-form-label">รายการงบประมาณ</label>
+                <select class="form-select form-select-sm" >
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label required">งบประมาณ</label>
+                <input class="form-control form-control-sm" />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">แนบไฟล์</label>
+                <input type="file" class="form-control form-control-sm"  />
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="col-form-label ">ความเห็น/หมายเหตุ</label>
+                <textarea class="form-control form-control-sm" rows="2" readonly></textarea>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="col-form-label ">โอนเปลี่ยนแปลงจาก</label>
+                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                    <table id="table1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                        <thead class="table-primary">
+                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                <th class="text-center" style="width:5%">ลำดับ</th>
+                                <th class="text-center">หน่วยงานที่ให้</th>
+                                <th class="text-center">รายการ</th>
+                                <th class="text-center" width="200">งบประมาณ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">สพจ.สุราษฎร์ธานี</td>
+                                <td class="text-center">ค่าซ่อมแซมสำนักงาน</td>
+                                <td class="text-center ">
+                                    <input class="form-control form-control-sm text-center" readonly value="50,810" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-10">
+            <div class="col-8">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button>
+                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> ลบ</button>
+                <a href="@Url.Action("BudgetRequestMoreList","Budget")" class="btn btn-secondary btn-sm"><i class="fa fa-repeat"></i> กลับหน้าหลัก</a>
+                <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+            </div>
+            <div class="col-4 text-end">
+                <button type="button" class="btn btn-success btn-sm"><i class="fa fa-check"></i> อนุมัติ</button>
+                <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> ไม่อนุมัติ</button>
+                <button class="btn btn-warning btn-sm"><i class="fas fa-share"></i> ส่งกลับแก้ไข</button>
+                <button class="btn btn-primary btn-sm "><i class="fa fa-history"></i> ประวัติการพิจารณา</button>
+            </div>
+        </div>
+    </div>
+</div>
+

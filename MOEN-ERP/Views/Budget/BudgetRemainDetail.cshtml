@@ -1,0 +1,527 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายละเอียดเงินเหลือจ่าย</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายละเอียดเงินเหลือจ่าย</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>                
+          
+        </div>
+
+        <div class="col-md-12 mb-3 mt-10">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                        เงินเหลือจ่าย
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                        คำขอเงินงบประมาณเพิ่มเติม
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+                        ประวัติการโอนเปลี่ยนแปลง
+                    </button>
+                </li> 
+            </ul>
+            <div class="tab-content">
+
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    <div class="row mt-5">
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab3" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">                                        
+                                        <th class="text-center" style="width:10%">ลำดับ</th>
+                                        <th class="text-center">รายการ</th>
+                                        <th class="text-center">งบประมาณ(พ.ร.บ.)</th>
+                                        <th class="text-center">ทำสัญญา</th>
+                                        <th class="text-center">เงินเหลือจ่าย</th>                                      
+                                    </tr>
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <td colspan="5" style="background-color:lightgray;">งบดำเนินงาน</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="background-color:lightgray;">กันไว้ที่ส่วนกลาง</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                                    data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="รายละเอียด">
+                                                <i class="fa fa-search fs-4" data-bs-toggle="modal" data-bs-target="#mdlDetailTab11"></i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center">ค่าเบี้ยเลี้ยง ค่าเช่าที่พักและค่าพาหนะส่วนกลาง (รวม)</td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="3,380,614" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="0" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="3,380,614" />
+                                        </td>                                       
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                                    data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="รายละเอียด">
+                                                <i class="fa fa-search fs-4" data-bs-toggle="modal" data-bs-target="#mdlDetailTab11"></i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center">ค่าเบี้ยเลี้ยง ค่าเช่าที่พักและค่าพาหนะส่วนกลาง (ในส่วนของ สร.)</td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="2,711,340"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="0"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="2,711,340"  />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                                    data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="รายละเอียด">
+                                                <i class="fa fa-search fs-4" data-bs-toggle="modal" data-bs-target="#mdlDetailTab11"></i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center">ค่าเบี้ยเลี้ยง ค่าเช่าที่พักและค่าพาหนะส่วนกลาง</td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="669,274"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="0"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="669,274"  />
+                                        </td>
+                                    </tr>                               
+                                    <tr>                                        
+                                        <td colspan="5" style="background-color:lightgray;">เงินเหลือจ่ายจากทำสัญญา</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                                    data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="รายละเอียด">
+                                                <i class="fa fa-search fs-4" data-bs-toggle="modal" data-bs-target="#mdlDetailTab11"></i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center">ค่าบำรุงรักษา ศทส.</td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="3,147,700"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="2,385,800"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="761,900"  />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                                    data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="รายละเอียด">
+                                                <i class="fa fa-search fs-4" data-bs-toggle="modal" data-bs-target="#mdlDetailTab11"></i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center">ค่าบำรุงรักษาเครื่องคอมพิวเตอร์ลูกข่ายและอุปกรณ์ต่อพ่วง</td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="438,100"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="423,000"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="15,100"  />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                                    data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="รายละเอียด">
+                                                <i class="fa fa-search fs-4" data-bs-toggle="modal" data-bs-target="#mdlDetailTab11"></i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center">ค่าบำรุงรักษาศูนย์กลางสั่งการด้านพลังงานประจำกระทรวงพลังงาน</td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="835,000"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="600,000"  />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="235,000"  />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            $('#tbltab1').simpleTreeTable({
+                                expander: $('#expander5'),
+                                collapser: $('#collapser5'),
+                                storeKey: 'simple-tree-table-basic'
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                    <div class="row mt-5">                       
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab2" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 style=" overflow-x:auto;"">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" style="width:10%"></th>
+                                        <th class="text-center" style="width:5%">ลำดับ</th>
+                                        <th class="text-center">หน่วยงาน</th>
+                                        <th class="text-center">รายการ</th>
+                                        <th class="text-center">งบประมาณ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <a href="#" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                               data-bs-toggle="modal" data-bs-target="#mdlDetailTab21"
+                                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                                <i class="fa fa-edit fs-4"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">สพจ.สุราษฎร์ธานี</td>
+                                        <td class="text-center">ค่าซ่อมแซมสำนักงาน</td>
+                                        <td class="text-center">56,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            $('#tbltab2').simpleTreeTable({
+                                expander: $('#expander2'),
+                                collapser: $('#collapser2'),
+                                storeKey: 'simple-tree-table-basic'
+                            });
+                        </script>                      
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                    <div class="row mt-5">                       
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab3" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">                   
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" style="width:10%"></th>
+                                        <th class="text-center" style="width:5%">ลำดับ</th>
+                                        <th class="text-center">หน่วยงาน</th>
+                                        <th class="text-center">รายการ</th>
+                                        <th class="text-center">โอนครั้งที่</th>
+                                        <th class="text-center">จำนวนเงินโอน</th>
+                                        <th class="text-center">คงเหลือก่อนโอน</th>
+                                        <th class="text-center">คงเหลือหลังโอน</th>                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <a href="#" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                               data-bs-toggle="modal" data-bs-target="#mdlDetailTab31"
+                                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                                <i class="fa fa-edit fs-4"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>                                        
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            $('#tbltab3').simpleTreeTable({
+                                expander: $('#expander5'),
+                                collapser: $('#collapser5'),
+                                storeKey: 'simple-tree-table-basic'
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-10 row">
+            <div class="col-6">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                <button class="btn btn-warning btn-sm"><i class="fa fa-paper-plane"></i> โอนเปลี่ยนแปลง</button>             
+                <a href="@Url.Action("BudgetRemainList","Budget")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+            </div>          
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailTab11">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รับโอน</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                        <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                    <th class="text-center" style="width:5%">ลำดับ</th>
+                                    <th class="text-center">หน่วยงานที่รับโอน</th>
+                                    <th class="text-center">รายการ</th>
+                                    <th class="text-center">งบประมาณ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">สร.</td>
+                                    <td class="text-center">ค่าเบี้ยเลี้ยง ค่าเช่าที่พักและค่าพาหนะ 98,000.00บ./ค่าน้ำมันเชื้อเพลง 17,000.00บ.</td>
+                                    <td class="text-center">115,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailTab21">
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">           
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">วันที่</label>
+                        <input class="form-control form-control-sm" readonly value="" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">เลขที่คำขอ</label>
+                        <input class="form-control form-control-sm" readonly value="" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">สถานะ</label>
+                        <input class="form-control form-control-sm" readonly value="" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">หน่วยงาน<span class="text-danger">*</span></label>
+                        <select select-search disabled>
+                            <option value="">สพจ.สุราษฎร์ธานี</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">ศูนย์ต้นทุน <span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" readonly value="" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">ปีงบประมาณ <span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" readonly value="" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">งบรายจ่าย<span class="text-danger">*</span></label>
+                        <select select-search disabled>
+                            <option value="">งบดำเนินงาน</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">แหล่งเงิน<span class="text-danger">*</span></label>
+                        <select select-search disabled>
+                            <option value="">ค่าใช้สอย</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">ชื่อรายการ <span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" readonly value="ค่าซ่อมแซมสำนักงาน" />
+                    </div>
+
+                    <div class="col-md-8 mb-3">
+                        <label class="col-form-label">รายการงบประมาณ </label>
+                        <select select-search disabled>
+                            <option value="">ค่าซ่อมแซม</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">งบประมาณ <span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" readonly value="56,000" />
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label class="col-form-label">แนบไฟล์</label>
+                        <input type="file" class="form-control form-control-sm" />
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">ความเห็น/หมายเหตุ</label>
+                        <textarea class="form-control form-control-sm" rows="2" > </textarea>
+                    </div>              
+                </div>
+
+                <div class="col-md-4 mb-3">
+                <label class="col-form-label">โอนเปลี่ยนแปลง</label>                
+            </div>
+
+            <div class="col-lg-12 text-end">
+                    <button type="button" class="btn btn-success btn-sm" onclick="onpenModal('mdlDetailTab22')"><i class="fa fa-plus"></i> เพิ่มรายการ</button>
+                <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> ลบรายการ</button>
+            </div>
+
+            <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                    <thead class="table-primary">
+                        <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                            <th class="text-center" width="50">
+                                <input type="checkbox" value="0" />
+                            </th>                           
+                            <th class="text-center" style="width:5%">ลำดับ</th>
+                            <th class="text-center">หน่วยงานที่ให้</th>
+                            <th class="text-center">รายการ</th>
+                            <th class="text-center">งบประมาณ <span class="text-danger">*</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">
+                                <input type="checkbox" value="1" />
+                            </td>                           
+                            <td class="text-center">1</td>
+                            <td class="text-center">สพจ.อุบลราชธานี</td>
+                            <td class="text-center">ค่าปรับปรุงสำนักงานและสิ่งก่อสร้างประกอบ</td>
+                            <td class="text-center">
+                                <input class="form-control form-control-sm" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            </div>           
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailTab22">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>โอนเปลี่ยนแปลงจาก</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">หน่วยงาน</label>
+                        <input class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">รายการ</label>
+                        <input class="form-control form-control-sm" />
+                    </div>
+                    <div class="mb-3 text-center">
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                        <button type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                        <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                    <th class="text-center" width="50">
+                                        <input type="checkbox" />
+                                    </th>
+                                    <th class="text-center" style="width:5%">ลำดับ</th>
+                                    <th class="text-center">หน่วยงาน</th>
+                                    <th class="text-center">รายการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <input type="checkbox" />
+                                    </td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">สพจ.อุบลราชธานี</td>
+                                    <td class="text-center">ค่าปรับปรุงสำนักงานและสิ่งก่อสร้างประกอบ</td>   
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function onpenModal(id) {
+        $('#' + id).modal('show');
+    }
+
+  
+</script>

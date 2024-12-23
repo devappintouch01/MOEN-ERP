@@ -1,0 +1,110 @@
+﻿@model List<MOEN_ERP.DAL.Models.VMaterialStock>
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="tblModalTab1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center"><input type="checkbox" id="allCheck" onclick="toggleAllCheckboxes(this)" /></th>
+                        <th class="text-center" width="50">#</th>
+                        <th class="text-center">ชื่อวัสดุ</th>
+                        <th class="text-center">GPSC</th>
+                        <th class="text-center">จำนวนคงเหลือ</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int no = 1;
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <input type="checkbox" name="chkId" value="@item.Id" class="item-checkbox" />
+                            </td>
+                            <td class="text-center">@no</td>
+                            <td class="text-center">@item.MaterialName</td>
+                            <td class="text-center">@item.Gpsccode</td>
+                            <td class="text-center">@item.Available</td>
+                        </tr>
+                        no++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function toggleAllCheckboxes(source) {
+        var checkboxes = document.querySelectorAll('.item-checkbox');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = source.checked;
+        });
+    }
+
+    function AddVMaterialStock() {
+        var selectedIds = [];
+        var checkboxes = document.querySelectorAll('.item-checkbox:checked');
+
+        checkboxes.forEach(function (checkbox) {
+            selectedIds.push(checkbox.value);
+        });
+
+        if (selectedIds.length > 0) {
+            $.ajax({
+                url: '@Url.Action("SaveVMaterialStockSelect", "Asset")',
+                type: 'POST',
+                data: { lstId: selectedIds, guidPage: '@ViewBag.guidPage' },
+                success: function (response) {
+                    $('#divlstTab1').html(response);
+                },
+                error: function () {
+                    alert('เกิดข้อผิดพลาดในการบันทึก');
+                }
+            });
+        } else {
+            alert('กรุณาเลือกอย่างน้อย 1 รายการ');
+        }
+    }
+
+    function AddAllVMaterialStock(){
+        var checkboxes = document.querySelectorAll('.item-checkbox');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = true;
+        });
+        AddVMaterialStock();
+    }
+
+    $('#tblModalTab1').DataTable({
+        language: {
+            url: `${baseURL}/js/th.json`,
+        },
+        "paging": true,
+        "searching": false,
+        "lengthChange": true,
+        "lengthMenu": [25, 50, 100],
+        "ordering": true,
+        "order": [],
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: 'none',
+                target: ''
+            }
+        },
+        "pageLength": 25,
+        deferLoading: 10,
+        dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+    });
+</script>
+

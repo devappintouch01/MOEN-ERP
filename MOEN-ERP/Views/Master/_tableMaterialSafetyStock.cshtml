@@ -1,0 +1,45 @@
+﻿@model MOEN_ERP.Models.ViewModel.MasterWarehouseDetail
+
+
+<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+    <table id="tblSafetyStock" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+        <thead class="table-primary">
+            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                <th class="text-center" style="width:5%">#</th>
+                <th class="text-center">ชื่อวัสดุ</th>
+                <th class="text-center">จำนวนสูงสุด</th>
+                <th class="text-center">จำนวนต่ำสุด</th>
+                <th class="text-center">จำนวนที่เบิกได้/ครั้ง</th>
+                <th style="width:1px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @Html.HiddenFor(x => x.MasterWarehouse.Id)
+            @{
+                var no = 1;
+                foreach (var item in Model.listVMaterialSafetyStock)
+                {
+                    <tr>
+                        <td class="text-center">@no</td>
+                        <td class="text-center">@item.MaterialName</td>
+                        <td>
+                            <input class="form-control form-control-sm text-center" value="@item.MaxStock" />
+                        </td>
+                        <td>
+                            <input class="form-control form-control-sm text-center" value="@item.MinStock" />
+                        </td>
+                        <td>
+                            <input class="form-control form-control-sm text-center" value="@item.DrawableAmount" />
+                        </td>
+                        <td>
+                            <input value="@item.Id" hidden />
+                        </td>
+
+                    </tr>
+                    no++;
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

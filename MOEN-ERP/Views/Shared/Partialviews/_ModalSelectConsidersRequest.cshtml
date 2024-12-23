@@ -1,0 +1,49 @@
+﻿
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalManageVDOConferences">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">เลือกผู้พิจารณาคำขอใช้ยานพาหนะ</h3>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <label class="col-form-label col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-12">ผู้พิจารณา <span class="required"></span> : </label>
+                    <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12">
+                        <seelct class="form-control form-select form-select-sm">
+                            <option>กรุณาเลือก</option>
+                        </seelct>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnSubmit" type="button" class="btn btn-primary">ยืนยัน</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+
+        $('#btnSubmit').click(function () {
+            Swal.fire({ title: 'บันทึกข้อมูลสำเร็จ', text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+        });
+
+    });
+</script>

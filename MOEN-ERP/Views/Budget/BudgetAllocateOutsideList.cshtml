@@ -1,0 +1,159 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายการจัดสรรเงินนอกงบประมาณ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายการจัดสรรเงินนอกงบประมาณ</li>
+}
+
+<div class="card">
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>ค้นหา</h2>
+            </div>
+        </div>
+        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+        </div>
+    </div>
+    <div class="card-body">
+
+        <div class="row mb-3">
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ปีงบประมาณ</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ชื่อโครงการ</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+          
+        </div>
+
+        <div class="row mb-3">
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">หน่วยงาน</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">สถานะ</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="card-footer text-center">
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+        <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+    </div>
+</div>
+
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="table1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center" style="width:10%"></th>
+                        <th class="text-center" style="width:5%">#</th>
+                        <th class="text-center">ปีงบประมาณ</th>
+                        <th class="text-center">หน่วยงาน</th>
+                        <th class="text-center">ชื่อโครงการ</th>
+                        <th class="text-center">งบประมาณ</th>
+                        <th class="text-center">กองทุน</th>
+                        <th class="text-center">สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <a href="@Url.Action("BudgetAllocateOutsideDetail","Budget",new{ BudgetType = 1 })" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">2567</td>
+                        <td class="text-center">สพจ.ระยอง</td>
+                        <td class="text-center">โครงการลดการใช้พลังงานในภาครัฐ</td>
+                        <td class="text-center">271,208.85</td>
+                        <td class="text-center">กองทุนอนุรักษ์</td>
+                        <td class="text-center"></td>
+                    </tr>
+                     <tr>
+                        <td class="text-center">
+                            <a href="@Url.Action("BudgetAllocateOutsideDetail","Budget",new{ BudgetType = 2 })" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">2</td>
+                        <td class="text-center">2567</td>
+                        <td class="text-center">ส่วนกลาง</td>
+                        <td class="text-center">โครงการพัฒนาบุคลากรตาม Training Roadmap</td>
+                        <td class="text-center">4,692,400</td>
+                        <td class="text-center">กองทุนสัมปทาน</td>
+                        <td class="text-center"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#table1').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "ordering": false,
+            "info": true,
+            "autoWidth": false,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 10,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+    </script>
+}

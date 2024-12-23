@@ -1,0 +1,219 @@
+﻿@using MOEN_ERP.Services;
+@using MOEN_ERP.Utilities;
+@model List<MOEN_ERP.DAL.Models.AttachFile>
+
+
+<style>
+
+
+    .articles a {
+        text-decoration: none !important;
+        display: block;
+        margin-bottom: 0;
+        color: #555
+    }
+
+    .articles .badge {
+        font-size: 0.7em;
+        padding: 5px 10px;
+        line-height: 1;
+        margin-left: 10px
+    }
+
+    .articles .item {
+        padding: 6px;
+        margin: 4px;
+        border: 1px dashed #009ef7;
+        background-color: #f1faff;
+        border-radius: 0.475rem !important;
+    }
+
+        .articles .item:nth-of-type(even) {
+            background: #fafafa
+        }
+
+        .articles .item .image {
+            min-width: 50px;
+            max-width: 50px;
+            height: 50px;
+            margin-right: 15px
+        }
+
+        .articles .item img {
+            padding: 3px;
+            border: 1px solid #28a745
+        }
+        /*
+                                    .articles .item i {
+                                        padding: 3px;
+                                        border: 1px solid #28a745;
+                                        font-size: 36px;
+                                    }*/
+
+        .articles .item h3 {
+            color: #555;
+            font-weight: 400;
+            margin-bottom: 0
+        }
+
+        .articles .item small {
+            color: #aaa;
+            font-size: 0.75em
+        }
+
+</style>
+
+@{
+    var baseURL = MyHttpContext.AppBaseUrl;
+    var eleId = TempData["eleId"];
+    var read = Convert.ToBoolean(TempData["readOnly"]);
+    var refGuidId = TempData["refGuidId"];
+    var fileGuidId = TempData["fileGuidId"];
+    int i = 1;
+}
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="articles card">
+
+                <div class="card-body" style="padding:0">
+                    @{
+                        var idImg = $"desimg{eleId}" + i;
+                        var inputId = $"txtNameimg{eleId}" + i;
+
+                    }
+
+
+                    @foreach (var item in Model)
+                    {
+                        var pic = item?.RowGuid != null ? item?.Filename : "ไฟล์ที่ " + i;
+                        var imgIcon = baseURL + "/images/files/file.png";
+                        @switch (item.Extension)
+                        {
+                            case "image/jpeg":
+                                imgIcon = baseURL + "/images/files/jpg.png";
+                                break;
+                            case "image/png":
+                                imgIcon = baseURL + "/images/files/png.png";
+                                break;
+                            case "application/pdf":
+                                imgIcon = baseURL + "/images/files/pdf.png";
+                                break;
+                        }
+
+
+                        if (item?.RowGuid != null)
+                        {
+                            <div class="item d-flex" id="@idImg">
+                                <input type="hidden" name="@refGuidId" value="@item.RowGuid" />
+                                <input type="hidden" name="imageName" id="@inputId" value="@item.Filename" />
+                                <div class="image">
+                                    <img src="@imgIcon" alt="..." class="img-fluid rounded-circle">
+                                </div>
+                                <div class="text">
+                                    <a href="javascript:void;" onclick="window.open('@Url.Action("ViewAttachFile", "AttachFile", new { @id = item.RowGuid, refTable=item.ReferenceTable, refCmp=item.ReferenceGroup })', '_blank');">
+                                        <h3 class="h5">@item.Filename</h3>
+                                    </a>
+                                    <small>File size: @FileSizeSuffix.SizeSuffix(item.FileSize ?? 0)</small>
+                                </div>
+                                <div class="ms-auto p-4">
+                                    <a href="javascript:void;" onclick="Swal.fire({title: 'ต้องการลบไฟล์ ใช่หรือไม่?',icon: 'info',showDenyButton: true,confirmButtonText: 'ตกลง',denyButtonText: `ยกเลิก`,}).then((result) => {if (result.isConfirmed) {showWait();deleteImage('@idImg','@item.RowGuid');}});">
+                                        <i class="fa fa-trash text-danger"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+
+                        i++;
+                    }
+
+
+                    @if (read == null || read == false)
+                    {
+                        idImg = $"desimg{eleId}" + i + 1;
+                        <!--begin::Input group-->
+                        <div class="fv-row" id="@idImg">
+                            <!--begin::Dropzone-->
+                            <div class="dropzone needsclick" id="kt_dropzonejs_example_1">
+                                <!--begin::Message-->
+                                <div class="dz-message ">
+                                    <i class="ki-duotone ki-file-up fs-3x text-primary"><span class="path1"></span><span class="path2"></span></i>
+
+                                    <!--begin::Info-->
+                                    <div class="ms-4">
+                                        <h3 class="fs-5 fw-bold text-gray-900 mb-1">วางไฟล์ที่นี่หรือคลิกเพื่ออัปโหลด</h3>
+                                        <span class="fs-7 fw-semibold text-gray-400">รองรับไฟล์ ขนาดไม่เกิน 30 MB</span>
+                                    </div>
+                                    <!--end::Info-->
+                                </div>
+                            </div>
+                            <!--end::Dropzone-->
+                        </div>
+                        <!--end::Input group-->
+                        <script>
+                            initFileDropArea('@idImg', '@eleId', '@TempData["refId"]', '@TempData["refGuidId"]', '@TempData["fileGuidId"]', '@TempData["refTable"]', '@TempData["refCmp"]', '@read');
+
+                        </script>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script>
+    var refId = @TempData["refId"];
+    var refGuidId = '@TempData["refGuidId"]';
+    var refTable = '@TempData["refTable"]';
+    var refCmp = '@TempData["refCmp"]';
+    var read = '@TempData["readOnly"]';
+
+    function addImgInDiv(res) {
+
+        //console.log(res.id);
+
+        var arrImgId = $('input[name="@refGuidId"]').map(function () {
+            return this.value;
+        }).get();
+        var arrImgNameId = $('input[name="imageName"]').map(function () {
+            return this.value;
+        }).get();
+
+        $.ajax({
+            url: "@Url.Action("AddItemFile", "AttachFile")",
+            data: {
+                fileGuidId: arrImgId,
+                imageName: arrImgNameId, refId: refId, refGuidId: refGuidId, refTable: refTable, refCmp: refCmp, eleId: res.id, read: read
+            },
+            type: "Post",
+            success: function (result) {
+                $("#" + res.id).empty();
+                $("#" + res.id).html(result);
+            }
+        });
+
+    }
+
+    @if (ViewBag.errorAddImg != null)
+    {
+        <text>
+            Swal.fire({
+                title: "@ViewBag.errorAddImg",
+                icon: "error",
+                buttons: "ปิด",
+            });
+        </text>
+    }
+
+</script>
+
+
+
+
+

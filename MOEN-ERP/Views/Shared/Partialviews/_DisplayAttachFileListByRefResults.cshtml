@@ -1,0 +1,25 @@
+﻿@model List<MOEN_ERP.DAL.Models.AttachFile>
+
+@if (Model.Count > 0)
+{
+    int row = 1;
+    @foreach (var item in Model)
+    {
+        if (row == 1)
+        {
+            <a class="link-primary text-hover-dark" href="javascript:void;" onclick="window.open('@Url.Action("ViewAttachFile", "AttachFile", new { @id = item.RowGuid, refTable=item.ReferenceTable, refCmp=item.ReferenceGroup })', '_blank');">
+                @item.Filename
+            </a>
+        }
+        else
+        {
+            <br />
+
+            <a class="link-primary text-hover-dark" href="javascript:void;" onclick="window.open('@Url.Action("ViewAttachFile", "AttachFile", new { @id = item.RowGuid, refTable=item.ReferenceTable, refCmp=item.ReferenceGroup })', '_blank');">
+                @item.Filename
+            </a>
+        }
+
+        row++;
+    }
+}

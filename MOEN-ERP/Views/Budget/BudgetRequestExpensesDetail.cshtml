@@ -1,0 +1,261 @@
+﻿@section Title {
+	<span class="fs-1 fw-semibold">รายละเอียดค่าใช้จ่าย</span>
+
+}
+@section Breadcrumb {
+	<li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+	<li class="breadcrumb-item pe-3 text-muted">รายละเอียดค่าใช้จ่าย</li>
+}
+
+<div class="card">
+	<div class="card-body">
+
+		<div class="row mb-3">
+			<div class="col-md-12 mb-3">
+				<label class="col-form-label">งบรายจ่าย</label>
+				<input class="form-control form-control-sm" />
+			</div>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-md-12 mb-3">
+				<label class="col-form-label required">รายจ่าย</label>
+				<input class="form-control form-control-sm" />
+			</div>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-md-12 mb-3">
+				<label class="col-form-label">เหตุผลความจำเป็น</label>
+				<textarea class="form-control form-control-sm"> </textarea>
+			</div>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-md-4 mb-3">
+				<label class="col-form-label">จำนวนเงิน</label>
+				<input class="form-control form-control-sm" readonly/>
+			</div>
+		</div>
+
+		<div class="content">
+
+			<div class="row mt-5">
+				<div class="col-lg-12 text-end">
+					<button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#mdltab1"><i class="fa fa-plus"></i> เพิ่มรายการ</button>
+					<button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> ลบรายการ</button>
+				</div>
+
+				<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+					<table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 " id="tblExpenses">
+						<thead class="table-primary">
+							<tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+								<th class="text-center" width="50">
+									<input type="checkbox" value="1" />
+								</th>
+								<th class="text-center" width="50"></th>
+								<th class="text-center" style="width:5%">ลำดับ</th>
+								<th class="text-center">รายละเอียดค่าใช้จ่าย</th>
+								<th class="text-center">ราคาต่อหน่วย</th>
+								<th class="text-center">จำนวนหน่วย</th>
+								<th class="text-center">หน่วยนับ</th>
+								<th class="text-center">รวมจำนวนเงิน</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-center">
+									<input type="checkbox" value="1" />
+								</td>
+								<td class="text-center">
+									<a href="#" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+									   onclick="onpenModal('mdltab4-1')"
+									   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+										<i class="fa fa-edit fs-4"></i>
+									</a>
+								</td>
+								<td class="text-center">1</td>
+								<td class="text-center">เครื่องคอมพิวเตอร์โน๊ตบุ๊ค ยี่ห้อ Dell</td>
+								<td class="text-center">30,000</td>
+								<td class="text-center">เครื่อง</td>
+								<td class="text-center">1</td>
+								<td class="text-center"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row mt-10">
+			<div class="col-12">
+				<button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+				<a href="@Url.Action("BudgetRequestDetail","Budget")" class="btn btn-secondary btn-sm"><i class="fa fa-repeat"></i> กลับหน้าหลัก</a>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdltab1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title">
+					<label>เพิ่มรายการ</label>
+				</h3>
+				<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+					<i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+				</div>
+			</div>
+
+			<div class="modal-body">
+				<div class="row mb-3">
+					<div class="col-md-12 mb-3">
+						<label class="col-form-label required">รายละเอียดค่าใช้จ่าย</label>
+						<input class="form-control form-control-sm" />
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<label class="col-form-label required">ราคาต่อหน่วย</label>
+					<div class="col-md-6 mb-3">
+						<input class="form-control form-control-sm" />
+					</div>
+					<div class="col-md-6 mb-3">
+						<div class="input-group input-group-sm">
+							<span class="input-group-text">ต่อ</span>
+							<select name="ExpenseRateUnitId" class="form-select form-select-sm">
+								<option value="">กรุณาระบุ</option>
+								@foreach (var org in ViewBag.DropdownUnit)
+								{
+@* 									if (org.Value == Model.OrganizationId.ToString())
+									{
+										<option value="@org.Value" selected>@org.Text</option>
+									}
+									else
+									{
+										<option value="@org.Value">@org.Text</option>
+									} *@
+
+									<option value="@org.Value">@org.Text</option>
+								}
+							</select>							
+						</div>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<label class="col-form-label required">จำนวนหน่วย</label>
+					<div class="col-md-6 mb-3">
+						<input class="form-control form-control-sm" />
+					</div>
+					<div class="col-md-6 mb-3">
+						<select name="QuantityUnitId" class="form-select form-select-sm">
+							<option value="">กรุณาระบุ</option>
+							@foreach (var org in ViewBag.DropdownUnit)
+							{
+								@* 									if (org.Value == Model.OrganizationId.ToString())
+									{
+										<option value="@org.Value" selected>@org.Text</option>
+									}
+									else
+									{
+										<option value="@org.Value">@org.Text</option>
+									} *@
+
+								<option value="@org.Value">@org.Text</option>
+							}
+						</select>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col-md-6 mb-3">
+						<label class="col-form-label required">หน่วยนับ</label>
+						<input class="form-control form-control-sm" />
+					</div>
+					<div class="col-md-6 mb-3">
+						<label class="col-form-label">จำนวนเงิน</label>
+						<div class="input-group input-group-sm">
+							<input type="text" class="form-control form-control-sm" readonly>
+							<span class="input-group-text">บาท</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-primary" onclick="saveModal"><i class="fa fa-save"></i> บันทึก</button>
+				<button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+
+<script>
+
+	let expenseList = []; // เก็บรายการค่าใช้จ่าย
+
+	function onpenModal(id) {
+		$('#' + id).modal('show');
+	}
+
+	function saveModal(){
+		 // ดึงค่าจาก Modal
+		const expenseDetail = $("#modalExpenseDetail").val().trim();
+		const unitPrice = parseFloat($("#modalUnitPrice").val()) || 0;
+		const quantity = parseInt($("#modalQuantity").val()) || 0;
+		const total = unitPrice * quantity;
+
+		// ตรวจสอบว่ากรอกข้อมูลครบ
+		if (!expenseDetail || unitPrice <= 0 || quantity <= 0) {
+			alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+			return;
+		}
+
+		// เพิ่มข้อมูลลงใน Array
+		expenseList.push({
+			expenseDetail,
+			unitPrice,
+			quantity,
+			total
+		});
+
+		// อัปเดตตาราง
+		updateExpenseTable();
+
+		// ล้างข้อมูลใน Modal
+		$("#modalExpenseDetail").val("");
+		$("#modalUnitPrice").val("");
+		$("#modalQuantity").val("");
+
+		// ปิด Modal
+		$("#mdltab1").modal("hide");
+	}
+
+	function updateExpenseTable() {
+		const $tableBody = $("#tblExpenses tbody");
+		$tableBody.empty(); // ล้างข้อมูลเก่า
+
+		// วนลูปข้อมูลใน expenseList แล้วเพิ่มแถวในตาราง
+		expenseList.forEach((item, index) => {
+			const row = `
+				<tr>
+					<td class="text-center">${index + 1}</td>
+					<td>${item.expenseDetail}</td>
+					<td class="text-end">${item.unitPrice.toLocaleString()}</td>
+					<td class="text-end">${item.quantity}</td>
+					<td class="text-end">${item.total.toLocaleString()}</td>
+				</tr>
+			`;
+			$tableBody.append(row);
+		});
+	}
+</script>

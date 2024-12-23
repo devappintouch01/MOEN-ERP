@@ -1,0 +1,322 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">กำหนดการใช้งานเมนู</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">กำหนดการใช้งานเมนู</li>
+}
+
+<div class="card">
+
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>ค้นหา</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-3">
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ระดับการใช้งาน</label>
+                </div>
+                <div class="col-8 text-end">
+                    <select class="form-select form-select-sm">
+                        <option value="">เจ้าหน้าที่ดูแลระบบ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer text-center">
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div id="ctBody_ctBody_updList">
+
+            <div class="form-group row">
+                <div class="col-lg-12 text-right">
+                    <a onclick="showWait();" id="ctBody_ctBody_lnbCollapse" class="btn btn-warning btn-sm" href="javascript:__doPostBack('ctl00$ctl00$ctBody$ctBody$lnbCollapse','')"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</a>
+                    <a onclick="showWait();" id="ctBody_ctBody_lnbExpand" class="btn btn-info btn-sm" href="javascript:__doPostBack('ctl00$ctl00$ctBody$ctBody$lnbExpand','')"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</a>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div id="ctl00_ctl00_ctBody_ctBody_rtlBudgetRequest" class=" RadTreeList RadTreeList_Default table table-responsive-lg" style="border-width:0px;">
+                    <!-- 2018.2.710.45 --><table cellspacing="0" class="rtlTable rtlLines rtlHBorders rtlVBorders rtlHVBorders">
+                        <colgroup>
+                            <col style="width:23px;">
+                            <col style="width:23px;">
+                            <col style="width:11%;">
+                            <col style="width:5%;">
+                            <col style="width:7%;">
+                            <col style="width:8%;">
+                            <col style="width:10%;">
+                            <col style="width:22%;">
+                            <col style="width:27%;">
+                            <col style="width:10%;">
+                        </colgroup>
+                        <thead>
+                            <tr class="rtlHeader">
+                                <th scope="col" class=" rtlCF  " colspan="3" style="font-weight:bold;text-align:center;">เมนู</th>
+                                <th scope="col" style="font-weight:bold;text-align:center;">ใช้งาน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="rtlR" id="ctl00_ctl00_ctBody_ctBody_rtlBudgetRequest_ctl02__0" style="border-width:0px;">
+                                <td class="rtlL rtlL1"><input type="submit" name="ctl00$ctl00$ctBody$ctBody$rtlBudgetRequest$ctl02$ExpandCollapseButton" value=" " id="ctl00_ctl00_ctBody_ctBody_rtlBudgetRequest_ctl02_ExpandCollapseButton" class="rtlCollapse" fdprocessedid="v5jzr"></td>
+                                
+                                <td align="center">ระบบงานงบประมาณ</td>
+                            </tr>
+                            <tr class="rtlA" id="ctl00_ctl00_ctBody_ctBody_rtlBudgetRequest_ctl03__1">
+                                <td class="rtlL rtlL0">&nbsp;</td>
+
+                                <td class="rtlL rtlL2">&nbsp;</td>
+                                
+                                <td align="center">ของบประมาณ</td>
+                            </tr>
+                            <tr class="rtlR" id="ctl00_ctl00_ctBody_ctBody_rtlBudgetRequest_ctl04__2" style="border-width:0px;">
+                                <td class="rtlL rtlL0">&nbsp;</td>
+                                <td class="rtlL rtlL2">&nbsp;</td>
+                                
+                                <td align="center">จัดสรรงบประมาณ</td>
+                            </tr>
+                            <tr class="rtlA" id="ctl00_ctl00_ctBody_ctBody_rtlBudgetRequest_ctl05__3">
+                                <td class="rtlL rtlL0">&nbsp;</td>
+                                <td class="rtlL rtlL2">&nbsp;</td>
+                               
+                                <td align="center">ผูกพันงบประมาณ</td>
+                               
+                            </tr>
+                            <tr class="rtlR rtlRL rtlRL" id="ctl00_ctl00_ctBody_ctBody_rtlBudgetRequest_ctl06__4" style="border-width:0px;">
+                                <td class="rtlL rtlL0">&nbsp;</td>
+                                <td class="rtlL rtlL3">&nbsp;</td>
+                                
+                                <td align="center">ขออนุมัตค่าใช้จ่าย</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4 col-lg-6 col-xl-8">
+                    &nbsp;
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-2">
+                </div>
+                <div class="col-md-4 col-lg-3  col-xl-2">
+                    <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetail">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>ผู้ใช้งาน</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-5">
+                    <div class="col-md-12 mb-3 align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label ms-2" for="flexCheckDefault">
+                                ใช้งาน
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">ชื่อเข้าใช้งานระบบ</label>
+                        <input class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">รหัสผ่าน</label>
+                        <input class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">รายละเอียดพนักงาน</label>
+                        <div class="input-group">
+                            <input class="form-control form-control-sm" />
+                            <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-sm btn-secondary"><i class="fa fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">ชื่อ</label>
+                        <input class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">นามสกุล</label>
+                        <input class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">อีเมล</label>
+                        <input class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">รูปแบบการเข้าระบบ</label>
+                        <div class="row fv-row">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                    <input class="form-check-input" type="radio" value="2" name="rdo1">
+                                    <label class="form-check-label">
+                                        ERP System
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                    <input class="form-check-input" type="radio" value="3" name="rdo1">
+                                    <label class="form-check-label">
+                                        Active Directory
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">เข้าใช้งานล่าสุด</label>
+                        <input class="form-control form-control-sm" />
+                    </div>
+                </div>
+                <hr />
+                <div class="text-end">
+                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDetailRole">
+                        <i class="fa fa-plus"></i> เพิ่มระดับการใช้งาน
+                    </button>
+                </div>
+                <div class="row mb-3">
+                    <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                        <table id="table1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                    <th class="text-center"></th>
+                                    <th class="text-center">ระดับการใช้งาน</th>
+                                    <th class="text-center">วันที่เริ่มใช้งาน</th>
+                                    <th class="text-center">วันที่สิ้นสุด</th>
+                                    <th class="text-center">สถานะ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <button data-bs-toggle="modal" data-bs-target="#mdlDetailRole" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                                data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                            <i class="fa fa-edit fs-4"></i>
+                                        </button>
+                                        <a href="#" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                                           data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ">
+                                            <i class="fa fa-trash fs-4"></i>
+                                        </a>
+                                    </td>
+                                    <td class="text-center">เจ้าหน้าที่ดูแลระบบ</td>
+                                    <td class="text-center">15/07/2567</td>
+                                    <td class="text-center">15/07/2567</td>
+                                    <td class="text-center">ใช้งาน</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailRole">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>Role Details</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-5">
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">ระบบ</label>
+                        <select class="form-select form-select-sm">
+                            <option value="">กรุณาเลือก</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">ระดับการใช้งาน</label>
+                        <select class="form-select form-select-sm">
+                            <option value="">กรุณาเลือก</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">วันที่เริ่มใช้งาน</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">วันที่สิ้นสุด</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mt-5 mb-3">
+                        <div class="row fv-row">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                    <input class="form-check-input" type="radio" value="2" name="rdo5">
+                                    <label class="form-check-label">
+                                        ใช้งาน
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                    <input class="form-check-input" type="radio" value="3" name="rdo5">
+                                    <label class="form-check-label">
+                                        ไม่ใช้งาน
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#mdlDetail" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> ตกลง</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#mdlDetail" class="btn btn-sm btn-light"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/custom/datatable.js"></script>

@@ -1,0 +1,283 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">ทะเบียนคุมทรัพย์สิน</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">ทะเบียนคุมทรัพย์สิน</li>
+}
+
+<div class="card">
+
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>ค้นหา</h2>
+            </div>
+        </div>
+        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+            <a id="btnAdd" class="btn btn-success btn-sm" href="@Url.Action("AssetDurableArticlesDetail", "AssetDurableArticles")">
+                <i class="fa fa-plus"></i> สร้างใหม่
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-3">
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">เลขครุภัณฑ์</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">เลขสินทรัพย์</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ประเภทครุภัณฑ์</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">หมวดครุภัณฑ์</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">หน่วยงาน</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+
+            <div class="row col-md-6  mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">วันที่ได้รับทรัพย์สิน</label>
+                </div>
+                <div class="col-8">
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ถึง</label>
+                </div>
+                <div class="col-8">
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm datepickerinput" id="ApproveDateTo" placeholder="วว/ดด/ปปปป" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ยี่ห้อ ชนิด แบบขนาดและลักษณะ</label>
+                </div>
+                <div class="col-8">
+                    <textarea class="form-control form-control-sm" rows="2"></textarea>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">สถานที่จัดเก็บ/ใช้งาน</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">สถานะครุภัณฑ์</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ปีงบประมาณ</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 col-sm-4">
+                </div>
+                <div class="col-8 col-sm-8">
+                    <div class="row fv-row mb-3 mt-2">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                            <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="checkbox" value="1" name="rdo1">
+                                <small class="form-check-label">
+                                    เฉพาะครุภัณฑ์ที่เก็บอายุการใช้งาน
+                                </small>
+                            </div>
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="checkbox" value="2" name="rdo1">
+                                <small class="form-check-label">
+                                    เฉพาะครุภัณฑ์ต่ำกว่าเกณฑ์
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 col-sm-4">
+                </div>
+                <div class="col-8 col-sm-8">
+                    <div class="row fv-row mb-3 mt-2">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                            <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="checkbox" value="1" name="rdo1">
+                                <small class="form-check-label">
+                                    ยืม
+                                </small>
+                            </div>
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="checkbox" value="2" name="rdo1">
+                                <small class="form-check-label">
+                                    ซ่อมบำรุง
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="card-footer text-center">
+        <button type="submit" class="btn btn-primary btn-sm mb-lg-0 mb-sm-4"><i class="fa fa-search"></i> ค้นหา</button>
+        <button id="btnReset" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="GetExcel()"><i class="fa fa-file-excel"></i> ส่งออก Excel</button>
+
+    </div>
+
+</div>
+
+
+<div id="divResults"></div>
+
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="table1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center"></th>
+                        <th class="text-center" style="width:5%">#</th>
+                        <th class="text-center">วันที่ได้รับทรัพย์</th>
+                        <th class="text-center">เลขครุภัณฑ์</th>
+                        <th class="text-center">เลขสินทรัพย์</th>
+                        <th class="text-center">ยี่ห้อ ชนิด แบบขนาดและลักษณะ</th>
+                        <th class="text-center">ชื่อหมวดครุภัณฑ์</th>
+                        <th class="text-center">ประเภทครุภัณฑ์</th>
+                        <th class="text-center">ราคา/หน่วย</th>
+                        <th class="text-center">อายุการใช้งาน</th>
+                        <th class="text-center">สถานะการใช้งาน</th>
+                        <th class="text-center">หน่วยงาน</th>
+                        <th class="text-center">สถานที่จัดเก็บ/ใช้งาน</th>
+                        <th class="text-center">QR code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <a href="@Url.Action("AssetDurableArticlesDetail","Asset")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                            <a href="javascript:void;" onclick="Swal.fire({title: 'ต้องการลบไฟล์ ใช่หรือไม่?',icon: 'info',showDenyButton: true,confirmButtonText: 'ตกลง',denyButtonText: `ยกเลิก`,}).then((result) => {if (result.isConfirmed) {showWait();deleteImage('');}});">
+                                <i class="fa fa-trash text-danger"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">1</td>
+                        <td class="text-center"></td>
+                        <td class="text-center">ES-58-3-0300-01-010</td>
+                        <td class="text-center"></td>
+                        <td>เครื่องบันทึกเสียงยี่ห้อ ฆนืั</td>
+                        <td>เครื่องโสตทัศนูปกรณ์โทรทัศน์ โปรเจคเตอร์ ขาตั้งกล้อง กล้องถ่ายรูปและวีดีโอเครื่องชั่งดิจิตตัล</td>
+                        <td>ครุภัณฑ์โฆษณาและเผยแพร่</td>
+                        <td class="text-center">0.00</td>
+                        <td class="text-center">3</td>
+                        <td>ใช้งาน</td>
+                        <td class="text-center">อช.</td>
+                        <td class="text-center">40401</td>
+                        <td class="text-center"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        SetRealteDate('ApproveDateStart', 'ApproveDateTo');
+        // SetRealteDate('SearchUseDateFrom', 'SearchUseDateTo');
+
+        // $(function () {
+        //     $('#frmSearchConsiderCateringServiceRequestList').submit();
+        // });
+
+        // $('#btnResetSearch').click(function () {
+        //     $("#SearchBookingTypeId").val('').trigger('change');
+        //     $("#SearchBookerOrgId").val('').trigger('change');
+        //     $('#frmSearchConsiderCateringServiceRequestList')[0].reset();
+        //     $('#frmSearchConsiderCateringServiceRequestList').submit();
+        // });
+
+    </script>
+}

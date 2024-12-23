@@ -1,0 +1,79 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleQueueData.VehicleQueueDetailView
+
+@*<input type="hidden" name="SearchQueueDate" />*@
+@Html.HiddenFor(m => m.CurrentQueueDate)
+<div class="card">
+    <div class="card-header">
+
+        <div class="card-title align-items-start flex-column" style="width:70%">
+            <div class="row col-lg-12 col-md-12">
+                <div id="divPagination" class="col-lg-2 col-md-2 col-sm-4">
+                    <button type="button" onclick="SearchQueue('PreviousPage')" class="btn btn-sm btn btn-icon btn-secondary m-1"><i class="fa fa-angle-left"></i></button>
+                    <button type="button" onclick="SearchQueue('NextPage')" class="btn btn-sm btn btn-icon btn-secondary m-1"><i class="fa fa-angle-right"></i></button>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-4">
+                    <h2 class="m-2">คิวประจำวันที่ @(string.Format("{0:dd MMMM yyyy}", Model.CurrentQueueDate))</h2>
+                </div>
+
+            </div>
+        </div>
+        @* <div class="card-toolbar">
+        <div id="divManage">
+        <button id="btnEdit" class="btn btn-sm btn-danger m-1"><i class="fa fa-edit"></i> แก้ไข</button>
+        <button id="btnPrint" class="btn btn-sm btn-primary m-1"><i class="fa fa-print"></i> พิมพ์</button>
+        </div>
+        <div id="divEventManage" style="display:none">
+        <button id="btnSaveEdit" class="btn btn-sm btn-primary m-1"><i class="fa fa-save"></i> บันทึก</button>
+        <button id="btnCancelEdit" class="btn btn-sm btn-danger m-1"><i class="fa fa-times"></i> ยกเลิก</button>
+        <button id="btnClearAllData" class="btn btn-sm btn-danger m-1"><i class="fa fa-ban"></i> ล้างข้อมูล</button>
+        </div>
+        </div>*@
+
+    </div>
+</div>
+
+<div class="separator separator-dashed mt-5 mb-5"></div>
+
+<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+    <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+        <thead class="table-primary">
+            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                <th class="text-center" style="width:5%">ลำดับ</th>
+                <th class="text-center">ทะเบียน</th>
+                <th class="text-center">ผู้ขับ</th>
+                <th class="text-center">เวลาออก</th>
+                <th class="text-center">จุดหมายการเดินทาง</th>
+                <th class="text-center">เวลากลับ</th>
+                <th class="text-center">สำนัก/กอง</th>
+                <th class="text-center">ผู้ขอ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int rown = 1;
+            }
+            @foreach (var row in Model.VehicleQueueList)
+            {
+                
+                <tr>
+                    <td class="text-center">@rown</td>
+                    <td class="text-center">@row.VehicleRegistration</td>
+                    <td class="text-center">@row.DriverName</td>
+                    <td class="text-center">@row.GoTime</td>
+                    <td class="text-center">@row.TravelToLocation</td>
+                    <td class="text-center">@row.BackTime</td>
+                    <td class="text-center">@row.OrganizationName</td>
+                    <td class="text-center">@row.BookerName</td>
+                </tr>
+                rown++;
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+
+@*<script>
+
+</script>*@

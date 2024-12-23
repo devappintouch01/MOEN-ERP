@@ -1,0 +1,176 @@
+﻿@model MOEN_ERP.Models.ViewModel.AssetRequisitionMaterialCentralDetailModel
+
+@* <div class="card mt-10"> *@
+@* <div class="card-body"> *@
+<div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="tblAssetRequisitionMaterialCentralItem" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+            <thead class="table-primary">
+                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                     <th class="text-center" width="50">
+                            <input type="checkbox" value="1" id="chkSubAll"  onchange="SelectDelAll()"  />
+                     </th>
+                    <th class="text-center" style="width:5%">#</th>
+                    <th class="text-center">รายการ</th>
+                    <th class="text-center">หน่วย</th>
+                    <th class="text-center">จำนวนที่ขอเบิก</th>
+                    <th class="text-center">จำนวนที่จ่ายจริง</th>
+                    <th class="text-center">ราคาต่อหน่วย</th>
+                    <th class="text-center">รวมเป็นเงิน</th>
+                    <th class="text-center">หมายเหตุ</th>
+                    <th style="width:1px" hidden>Id</th>
+                    <th style="width:1px" hidden>MaterialId</th>
+                    <th style="width:1px" hidden>Available</th>
+                    <th style="width:1px" hidden>PreviousRequestAmount</th>
+                    <th style="width:1px" hidden>PreviousReceiveAmount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var no = 1;
+                }
+                   @*  foreach (var item in Model.lstVMaterialRequisitionItem) *@
+                    @foreach (var item in Model.lstVMaterialRequisitionItem ?? new List<MOEN_ERP.DAL.Models.VMaterialRequisitionItem>())
+                    {
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <input type="checkbox" value="1" id="chkSub" onchange="SelectDel()" />
+                                                            </td>
+                                                            <td class="text-center">@no</td>
+                                                            <td class="text-center">@item.MaterialName</td>
+                                                            <td class="text-center">@item.UnitName</td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm text-center" asp-for="@item.RequestAmount" value="@item.RequestAmount" onkeyup="CheckAmount(this)" onclick="CheckAmount(this)" />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm text-center" asp-for="@item.ReceiveAmount" value="@item.ReceiveAmount" onkeyup="CheckAmount(this)" onclick="CheckAmount(this)" />
+                                                            </td>
+                                                            <td class="text-center">@item.UnitPrice</td>
+                                                            <td class="text-center">@item.TotalPrice</td>
+                                                            <td>
+                                                                <input class="form-control form-control-sm text-center" value="@item.Remark" />
+                                                            </td>
+                                                            <td hidden>@item.Id</td>
+                                                            <td hidden>@item.MaterialStockId</td>
+                                                            <td hidden>@item.Available</td>
+                                                            <th style="width:1px"  hidden>@item.RequestAmount</th>
+                                                         <th style="width:1px"  hidden>@item.ReceiveAmount</th> 
+                                                        </tr>                        
+                        no++;
+                    }
+               
+            </tbody>
+        </table>
+    </div>
+
+
+<script>
+    $('#tblAssetRequisitionMaterialCentralItem').DataTable({
+        language: {
+            url: `${baseURL}/js/th.json`,
+        },
+        "paging": true,
+        "searching": false,
+        "lengthChange": true,
+        "lengthMenu": [25, 50, 100],
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: 'none',
+                target: ''
+            }
+        },
+        "pageLength": 25,
+        deferLoading: 10,
+        dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+    });
+</script>
+
+<script>   
+
+   
+    function CheckAmount(res) {
+
+        var requestVal;
+        var receiveVal;
+        var available;
+        var preRequestVal;
+        var preReceiveVal;
+        var blnChkOK;
+        //alert(res.value);
+        var tr = $(res).closest("tr");
+        rowindex = tr.index(); //this gives the number of the row, NOT index
+        // alert(rowindex);
+
+        var myTbl = null;
+        myTbl = document.getElementById("tblAssetRequisitionMaterialCentralItem");
+        var objCells = myTbl.rows.item(rowindex + 1).cells;
+       
+        requestVal = myTbl.rows[rowindex + 1].cells[4].getElementsByTagName('input')[0].value;
+        receiveVal = myTbl.rows[rowindex + 1].cells[5].getElementsByTagName('input')[0].value;
+        available = myTbl.rows[rowindex + 1].cells[11].innerHTML;
+        preRequestVal = myTbl.rows[rowindex + 1].cells[12].innerHTML;
+        preReceiveVal = myTbl.rows[rowindex + 1].cells[13].innerHTML;
+
+        blnChkOK = true;     
+        
+        if (requestVal == '') {
+            requestVal = 0;
+        }
+        if (receiveVal == '') {
+            receiveVal = 0;
+        }
+        if (available == '') {
+            available = 0;
+        }
+
+        //1. Check Receive <= Request
+        if (parseInt(receiveVal) > parseInt(requestVal)) {                      
+                Swal.fire({ title: 'จำนวนที่จ่ายจริง มากกว่า จำนวนที่ขอเบิก ไม่ได้', text: '', icon: 'warning' });
+                blnChkOK = false;
+                myTbl.rows[rowindex + 1].cells[4].getElementsByTagName('input')[0].value = parseInt(preRequestVal);
+                myTbl.rows[rowindex + 1].cells[5].getElementsByTagName('input')[0].value = parseInt(preReceiveVal);
+            }       
+
+        //2. Check Request , Receive <= Available
+        if (blnChkOK == true) {
+            if (parseInt(requestVal) > parseInt(available)) {                   
+                Swal.fire({ title: 'จำนวนที่ขอเบิก มากกว่า จำนวนคงเหลือในStock ไม่ได้', text: '', icon: 'warning' });
+                blnChkOK = false;
+                myTbl.rows[rowindex + 1].cells[4].getElementsByTagName('input')[0].value = parseInt(preRequestVal);
+            }
+        }  
+
+        if (blnChkOK == true)
+        {
+            myTbl.rows[rowindex + 1].cells[12].innerHTML = parseInt(requestVal);
+            myTbl.rows[rowindex + 1].cells[13].innerHTML = parseInt(receiveVal);
+        }
+       
+    }
+
+
+    function SelectDelAll() {       
+
+        var grid = null;
+        var checkBoxes = null;
+        grid = document.getElementById("tblAssetRequisitionMaterialCentralItem");
+        checkBoxes = grid.getElementsByTagName("INPUT");
+
+        if (checkBoxes[0].checked) {
+
+            for (var i = 1; i < checkBoxes.length; i++) {
+                var row = checkBoxes[i].parentNode.parentNode;
+                checkBoxes[i].checked = true;
+            }
+        }
+        else {           
+            for (var i = 1; i < checkBoxes.length; i++) {
+                checkBoxes[i].checked = false;
+            }
+        }
+    }
+</script>

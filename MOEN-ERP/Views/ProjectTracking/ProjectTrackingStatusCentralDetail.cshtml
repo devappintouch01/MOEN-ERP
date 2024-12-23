@@ -1,0 +1,104 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">ติดตามสถานะการดำเนินงานโครงการ</span>
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">ติดตามสถานะการดำเนินงานโครงการ</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label ">ปีงบประมาณ</label>
+                <input class="form-control form-control-sm"  value=""  disabled/>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label ">หน่วยงาน</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label ">สถานะ</label>
+                <input class="form-control form-control-sm" value="" disabled />
+            </div>
+
+            <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-10">
+                <table id="tblMain" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                    <thead class="table-primary">
+                        <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                            <th class="text-center" width="40"></th>
+                            <th class="text-center" style="width:5%">#</th>
+                            <th class="text-center">ปีงบประมาณ</th>
+                            <th class="text-center">ชื่อโครงการ</th>
+                            <th class="text-center">สถานะ</th>
+                            <th class="text-center">ผลการเบิกจ่าย</th>
+                            <th class="text-center">ผลการดำเนินการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">
+                                <a href="@Url.Action("ProjectTrackingStatusDetail","ProjectTracking")" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="รายละเอียด">
+                                    <i class="fa fa-search fs-4"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">1</td>
+                            <td class="text-center">2567</td>
+                            <td class="text-center">ชื่อโครงการ 1</td>
+                            <td class="text-center">กำลังดำเนินการ</td>
+                            <td>
+                                <small>ผลการเบิกจ่าย</small>
+                                <div class="progress" style="height: 40px;" >
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                            <td>
+                                <small>ผลดำเนินการ</small>
+                                <div class="progress" style="height: 40px;" >
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <small>ผลการเบิกจ่าย</small>
+                                <div class="progress" style="height: 40px;" >
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                            <td>
+                                <small>ผลดำเนินการ</small>
+                                <div class="progress" style="height: 40px;" >
+                                    <div class="progress-bar " role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="mt-10 row">
+            <div class="col-12">
+                <a href="@Url.Action("ProjectTrackingStatusList","ProjectTracking")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+            </div>
+        
+        </div>
+    </div>
+</div>
+

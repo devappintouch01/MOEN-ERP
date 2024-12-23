@@ -1,0 +1,203 @@
+﻿@using Newtonsoft.Json
+@model MOEN_ERP.DAL.Models.VMaterialInItem
+
+@using (Html.AjaxBeginForm("SaveMaterialInItem", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divlstVMaterialInItems" }, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetail">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>รายการวัสดุ</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row mb-3">
+
+                        <input type="hidden" name="guidPage" value="@ViewBag.guidPage" />
+                        @Html.HiddenFor(x => x.MaterialInId)
+                        @Html.HiddenFor(x => x.Id)
+                        @Html.HiddenFor(x => x.CreateBy)
+                        @Html.HiddenFor(x => x.CreateOn)
+
+                        <div class="col-md-8 mb-3">
+                            <label class="col-form-label">รายการวัสดุ <span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" data-control="select2"
+                                    asp-for="MaterialId" asp-items="ViewBag.VMasterMaterial">
+                                <option value="">ทั้งหมด</option>
+                            </select>
+                            <small class="text-danger d-none" id="reqMaterialId">
+                                กรุณาเลือกรายการวัสดุ
+                            </small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">หมวดพัสดุ</label>
+                            <input class="form-control form-control-sm" asp-for="Gpsccode" readonly />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">ราคาต่อหน่วย (ก่อน VAT) <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" asp-for="UnitPriceNoVat">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                            <small class="text-danger d-none" id="reqUnitPriceNoVat">
+                                กรุณากรอกราคาต่อหน่วย (ก่อน VAT)
+                            </small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class=" col-form-label form-check form-check-custom">
+                                <input class="form-check-input" type="checkbox" name="chkIncludeVat" id="IncludeVat" value="Y" checked="@(Model.IncludeVat == "Y")">
+                                <label class="form-check-label">
+                                    คิด VAT
+                                </label>
+                            </label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" asp-for="Vat">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">ราคาต่อหน่วย (หลัง VAT) <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" asp-for="UnitPrice">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                            <small class="text-danger d-none" id="reqUnitPrice">
+                                กรุณากรอกราคาต่อหน่วย (หลัง VAT)
+                            </small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนที่รับ <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" asp-for="ReceiveAmount">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                            <small class="text-danger d-none" id="reqReceiveAmount">
+                                กรุณากรอกจำนวนที่รับ
+                            </small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">หน่วย <span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" data-control="select2"
+                                    asp-for="UnitId" asp-items="ViewBag.MasterUnit">
+                                <option value=""></option>
+                            </select>
+                            <small class="text-danger d-none" id="reqUnitId">
+                                กรุณากรอกหน่วย
+                            </small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">ราคารวม <span class="text-danger">*</span></label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" asp-for="TotalPrice">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                            <small class="text-danger d-none" id="reqTotalPrice">
+                                กรุณากรอกราคารวม
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="submitFormMaterialInItem()"><i class="fa fa-save"></i> บันทึก</button>
+                    <button type="submit" class="d-none" id="btnSubmitMaterialInItem"></button>
+                    <button type="button" class="btn btn-sm btn-light" id="btnCloseMdlMaterialInItem" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
+<script>
+
+    var lst = @Html.Raw(JsonConvert.SerializeObject(ViewBag.lstVMasterMaterial));
+
+    $('#MaterialId').change(function () {
+        var selectedMaterialId = $(this).val();
+
+        var selectedMaterial = lst.find(function (material) {
+            return material.Id == selectedMaterialId;
+        });
+        if (selectedMaterial) {
+            $('#Gpsccode').val(selectedMaterial.Gpsccode);
+        } else {
+            $('#Gpsccode').val('');
+        }
+    });
+
+    function recalculatePrices() {
+        var vatValue = parseFloat($('#Vat').val());
+        var unitPriceNoVat = parseFloat($('#UnitPriceNoVat').val());
+        var receiveAmount = parseFloat($('#ReceiveAmount').val());
+
+        if (isNaN(unitPriceNoVat)) unitPriceNoVat = 0;
+        if (isNaN(vatValue)) vatValue = 0;
+        if (isNaN(receiveAmount)) receiveAmount = 0;
+
+        var unitPriceWithVat = unitPriceNoVat + (unitPriceNoVat * (vatValue / 100));
+        $('#UnitPrice').val(unitPriceWithVat.toFixed(2));
+
+        var totalPrice = unitPriceWithVat * receiveAmount;
+        $('#TotalPrice').val(totalPrice.toFixed(2));
+    }
+
+    $('#IncludeVat').change(function () {
+        if ($(this).is(':checked')) {
+            $('#Vat').val('7');
+        } else {
+            $('#Vat').val('0');
+        }
+        recalculatePrices();
+    });
+
+    $('#UnitPriceNoVat, #Vat, #ReceiveAmount').change(function () {
+        recalculatePrices();
+    });
+
+    $('#mdlDetail').modal('show');
+
+    function submitFormMaterialInItem() {
+        var submit = true;
+        if ($("#MaterialId").val() == "") {
+            $('#reqMaterialId').removeClass("d-none");
+            submit = false;
+        }
+        if ($("#UnitPriceNoVat").val() == "") {
+            $('#reqUnitPriceNoVat').removeClass("d-none");
+            submit = false;
+        }
+        if ($("#UnitPrice").val() == "") {
+            $('#reqUnitPrice').removeClass("d-none");
+            submit = false;
+        }
+        if ($("#ReceiveAmount").val() == "") {
+            $('#reqReceiveAmount').removeClass("d-none");
+            submit = false;
+        }
+        if ($("#UnitId").val() == "") {
+            $('#reqUnitId').removeClass("d-none");
+            submit = false;
+        }
+        if ($("#TotalPrice").val() == "") {
+            $('#reqTotalPrice').removeClass("d-none");
+            submit = false;
+        }
+
+        if (submit) {
+            $("#btnSubmitMaterialInItem").click();
+        }
+    }
+
+
+
+</script>

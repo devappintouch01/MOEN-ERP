@@ -1,0 +1,294 @@
+﻿@model List<MOEN_ERP.Models.RawData.VMeetingRoom>
+@*@using MOEN_ERP.Models.RawData;*@
+@*@using MOEN_ERP.Models.Data;*@
+@using MOEN_ERP.Models.ViewModel.MeetingRoomCalendar;
+
+<style>
+    .border-z-1 {
+        border: solid !important;
+        border-width: 1px;
+    }
+
+
+    /*#calendar {
+            max-width: 1100px;
+            margin: 40px auto;
+        }*/
+
+    .fc-daygrid-event {
+        white-space: normal !important;
+        align-items: normal !important;
+    }
+
+    .fc-h-event .fc-event-main-frame {
+        display: block; /* for make fc-event-title-container expand */
+        color: black;
+    }
+
+</style>
+
+@section Breadcrumb{
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">จองห้องประชุม</li>
+}
+
+@{
+    var curUser = (new Appz(this.Context).CurrentSignInUser);
+    //var lstRoomDevices = (List<VMeetingRoomDevice>)ViewBag.lstRoomDevices;
+    //var lstFileData = (List<AttachFile>)ViewBag.lstFileData;
+    var lst = (List<MeetingRoomCalendarSlideImage>)ViewBag.MeetingRoomDetailList;
+}
+
+
+
+@if (curUser?.SystemInfo?.SystemInfoId == 2)
+{
+    @section Title{
+    <span class="fs-1 fw-semibold"> จองห้องประชุม</span>
+        }
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">กดเลือกห้องประชุมเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="card-body p-1">
+
+
+            <div class="slider-container m-0">
+                <ul class="controls" id="customize-controls" aria-label="Carousel Navigation" tabindex="0">
+                    <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
+                        <button type="button" class="btn btn-icon btn-active-color-primary">
+                            <span class="svg-icon svg-icon-3x">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.2657 11.4343L15.45 7.25C15.8642 6.83579 15.8642 6.16421 15.45 5.75C15.0358 5.33579 14.3642 5.33579 13.95 5.75L8.40712 11.2929C8.01659 11.6834 8.01659 12.3166 8.40712 12.7071L13.95 18.25C14.3642 18.6642 15.0358 18.6642 15.45 18.25C15.8642 17.8358 15.8642 17.1642 15.45 16.75L11.2657 12.5657C10.9533 12.2533 10.9533 11.7467 11.2657 11.4343Z" fill="currentColor"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </li>
+                    <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
+                        <button type="button" class="btn btn-icon btn-active-color-primary">
+                            <span class="svg-icon svg-icon-3x">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.6343 12.5657L8.45001 16.75C8.0358 17.1642 8.0358 17.8358 8.45001 18.25C8.86423 18.6642 9.5358 18.6642 9.95001 18.25L15.4929 12.7071C15.8834 12.3166 15.8834 11.6834 15.4929 11.2929L9.95001 5.75C9.5358 5.33579 8.86423 5.33579 8.45001 5.75C8.0358 6.16421 8.0358 6.83579 8.45001 7.25L12.6343 11.4343C12.9467 11.7467 12.9467 12.2533 12.6343 12.5657Z" fill="currentColor"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </li>
+                </ul>
+                <div class="my-slider">
+
+                    @*@foreach (var item in Model)
+                {
+                <div class="text-center px-2 py-2 slider-item">
+                <div class="card h-auto" style="background-color: @item.Hexcode;">
+                <button onclick="showDetail('divDetail@(@item.RoomId)')" class="btn btn-link btn-sm p-0" style="width:100%; height:195px">
+                <img src="@Url.Action("ViewAttachFileByRef", "AttachFile", new { refTable = "MeetingRoom", Id = item.RoomId })" class="card-image-fit">
+                </button>
+                <div class="card-body p-2 pb-0">
+                <div class="row">
+                <button onclick="showDetail('divDetail@(@item.RoomId)')" class="btn btn-link btn-sm p-0">
+                <p class="card-text text-white">
+                @item.RoomName
+                </p>
+                </button>
+                </div>
+                <div class="row p-2">
+                <a href="@Url.Action("MeetingRoomBookingDetail","MeetingRoomBooking",new { pMeetingRoomId = item.RoomId})" class="btn btn-sm bg-white text-black"><i class="fa fa-calendar text-black"></i> จอง</a>
+                </div>
+
+                </div>
+                </div>
+                </div>
+                }*@
+
+                    @for (int i = 0; i < lst.Count(); i++)
+                    {
+                        <div class="text-center px-2 py-2 slider-item">
+                            <div class="card h-auto border border-secondary">
+
+                                <div class="card-body p-2 pb-0">
+                                    <a href="javascript:void(0)" onclick="showDetailRoom(@lst[i].MeetingRoomId);">
+                                        <div class="card-image-container">
+                                            <div class="card-image-in-container card-image-center ">
+                                                @if (lst[i].RowGuid != null)
+                                                {
+                                                    <img src="@Url.Action("ViewAttachFileImage", "AttachFile", new { @Id = lst[i].RowGuid })" class="card-image-fit" alt="@lst[i].MeetingRoomDetail">
+
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/assets/media/misc/image.png" class="card-image-fit" alt="@lst[i].MeetingRoomDetail">
+                                                }
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="card-footer p-2 pt-4" style="background-color: @lst[i].MeetingRoomColor; min-height: 60px;">
+                                    <div class="row">
+                                        <span class="fw-bold fs-7">@lst[i].MeetingRoomDetail</span>
+                                    </div>
+
+                                    <div class="row p-2 pb-0">
+                                        <a href="@Url.Action("MeetingRoomBookingDetail","MeetingRoomBooking",new { pMeetingRoomId = @lst[i].MeetingRoomId})" class="btn btn-sm bg-white text-black"><i class="fa fa-calendar text-black"></i> จอง</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="divCalendarRoom" class="card mt-10">
+        <div class="card-body">
+            <div class="col-xxl-12 col-xl-12 col-md-12">
+                <div id='calendarRoom'></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divDetailRoom" class="card mt-10 d-none">
+    </div>
+
+
+}
+
+
+
+
+
+
+<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ModalTitile"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id='calendar1' class="modal-body">
+            </div>
+            <br />
+            <div class="modal-footer  justify-content-between ">
+                <div class="row mb-3">
+                    <div class="col-lg">
+                        <span class="fs-3 col-lg-7">สัญลักษณ์ของสถานะเส้นเวลา</span>
+
+                        <button class="btn btn-warning" disabled></button>
+                        <span>แจ้งความจำนงว่าจะใช้</span>
+
+                        <button class="btn btn-success" disabled></button>
+                        <span>จองและยืนยันแล้ว</span>
+
+                        @*                            <button class="btn btn-danger" disabled></button>
+                        <span>ห้ามใช้</span>
+                        *@
+                        <button class="btn btn-white border border-dark" disabled></button>
+                        <span>ว่าง</span>
+                    </div>
+
+                </div>
+                <div class="">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* <div class="modal fade" id="modalMeetingChange" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ModalTitile">เลือกรายการจองที่ต้องการเปลี่ยนห้องประชุม</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        <div class="row">
+                            <label class="col-lg-4 col-md-4">เลือกรายการจอง </label>
+                            <div class="col-lg-8 col-md-8">
+                                <select class="form-select form-select-sm">
+                                    <option selected>009 ประชุม</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <div class="modal-footer  justify-content-between ">
+                <div class="row mb-3">
+                </div>
+                <div class="">
+                    <button class="btn btn-primary" data-bs-target="#modalMeetingChange" data-bs-toggle="modal">ยืนยัน</button>
+                    <button class="btn btn-secondary" data-bs-target="#modalMeetingChange" data-bs-toggle="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+
+
+
+@section Scripts{
+    <script src="~/js/pages/MeetingRoomCalendar/MeetingRoomDashboard.js"></script>
+    <script>
+        const slider = tns({
+            container: '.my-slider',
+            loop: false,
+            items: 1,
+            slideBy: 'page',
+            nav: false,
+            autoplay: false,
+            speed: 400,
+            autoplayButtonOutput: false,
+            mouseDrag: true,
+            lazyload: true,
+            controlsContainer: "#customize-controls",
+            responsive: {
+                540: {
+                    items: 2,
+                },
+                640: {
+                    items: 3,
+                },
+                800: {
+                    items: 4,
+                },
+                900: {
+                    items: 5,
+                },
+                1200: {
+                    items: 7,
+                }
+            }
+        });
+
+
+        function showDetailRoom(_meetingRoomIdId) {
+            showWait();
+            var url = '@Url.Action("GetMeetingRoomDetail","MeetingRoomCalendar")';
+            $.get(url, { pMeetingRoomId: _meetingRoomIdId }).done(function (data) {
+                $('#divDetailRoom').html(data);
+                hideWait();
+            });
+
+            //$('#divCalendarCar').addClass("d-none");
+            //$('#divDetailCar').removeClass("d-none");
+            document.getElementById("divCalendarRoom").classList.add("d-none");
+            document.getElementById("divDetailRoom").classList.remove("d-none");
+        }
+
+    </script>
+ }

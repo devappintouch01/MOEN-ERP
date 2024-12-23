@@ -1,0 +1,475 @@
+﻿@model MOEN_ERP.Models.Data.AssetTransferDetailModel
+
+@section Title {
+    <span class="fs-1 fw-semibold">โอนพัสดุ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">โอนพัสดุ</li>
+}
+@using (Html.BeginForm("SaveAssetTransferList", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.assetTransfer.StatusId)
+    @Html.HiddenFor(x => x.assetTransfer.Id)
+    @Html.HiddenFor(x => x.guidPage)
+    @Html.HiddenFor(x => x.assetTransfer.TransferDate)
+    @Html.HiddenFor(x => x.assetTransfer.ReceiveDate)
+
+    if (Model.assetTransfer.DocumentDate == null)
+    {
+        Model.assetTransfer.DocumentDate = DateTime.Now;
+    }
+
+    var statusName = "";
+    if (Model.assetTransfer.StatusId != null)
+    {
+        var listSatus = ViewBag.MasterStatus as List<SelectListItem>;
+        statusName = listSatus?.Where(x => x.Value == Model.assetTransfer.StatusId.ToString()).FirstOrDefault()?.Text;
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขที่เอกสาร</label>
+                    <input class="form-control form-control-sm" readonly asp-for="assetTransfer.Code" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">วันที่เอกสาร </label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="assetTransfer.DocumentDate" id="DocumentDate" value="@Model.assetTransfer.DocumentDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                        <small class="text-danger d-none" id="reqDocumentDate">
+                            กรุณากรอกวันที่เอกสาร
+                        </small>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">สถานะ</label>
+                    <input class="form-control form-control-sm" readonly value="@statusName" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">หน่วยงานที่รับโอน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetTransfer.DestinationOrganizationId" asp-items="ViewBag.MasterOrganization">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+                <div class="col-md-8 mb-3">
+                    <label class="col-form-label required">เนื่องจาก</label>
+                    <textarea class="form-control form-control-sm" rows="2" name="assetTransfer.Detail" id="Detail">@Model.assetTransfer.Detail</textarea>
+                    <small class="text-danger d-none" id="reqDetail">
+                        กรุณากรอกเนื่องจาก
+                    </small>
+                </div>
+                <br />
+                <hr />
+
+                <div class="col-md-12 mb-3">
+                    <div class="col-md-6 mb-1">
+                        <label class="col-form-label">รายการครุภัณฑ์</label>
+                    </div>
+
+                    <div class="col-lg-12 text-end">
+                        <button type="button" class="btn btn-success btn-sm" id="btnMdlTab1" data-bs-toggle="modal" data-bs-target="#mdlDetailVasset"><i class="fa fa-plus"></i> เพิ่มรายการ</button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeTableTab1()"><i class="fa fa-trash"></i> ลบรายการ</button>
+                    </div>
+
+                    <div id="divlstTab1">
+                        @await Html.PartialAsync("_tableAssetTransferDetailTab1", Model)
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้โอน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetTransfer.TransferOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้รับโอน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetTransfer.ReceiveOfficerId" asp-items="ViewBag.VOfficer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่โอน </label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" readonly value="@Model.assetTransfer.TransferDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่รับโอน </label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" readonly value="@Model.assetTransfer.ReceiveDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                </div>
+                <div class="col-md-8 mb-3">
+                    <label class="col-form-label">หมายเหตุส่งกลับ</label>
+                    <textarea class="form-control form-control-sm" rows="2" disabled></textarea>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่ส่งกลับ </label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" readonly value="" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ไฟล์แนบ </label>
+                    <div id="fileList"></div>
+                </div>
+            </div>
+
+            <div class="mt-10 row">
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="submitForm('btnsave')"><i class="fa fa-save"></i> บันทึก</button>
+                    <button class="d-none" id="btnsave"></button>
+                    @* <button class="btn btn-warning btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button> *@
+                    @if (Model.assetTransfer.Id != 0)
+                    {
+                        <a class="btn btn-danger btn-sm text-end" onclick="return confirm('ต้องการลบรายการนี้หรือไม่')"
+                        href="@Url.Action("DelAssetTransferDetail", "Asset", new {atId = Model.assetTransfer.Id , guidPage = Model.guidPage})">
+                        <i class="fa fa-trash"></i> ลบ</a>
+                    }
+                    <a href="@Url.Action("AssetTransferList","Asset")" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้าหลัก</a>
+                    <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+                </div>
+
+                <div class="col-6 text-end">
+                    @*  <button type="button" class="btn btn-success btn-sm"><i class="fa fa-check"></i> อนุมัติ</button>
+                <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> ไม่อนุมัติ</button>
+                <button class="btn btn-warning btn-sm"><i class="fas fa-share"></i> ส่งกลับแก้ไข</button>
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDetail2" style="background-color:Tomato;"><i class="fas fa-check"></i> รับโอน</button> *@
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDetailHistory"><i class="fa fa-history"></i> ประวัติการพิจารณา</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailVasset">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายการทรัพย์สิน</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.AjaxBeginForm("GetListVAssetTransfer", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblVAsset" }, new { enctype = "multipart/form-data", id = "frmSearchVAsset" }))
+                {
+                    <input type="hidden" id="transfer" name="transfer" value="true" readonly />
+
+                    <div class="row mb-3">
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขครุภัณฑ์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <input class="form-control form-control-sm" name="vasCode" id="vasCode" />
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขสินทรัพย์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <input class="form-control form-control-sm" name="vasAssetNumberGFMIS" id="vasAssetNumberGFMIS" />
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">หมวดหมู่ครุภัณฑ์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <select class="form-select form-select-sm" data-control="select2" name="vasAssetTypeId" asp-items="ViewBag.MasterAssetType">
+                                    <option value="">ทั้งหมด</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">หมวดหมู่ย่อย</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <select class="form-select form-select-sm" data-control="select2" name="vasAssetClassId" asp-items="ViewBag.MasterAssetClass">
+                                    <option value="">ทั้งหมด</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                            <button type="button" id="btnVAssetResetSearch" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                        </div>
+                    </div>
+                }
+                <div id="divTblVAsset"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" onclick="AddVAsset()"><i class="fa fa-save"></i> เลือกรายการที่ระบุ</button>
+                <button type="button" class="btn btn-warning btn-sm" onclick="AddAllVAsset()"><i class="fa fa-check"></i> เลือกรายการทั้งหมด</button>
+                <button type="button" id="closeMdlVAsset" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#btnMdlTab1').click(function () {
+        $('#btnVAssetResetSearch').click();
+    });
+    $('#btnVAssetResetSearch').click(function () {
+        setTimeout(
+            function () {
+                $('#transfer').val('true');
+                $('#frmSearchVAsset').submit();
+            }, 500);
+    });
+
+    function AddVAsset() {
+        var selectedIds = [];
+        var checkboxes = document.querySelectorAll('.item-checkbox-Vasset:checked');
+
+        checkboxes.forEach(function (checkbox) {
+            selectedIds.push(checkbox.value);
+        });
+
+        if (selectedIds.length > 0) {
+            $.ajax({
+                url: '@Url.Action("SaveVAssetTransferSelect", "Asset")',
+                type: 'POST',
+                data: { lstId: selectedIds, guidPage: '@Model.guidPage' },
+                success: function (response) {
+                    $('#divlstTab1').html(response);
+                },
+                error: function () {
+                    alert('เกิดข้อผิดพลาดในการบันทึก');
+                }
+            });
+        } else {
+            alert('กรุณาเลือกอย่างน้อย 1 รายการ');
+        }
+    }
+
+    function AddAllVAsset() {
+        var checkboxes = document.querySelectorAll('.item-checkbox-Vasset');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = true;
+        });
+        AddVAsset();
+    }
+
+</script>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetail2">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายการรับโอน</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">วันที่รับโอน <span class="text-danger">*</span></label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="Date1" id="Date1" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                        <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+
+                                    <th class="text-center" style="width:5%">#</th>
+                                    <th class="text-center">รายการ</th>
+                                    <th class="text-center">เลขสินทรัพย์ <span class="text-danger">*</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">กระดาษถ่ายเอกสาร A4</td>
+                                    <td class="text-center">
+                                        <input class="form-control form-control-sm" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailHistory">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>ประวัติการพิจารณา</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                        <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                    <th class="text-center" style="width:5%">#</th>
+                                    <th class="text-center">วันที่</th>
+                                    <th class="text-center">ผู้ดำเนินการ</th>
+                                    <th class="text-center">ผู้ดำเนินการลำดับถัดไป</th>
+                                    <th class="text-center">การดำเนินการ</th>
+                                    <th class="text-center">ความคิดเห็น</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">09/08/2567</td>
+                                    <td class="text-center">เจ้าหน้าที่ทดสอบ 1</td>
+                                    <td class="text-center">เจ้าหน้าที่พัสดุ 1</td>
+                                    <td class="text-center">ส่งเรื่องพิจารณา</td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">10/08/2567</td>
+                                    <td class="text-center">เจ้าหน้าที่พัสดุ 1</td>
+                                    <td class="text-center">เจ้าหน้าที่ทดสอบ 1</td>
+                                    <td class="text-center">ส่งกลับแก้ไข</td>
+                                    <td class="text-center"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @*   <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div> *@
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+
+        function submitForm(type) {
+            var submit = true;
+
+            if ($("#Detail").val() == "") {
+                $('#reqDetail').removeClass("d-none");
+                $(window).scrollTop($('#Detail').offset().top - 150);
+                submit = false;
+            }
+
+
+            if ($("#DocumentDate").val() == "") {
+                $('#reqDocumentDate').removeClass("d-none");
+                $(window).scrollTop($('#DocumentDate').offset().top - 150);
+                submit = false;
+            }
+
+            if (submit) {
+                $("#" + type).click();
+            }
+        }
+
+        SetInputDate('DocumentDate');
+
+        AttachFile('fileList', '@Model.assetTransfer.Id', 'FileGuidId', null, 'AssetTransfer’', null, false, false);
+
+        $('#tblTab1').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+    </script>
+
+
+}

@@ -1,0 +1,128 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MOEN_ERP</RootNamespace>
+    <AssemblyVersion></AssemblyVersion>
+    <FileVersion>1.0.3.7</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\NewFolder\**" />
+    <Content Remove="Controllers\NewFolder\**" />
+    <EmbeddedResource Remove="Controllers\NewFolder\**" />
+    <None Remove="Controllers\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Master\_modalMasterAssetTypeSub.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_WebToolingArtifacts Remove="Properties\PublishProfiles\Deploy-Jaida.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.Unobtrusive.Ajax" Version="2.0.0" />
+    <PackageReference Include="DNTCaptcha.Core" Version="4.4.2" />
+    <PackageReference Include="EPPlus" Version="6.2.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MOEN-ERP.DAL\MOEN-ERP.DAL.csproj" />
+    <ProjectReference Include="..\MOEN-ERP.Global\MOEN-ERP.Global.csproj" />
+    <ProjectReference Include="..\MOEN-ERP.Models\MOEN-ERP.Models.csproj" />
+    <ProjectReference Include="..\MOEN-ERP.Reports\MOEN-ERP.Reports.csproj" />
+    <ProjectReference Include="..\MOEN-ERP.Utilities\MOEN-ERP.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\plugins\jquery\" />
+    <Folder Include="wwwroot\assets\plugins\jquery-validation\" />
+    <Folder Include="wwwroot\assets\plugins\jquery-validation-unobtrusive\" />
+    <Folder Include="wwwroot\images\car\" />
+    <Folder Include="wwwroot\images\files\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Asset\_tableAssetRequisitionMaterialCentral.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalEventCancelVehicleBooking.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalEventPreviewBooking.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalEventPreviewBookingConfirm.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalEventPreviewBookingRefuse.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalEventPreviewVehicleQueue.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalEventRecordVehicleBooking.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalManageMaintenanceDetails.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalPreviewFile.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalViewVehicleDetail.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalViewVehicleDriverDetail.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ModalViewVehicleQueue.cshtml" />
+    <None Include="Views\Shared\Partialviews\Vehicle\_ViewVehicleQueueResults.cshtml" />
+    <None Include="Views\VehicleCalendar\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Asset\_tableVAnnualCheck.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Master\_tableMasterAssetTypeSub.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\MeetingReports\AudioVisualServiceStatistics.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\MeetingReports\BookingCancelStatistics.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\MeetingReports\CeteringServiceReports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\MeetingReports\CeteringServiceStatistics.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\MeetingReports\MeetingRoomReports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\MeetingReports\MeetingRoomStatistics.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Master\_modalMasterAssetTypeSub.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Master\_modalMasterAssetTypeSub.cshtml" />
+  </ItemGroup>
+
+</Project>

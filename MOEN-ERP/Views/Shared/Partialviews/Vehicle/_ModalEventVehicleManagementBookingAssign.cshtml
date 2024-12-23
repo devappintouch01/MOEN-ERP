@@ -1,0 +1,269 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleManagementBookingAssign
+
+
+<form id="frmModalEventManageVehicleManagementBookingAssign" asp-action="EventManageVehicleManagementBookingAssign" asp-controller="Shared">
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalEventManageVehicleManagementBookingAssign">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    @if (Model?.EventModel?.ActionType == "new")
+                    {
+                        <h3 class="modal-title"><span class="btn btn-sm btn-icon bg-success"><i class="fa fa-plus text-white"></i></span> เพิ่มยานพาหนะ</h3>
+                    }
+                    else
+                    {
+                        <h3 class="modal-title"><span class="btn btn-sm btn-icon bg-warning"><i class="fa fa-edit text-white"></i></span> แก้ไขการจัดยานพาหนะ</h3>
+                    }
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+
+                  
+
+                    @Html.HiddenFor(x => x.BookingAssign.Id)
+                    @Html.HiddenFor(x => x.BookingAssign.VehicleBookingId)
+                    @Html.HiddenFor(x => x.EventModel.ActionType)
+
+                    <div class="row mb-3 fv-row">
+                        <label class="col-form-label col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 text-lg-end">วันที่เดินทาง <span class="required"></span> : </label>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm datepickerinput" asp-for="BookingAssign.TravelFromDate" asp-format="{0:dd/MM/yyyy}" />
+                                <span class="input-group-text" id="basic-addon2">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 fv-row">
+                        <label class="col-form-label col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 text-lg-end">วันที่กลับ <span class="required"></span> : </label>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm datepickerinput" asp-for="BookingAssign.TravelToDate" asp-format="{0:dd/MM/yyyy}" />
+                                <span class="input-group-text" id="basic-addon2">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 fv-row">
+                        <label class="col-form-label col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 text-lg-end">ประเภทยานพาหนะ <span class="required"></span> : </label>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <select class="form-select form-select-sm" data-control="select2" data-placeholder="กรุณาเลือก"  asp-for="BookingAssign.VehicleTypeId" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownVehicleTypeModal,"Value","Text"))">
+                                <option value="0">เลือกรายการ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 fv-row">
+                        <label class="col-form-label col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 text-lg-end">เลขทะเบียน <span class="required"></span> : </label>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <select class="form-select form-select-sm" data-control="select2" data-placeholder="กรุณาเลือก"  asp-for="BookingAssign.VehicleId" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownVehicleTypeRegistrationModal,"Value","Text"))">
+                                <option value="0">เลือกรายการ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 fv-row">
+                        <label class="col-form-label col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 text-lg-end">พนักงานขับรถ <span class="required"></span> : </label>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <select class="form-select form-select-sm" data-control="select2" data-placeholder="กรุณาเลือก"  asp-for="BookingAssign.DriverId" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownOfficerDriverModal,"Value","Text"))">
+                                <option value="0">เลือกรายการ</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="modal-footer justify-content-between">
+
+                    <div>
+                        <button type="submit" class="btn btn-primary btn-sm">ยืนยัน</button>
+                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">ปิด</button>
+                    </div>
+
+                    <div>
+                        <button id="btnQueueAssign" type="button" data-url="@Url.Action("ViewVehicleQueue","Shared")" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> คิวการเดินรถ</button>
+                    </div>          
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="divModalQueueAssign"></div>
+
+@{
+    string dateFrom = Model.BookingAssign.TravelFromDate?.ToString("yyyy-MM-ddTHH:mm:ss");
+    string dateTo = Model.BookingAssign.TravelToDate?.ToString("yyyy-MM-ddTHH:mm:ss");
+}
+
+<script>
+     //SetRealteMinDate('BookingAssign_TravelFromDate', 'BookingAssign_TravelToDate');
+     SetBetweenDate('BookingAssign_TravelFromDate', '@dateFrom', '@dateTo');
+     SetBetweenDate('BookingAssign_TravelToDate', '@dateFrom', '@dateTo');
+
+    inintDropdownDriverForAssign('#BookingAssign_TravelFromDate', '#BookingAssign_TravelToDate', '#BookingAssign_VehicleTypeId', '#BookingAssign_VehicleId', '#BookingAssign_DriverId');
+
+    inintDropdownVehicleForAssign('#BookingAssign_TravelFromDate', '#BookingAssign_TravelToDate', '#BookingAssign_VehicleTypeId', '#BookingAssign_VehicleId');
+
+    $('#btnQueueAssign').click(function (e) {
+        e.preventDefault();
+        showWait();
+        var url = $(this).data('url');
+
+        $.get(url).done(function (data) {
+            $('#divModalQueueAssign').html(data);
+            $('#divModalQueueAssign').find('.modal').modal('show');
+            hideWait();
+        });
+    });
+
+    
+
+    var validatorformModalEventManageVehicleManagementBookingAssign;
+    $(function () {
+        // Define form element
+        const formModalEventManageVehicleManagementBookingAssign = document.getElementById('frmModalEventManageVehicleManagementBookingAssign');
+
+        validatorformModalEventManageVehicleManagementBookingAssign = FormValidation.formValidation(
+            formModalEventManageVehicleManagementBookingAssign,
+            {
+
+                fields: {
+
+                    'BookingAssign.TravelFromDate': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุวันที่เดินทาง'
+                            },
+                            
+                        }
+                    },
+                    'BookingAssign.TravelToDate': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุวันที่กลับ'
+                            },
+
+                        }
+                    },
+                    'BookingAssign.VehicleTypeId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุประเภทยานพาหนะ'
+                            },
+                            callback: {
+                                message: 'กรุณาระบุประเภทยานพาหนะ',
+                                callback: function (input) {
+                                    if (input.value == '0') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'BookingAssign.VehicleId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเลขทะเบียน'
+                            },
+                            callback: {
+                                message: 'กรุณาระบุเลขทะเบียน',
+                                callback: function (input) {
+                                    if (input.value == '0') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'BookingAssign.DriverId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุพนักงานขับรถ'
+                            },
+                            callback: {
+                                message: 'กรุณาระบุพนักงานขับรถ',
+                                callback: function (input) {
+                                    if (input.value == '0') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+
+
+                },
+
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        );
+
+
+    });
+
+    //---- Save ----//
+
+    $('#frmModalEventManageVehicleManagementBookingAssign').submit(async function (e) {
+        //--
+        // debugger
+        e.preventDefault();
+        var $valid = await validatorformModalEventManageVehicleManagementBookingAssign.validate().then(function (status) { return status });
+        if ($valid != 'Valid') return false;
+        //--
+        showWait();
+        //--post
+        $.post($(this).attr('action'), $(this).serialize(), function (res) {
+            hideWait();
+            if (res.type == "success") {
+                Swal.fire({ title: 'บันทึกข้อมูลสำเร็จ', text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            
+
+                            var urlGetAssign = '@Url.Action("GetVehicleManagementBookingAssignList","Shared")';
+                            $.get(urlGetAssign, { pVehicleBookingId: $('#BookingAssign_VehicleBookingId').val() }).done(function (data) {
+                                $('#divTableAssignList').html(data);
+                                $('#divTableAssignList').find('.modal').modal('show');
+                                hideWait();
+                            });
+
+                            $('#modalEventManageVehicleManagementBookingAssign').modal('hide');
+
+                        }
+                    });
+            }
+            else {
+                Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+            }
+        }, 'json');
+
+        //--post end
+        return false;
+        //--
+    });
+
+
+
+</script>

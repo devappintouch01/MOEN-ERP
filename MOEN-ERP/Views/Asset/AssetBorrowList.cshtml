@@ -1,0 +1,161 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">ใบยืมครุภัณฑ์</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">ใบยืมครุภัณฑ์</li>
+}
+
+<div class="card">
+
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>ค้นหา&nbsp;&nbsp;</h2>
+                <input id="btnFilter" onclick="showHideFilter()" type="button" style="border:unset; font-size:x-small;" value="แสดง"></input><button style="border:unset; font-size:x-small;" onclick=" showHideFilter()"> <i class="fas fa-angle-down"></i></button>
+            </div>
+        </div>
+        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+            <a id="btnAdd" class="btn btn-success btn-sm" href="@Url.Action("AssetBorrowDetail","Asset")">
+                <i class="fa fa-plus"></i> สร้างใหม่
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body" id="divFilter" style="display: none;">
+        @using (Html.AjaxBeginForm("AssetBorrowList", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tbl" }, new { enctype = "multipart/form-data", id = "searchForm" }))
+        {
+
+            <div class="row mb-3">
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">ประเภทการยืม</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select form-select-sm" name="AssetBorrowType" >
+                            <option value="">ทั้งหมด</option>
+                            <option value="I">เพื่อใช้ภายในส่วนราชการ</option>
+                            <option value="O">เพื่อนำออกไปใช้ภายนอกส่วนราชการ</option>
+                            <option value="D">ยืมระหว่างกรม</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row col-md-6  mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">สถานะ</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select form-select-sm" name="StatusId" asp-items="ViewBag.GetMasterStatus">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row col-md-6  mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">วันที่ยืม</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm " placeholder="วว/ดด/ปปปป" name="DocumentDateFrom" id="DocumentDateFrom" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">ถึง</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm " placeholder="วว/ดด/ปปปป" name="DocumentDateTo" id="DocumentDateTo" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-md-12 mb-3">
+                    <div class="col-4 col-sm-2">
+                    </div>
+                    <div class="col-8 col-sm-10">
+                        <div class="row fv-row mb-3 mt-2">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="radio" value="" name="IsReturn" checked>
+                                    <label class="form-check-label">
+                                        ทั้งหมด
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="radio" value="Y" name="IsReturn">
+                                    <label class="form-check-label">
+                                        คืนครบแล้ว
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="radio" value="N" name="IsReturn">
+                                    <label class="form-check-label">
+                                        คืนไม่ครบ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer text-center">
+                <button id="btnSearch" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="tbl"></div>
+
+
+@section Scripts {
+    <script>
+        SetInputDate('DocumentDateFrom');
+        SetInputDate('DocumentDateTo');
+
+        $("#btnSearch").click();
+        $('#btnResetSearch').click(function () {
+            setTimeout(
+                function () {
+                    $('#searchForm').submit();
+                }, 500);
+        });
+
+
+        function showHideFilter() {
+            var x = document.getElementById("divFilter");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+
+            var elem = document.getElementById("btnFilter");
+            if (elem.value == "ซ่อน") elem.value = "แสดง";
+            else elem.value = "ซ่อน";
+        }
+    </script>
+
+    @if (ViewBag.success != null)
+    {
+        <script>
+            Swal.fire('@ViewBag.success', '', 'success');
+        </script>
+    }
+}

@@ -1,0 +1,260 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">ทะเบียนคุมทรัพย์สิน(อาคารและสิ่งปลูกสร้าง)</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">ทะเบียนคุมทรัพย์สิน(อาคารและสิ่งปลูกสร้าง)</li>
+}
+
+<div class="card">
+
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>ค้นหา&nbsp;&nbsp;</h2>
+                <input id="btnFilter" onclick="showHideFilter()" type="button" style="border:unset; font-size:x-small;" value="แสดง"></input><button style="border:unset; font-size:x-small;" onclick=" showHideFilter()"> <i class="fas fa-angle-down"></i></button>
+            </div>
+        </div>
+        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+            <a id="btnAdd" class="btn btn-success btn-sm" href="@Url.Action("AssetBuildingDetail", "Asset")">
+                <i class="fa fa-plus"></i> สร้างใหม่
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body" id="divFilter" style="display: none;">
+        @using (Html.AjaxBeginForm("AssetBuildingList", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tbl" }, new { enctype = "multipart/form-data", id = "searchForm" }))
+        {
+            <input type="hidden" name="AssetCategory" value="B" />
+            <div class="row mb-3">
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">เลขครุภัณฑ์</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control form-control-sm" name="Code" />
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">เลขสินทรัพย์</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control form-control-sm" name="AssetNumberGFMIS" />
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">หมวดหมู่ครุภัณฑ์</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select form-select-sm" data-control="select2" name="AssetTypeId" asp-items="ViewBag.MasterAssetType">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">หมวดหมู่ย่อย</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select form-select-sm" data-control="select2" name="AssetClassId" asp-items="ViewBag.MasterAssetClass">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">หน่วยงาน</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select form-select-sm" data-control="select2" name="OrganizationId" asp-items="ViewBag.MasterOrganization">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">ศูนย์ต้นทุน</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select form-select-sm" data-control="select2" name="CostCenterId" asp-items="ViewBag.MasterCostCenter">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+
+                <div class="row col-md-6  mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">วันที่ได้รับทรัพย์สิน</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="ReceiveDateFrom" id="ReceiveDateFrom" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">ถึง</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="ReceiveDateTo" id="ReceiveDateTo" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">ชื่อรายการ</label>
+                    </div>
+                    <div class="col-8">
+                        <textarea class="form-control form-control-sm" rows="2" name="AssetName"></textarea>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">สถานที่จัดเก็บ/ใช้งาน</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select form-select-sm" data-control="select2" name="StorePlaceId" asp-items="ViewBag.MasterStorePlace">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">สถานะ</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select form-select-sm" data-control="select2" name="AssetStatus">
+                            <option value="">ทั้งหมด</option>
+                            <option value="A">ใช้งาน</option>
+                            <option value="C">ตัดจำหน่าย</option>
+                            <option value="W">รอจำหน่าย</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">ปีงบประมาณ</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control form-control-sm" name="BudgetYear" />
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 col-sm-4">
+                    </div>
+                    <div class="col-8 col-sm-8">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                            <div class="form-check  form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" value="Y" name="IsExpire">
+                                <label class="col-form-label ms-2">
+                                    เฉพาะครุภัณฑ์ที่เกินอายุการใช้งาน
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                </div>
+
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 col-sm-4">
+                    </div>
+                    <div class="col-8 col-sm-8">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" value="Y" name="IsAssetNumberGFMIS">
+                                <label class="col-form-label ms-2">
+                                    เฉพาะครุภัณฑ์ที่มีเลขสินทรัพย์
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-footer text-center">
+                <button id="btnSearch" type="submit" class="btn btn-primary btn-sm mb-lg-0 mb-sm-4"><i class="fa fa-search"></i> ค้นหา</button>
+                <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                <button type="button" class="btn btn-success btn-sm" onclick="GetExcel()"><i class="fa fa-file-excel"></i> ส่งออก Excel</button>
+                <button type="button" class="btn btn-warning btn-sm"><i class="fa fa-file-import"></i> นำเข้า Excel</button>
+
+            </div>
+        }
+    </div>
+
+
+</div>
+
+
+<div id="tbl"></div>
+
+
+@section Scripts {
+    <script>
+        SetRealteDate('ReceiveDateFrom', 'ReceiveDateTo');
+
+        $("#btnSearch").click();
+        $('#btnResetSearch').click(function () {
+            setTimeout(
+                function () {
+                    $('#searchForm').submit();
+                }, 500);
+        });
+
+        function showHideFilter() {
+            var x = document.getElementById("divFilter");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+
+            var elem = document.getElementById("btnFilter");
+            if (elem.value == "ซ่อน") elem.value = "แสดง";
+            else elem.value = "ซ่อน";
+        }
+    </script>
+
+
+    @if (ViewBag.success != null)
+    {
+        <script>
+            Swal.fire('@ViewBag.success', '', 'success');
+        </script>
+    }
+    @if (ViewBag.error != null)
+    {
+        <script>
+            Swal.fire('@ViewBag.error', '', 'error');
+        </script>
+    }
+}

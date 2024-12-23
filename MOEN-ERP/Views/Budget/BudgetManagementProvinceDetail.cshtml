@@ -1,0 +1,100 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายละเอียดทะเบียนคุมงบจังหวัด/งบกลุ่มจังหวัด</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายละเอียดทะเบียนคุมงบจังหวัด/งบกลุ่มจังหวัด</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label ">หน่วยงาน</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="col-form-label">ชื่อโครงการ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label ">รายรับ</label>
+                <input class="form-control form-control-sm" readonly/>
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label ">รายจ่าย</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label ">คงเหลือ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label ">เดือน</label>
+                <select class="form-select form-select-sm">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3  align-self-end">
+                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+            </div>
+
+
+            <div class="col-md-12 mb-3 mt-4">
+                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                    <table id="table1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                        <thead class="table-primary">
+                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                <th class="text-center">ลำดับ</th>
+                                <th class="text-center">วันที่</th>
+                                <th class="text-center">กิจกรรม</th>
+                                <th class="text-center">รายรับ</th>
+                                <th class="text-center">รายจ่าย</th>
+                                <th class="text-center">คงเหลือ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center"></td>
+                                <td class="text-center">ส่งเริ่มระบบผลิตไฟฟ้าด้วยพลังงานแสงอาทิตย์</td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-10">
+            <div class="col-12">
+                <a href="@Url.Action("BudgetManagementProvinceList","Budget")" class="btn btn-secondary btn-sm"><i class="fa fa-repeat"></i> กลับหน้าหลัก</a>
+                <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+                <button type="button" class="btn btn-success btn-sm"><i class="fa fa-file-excel"></i> Export Excel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

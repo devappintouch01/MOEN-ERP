@@ -1,0 +1,367 @@
+﻿@model MOEN_ERP.Models.Data.DashboardMeeting
+
+@section Title{
+    <span class="fs-1 fw-semibold">Dashboard</span>
+
+}
+@section Breadcrumb{
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">Dashboard</li>
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row col-12">
+    <div class="card mb-6">
+        <div class="card-body">
+            <div class="row col-12">
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <div class="card text-light">
+                        <div class="card-header bg-primary bg-opacity-75">
+                            <div class="row col-12">
+                                <div class="col-8 pt-3">
+                                    <b style="font-size: 50px;">@(Model?.VDashboardMeetingRoom?.MeetingRoomBookingPerMonth ?? 0)</b>
+                                </div>
+                                <div class="col-4 text-end pt-6">
+                                    <i class="fa fa-users opacity-50 text-light" style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-12 p-2">
+                                    <b class="text-light">จำนวนผู้เข้าประชุมรายเดือน</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-primary text-center p-2">
+                            <a href="@Url.Action("MeetingRoomDashboard","MeetingRoomCalendar")" class="text-light">ปฏิทินการจองห้องประชุม <i class="fa fa-arrow-circle-right text-light"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <div class="card text-light">
+                        <div class="card-header bg-success bg-opacity-75">
+                            <div class="row col-12">
+                                <div class="col-8 pt-3">
+                                    <b style="font-size: 50px;">@(Model?.VDashboardMeetingRoom?.AudioVisualServiceRequestPerMonth ?? 0)</b>
+                                </div>
+                                <div class="col-4 text-end pt-6">
+                                    <i class="fa fa-headphones opacity-50 text-light" style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-12 p-2">
+                                    <b class="text-light">จำนวนการขอใช้บริการโสตทัศน์ประจำเดือน</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-success text-center p-2">
+                            <a href="@Url.Action("AudioVisualServiceRequestDetail","AudioVisualServiceRequest")" class="text-light">ขอใช้บริการโสตทัศน์ <i class="fa fa-arrow-circle-right text-light"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <div class="card text-light">
+                        <div class="card-header" style="background-color:orange; opacity:.75">
+                            <div class="row col-12">
+                                <div class="col-8 pt-3">
+                                    <b style="font-size: 50px;">@(Model?.VDashboardMeetingRoom?.CateringServiceRequestPerMonth ?? 0)</b>
+                                </div>
+                                <div class="col-4 text-end pt-6">
+                                    <i class="fa fa-coffee opacity-50 text-light" style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-12 p-2">
+                                    <b class="text-light">จำนวนการขอใช้บริการจัดเลี้ยงประจำเดือน</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center p-2" style="background-color:orange">
+                            <a href="@Url.Action("CateringServiceRequestDetail","CateringServiceRequest")" class="text-light">ขอใช้บริการจัดเลี้ยง <i class="fa fa-arrow-circle-right text-light"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <div class="card text-light">
+                        <div class="card-header bg-danger bg-opacity-75">
+                            <div class="row col-12">
+                                <div class="col-8 pt-3">
+                                    <b style="font-size: 50px;">@(Model?.VDashboardMeetingRoom?.VideoConferenceBookingPerMonth ?? 0)</b>
+                                </div>
+                                <div class="col-4 text-end pt-6">
+                                    <i class="fa fa-video-camera opacity-50 text-light" style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-12 p-2">
+                                    <b class="text-light">จำนวนการขอสร้างบัญออนไลน์ประจำเดือน</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-danger text-center p-2">
+                            <a href="@Url.Action("VideoConferenceBookingList","ConferenceBooking")" class="text-light">สร้างบัญชีออนไลน์ <i class="fa fa-arrow-circle-right text-light"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-6">
+        <div class="card-body">
+            <div class="row col-12">
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <a data-ajax="true" data-ajax-method="POST"
+                       data-ajax-mode="replace" data-ajax-update="#mdl"
+                       href="@Url.Action("GetTableVDashboardMeetingRoom","MeetingRoomDashboard")">
+                        <div class="card mb-3 border border-primary">
+                            <div class="row g-0">
+                                <div class="col-md-4 col-sm-12 bg-primary text-center p-5">
+                                    <i class="fa fa-home  text-light " style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-md-8 col-sm-12 pt-4 ps-4 pe-4">
+                                    <div class="">
+                                        <h4>จำนวนห้องประชุม</h4>
+                                        <h1>@(Model?.VDashboardMeetingRoom?.MeetingRoomCount ?? 0)</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <a data-ajax="true" data-ajax-method="POST"
+                       data-ajax-mode="replace" data-ajax-update="#mdl"
+                       href="@Url.Action("GetTableAudioVisualService","MeetingRoomDashboard")">
+                        <div class="card mb-3 border border-success">
+                            <div class="row g-0">
+                                <div class="col-md-4 col-sm-12 bg-success text-center p-5">
+                                    <i class="fa fa-headphones  text-light " style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-md-8 col-sm-12 pt-4 ps-4 pe-4">
+                                    <div class="">
+                                        <h4>จำนวนห้องโสตทัศน์</h4>
+                                        <h1>@(Model?.VDashboardMeetingRoom?.AudioVisualServiceCount ?? 0)</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <a data-ajax="true" data-ajax-method="POST"
+                       data-ajax-mode="replace" data-ajax-update="#mdl"
+                       href="@Url.Action("GetTableCateringRestaurant","MeetingRoomDashboard")">
+                        <div class="card mb-3 border border-warning">
+                            <div class="row g-0">
+                                <div class="col-md-4 col-sm-12  text-center p-5" style="background-color:orange">
+                                    <i class="fa fa-coffee  text-light " style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-md-8 col-sm-12 pt-4 ps-4 pe-4">
+                                    <div class="">
+                                        <h4>จำนวนร้านอาหาร</h4>
+                                        <h1>@(Model?.VDashboardMeetingRoom?.CateringRestaurantCount ?? 0)</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <a data-ajax="true" data-ajax-method="POST"
+                       data-ajax-mode="replace" data-ajax-update="#mdl"
+                       href="@Url.Action("GetTableVideoConferenceLicense","MeetingRoomDashboard")">
+                        <div class="card mb-3 border border-danger">
+                            <div class="row g-0">
+                                <div class="col-md-4 col-sm-12 bg-danger text-center p-5">
+                                    <i class="fa fa-video-camera  text-light " style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-md-8 col-sm-12 pt-4 ps-4 pe-4">
+                                    <div class="">
+                                        <h4>จำนวนห้องประชุมออนไลน์</h4>
+                                        <h1>@(Model?.VDashboardMeetingRoom?.VideoConferenceLicenseCount ?? 0)</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row col-12">
+    <div class="col-md-4 col-sm-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row col-12">
+                    <h2>สถิติการจองห้องประชุมประจำเดือน</h2>
+                    <canvas id="chart1" width="400" height="400"></canvas>
+                    <table class="mt-4">
+                        <tr class="mb-2">
+                            <th>ห้องประชุม</th>
+                            <th class="text-end">จำนวน</th>
+                        </tr>
+                        @foreach (var item in Model?.VDashboardMeetingRoomBookingStatistic)
+                        {
+                            <tr class="mb-2">
+                                <td>@item.MeetingRoomName</td>
+                                <td class="text-end">@item.BookingPerMonth</td>
+                            </tr>
+                        }
+
+                        <tr class="mb-2">
+                            <th>รวม</th>
+                            <th class="text-end">@(Model?.VDashboardMeetingRoomBookingStatistic?.Sum(x => x.BookingPerMonth))</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row col-12">
+                    <h2>สถิติการขอใช้บริการโสตทัศน์ประจำเดือน</h2>
+                    <canvas id="chart2" width="400" height="400"></canvas>
+                    <table class="mt-4">
+                        <tr class="mb-2">
+                            <th>ประเภทบริการ</th>
+                            <th class="text-end">จำนวน</th>
+                        </tr>
+                        @foreach (var item in Model?.VDashboardAudioVisualServiceRequestStatistic)
+                        {
+                            <tr class="mb-2">
+                                <td>@item.AudioVisualServiceName</td>
+                                <td class="text-end">@item.RequestPerMonth</td>
+                            </tr>
+                        }
+
+                        <tr class="mb-2">
+                            <th>รวม</th>
+                            <th class="text-end">@(Model?.VDashboardAudioVisualServiceRequestStatistic?.Sum(x => x.RequestPerMonth))</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row col-12">
+                    <h2>สถิติการขอใช้บริการจัดเลี้ยงประจำเดือน</h2>
+                    <canvas id="chart3" width="400" height="400"></canvas>
+                    <table class="mt-4">
+                        <tr class="mb-2">
+                            <th>สถานที่</th>
+                            <th class="text-end">จำนวน</th>
+                        </tr>
+                        @foreach (var item in Model?.VDashboardCateringServiceRequestStatistic)
+                        {
+                            <tr class="mb-2">
+                                <td>@item.MeetingRoomName</td>
+                                <td class="text-end">@item.RequestPerMonth</td>
+                            </tr>
+                        }
+
+                        <tr class="mb-2">
+                            <th>รวม</th>
+                            <th class="text-end">@(Model?.VDashboardCateringServiceRequestStatistic?.Sum(x => x.RequestPerMonth))</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row col-12">
+                    <h2>สถิติการจองห้องประชุมออนไลน์ประจำเดือน</h2>
+                    <canvas id="chart4" width="400" height="400"></canvas>
+                    <table class="mt-4">
+                        <tr class="mb-2">
+                            <th>แอพพลิเคชั่น</th>
+                            <th class="text-end">จำนวน</th>
+                        </tr>
+                        @foreach (var item in Model?.VDashboardVideoConferenceBookingStatistic)
+                        {
+                            <tr class="mb-2">
+                                <td>@item.VideoConferenceName</td>
+                                <td class="text-end">@item.BookingPerMonth</td>
+                            </tr>
+                        }
+
+                        <tr class="mb-2">
+                            <th>รวม</th>
+                            <th class="text-end">@(Model?.VDashboardVideoConferenceBookingStatistic?.Sum(x => x.BookingPerMonth))</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mdl"></div>
+
+<script>
+    var ctx1 = document.getElementById('chart1').getContext('2d');
+    var data1 = {
+        datasets: [{
+            data: [@Html.Raw(string.Join(",", Model?.VDashboardMeetingRoomBookingStatistic.Select(d => d.BookingPerMonth)))],
+        }],
+        labels: [@Html.Raw(string.Join(",", Model?.VDashboardMeetingRoomBookingStatistic.Select(d => $"\"{d.MeetingRoomName}\"")))]
+    };
+    getChart(ctx1, data1);
+
+    var ctx2 = document.getElementById('chart2').getContext('2d');
+    var data2 = {
+        datasets: [{
+            data: [@Html.Raw(string.Join(",", Model?.VDashboardAudioVisualServiceRequestStatistic.Select(d => d.RequestPerMonth)))],
+        }],
+        labels: [@Html.Raw(string.Join(",", Model?.VDashboardAudioVisualServiceRequestStatistic.Select(d => $"\"{d.AudioVisualServiceName}\"")))]
+    };
+    getChart(ctx2, data2);
+
+    var ctx3 = document.getElementById('chart3').getContext('2d');
+    var data3 = {
+        datasets: [{
+            data: [@Html.Raw(string.Join(",", Model?.VDashboardCateringServiceRequestStatistic.Select(d => d.RequestPerMonth)))],
+        }],
+        labels: [@Html.Raw(string.Join(",", Model?.VDashboardCateringServiceRequestStatistic.Select(d => $"\"{d.MeetingRoomName}\"")))]
+    };
+    getChart(ctx3, data3);
+
+    var ctx4 = document.getElementById('chart4').getContext('2d');
+    var data4 = {
+        datasets: [{
+            data: [@Html.Raw(string.Join(",", Model?.VDashboardVideoConferenceBookingStatistic.Select(d => d.BookingPerMonth)))],
+        }],
+        labels: [@Html.Raw(string.Join(",", Model?.VDashboardVideoConferenceBookingStatistic.Select(d => $"\"{d.VideoConferenceName}\"")))]
+    };
+    getChart(ctx4, data4);
+
+    function getChart(ctx, data) {
+        var options = {
+            cutoutPercentage: 50,
+        };
+
+        var myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: options
+        });
+    }
+
+
+</script>

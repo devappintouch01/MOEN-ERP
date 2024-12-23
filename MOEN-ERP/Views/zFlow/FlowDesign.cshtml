@@ -1,0 +1,217 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">โฟลว์</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">โฟลว์</li>
+}
+
+<!-- Include the jQuery file -->
+<script src="~/js/zflow-jquery-0.0.1.js"></script>
+<link rel="stylesheet" href="~/css/zflow-0.0.1.css" />
+
+<div class="card">
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>ค้นหา</h2>
+            </div>
+        </div>
+        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+            <button id="openFlowBtn" class="btn btn-secondary btn-sm">Open Modal</button>
+            <a id="btnAdd" class="btn btn-success btn-sm" href="@Url.Action("AssetDurableArticlesDetail", "AssetDurableArticles")">
+                <i class="fa fa-plus"></i> สร้างใหม่
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-3">
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">เลขครุภัณฑ์</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">เลขสินทรัพย์</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ประเภทครุภัณฑ์</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">หมวดครุภัณฑ์</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">หน่วยงาน</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+
+            <div class="row col-md-6  mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">วันที่ได้รับทรัพย์สิน</label>
+                </div>
+                <div class="col-8">
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ถึง</label>
+                </div>
+                <div class="col-8">
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm datepickerinput" id="ApproveDateTo" placeholder="วว/ดด/ปปปป" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ยี่ห้อ ชนิด แบบขนาดและลักษณะ</label>
+                </div>
+                <div class="col-8">
+                    <textarea class="form-control form-control-sm" rows="2"></textarea>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">สถานที่จัดเก็บ/ใช้งาน</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">สถานะครุภัณฑ์</label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ปีงบประมาณ</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 col-sm-4">
+                </div>
+                <div class="col-8 col-sm-8">
+                    <div class="row fv-row mb-3 mt-2">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                            <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="checkbox" value="1" name="rdo1">
+                                <small class="form-check-label">
+                                    เฉพาะครุภัณฑ์ที่เก็บอายุการใช้งาน
+                                </small>
+                            </div>
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="checkbox" value="2" name="rdo1">
+                                <small class="form-check-label">
+                                    เฉพาะครุภัณฑ์ต่ำกว่าเกณฑ์
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 col-sm-4">
+                </div>
+                <div class="col-8 col-sm-8">
+                    <div class="row fv-row mb-3 mt-2">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                            <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="checkbox" value="1" name="rdo1">
+                                <small class="form-check-label">
+                                    ยืม
+                                </small>
+                            </div>
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="checkbox" value="2" name="rdo1">
+                                <small class="form-check-label">
+                                    ซ่อมบำรุง
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="card-footer text-center">
+        
+
+        <button type="submit" class="btn btn-primary btn-sm mb-lg-0 mb-sm-4"><i class="fa fa-search"></i> ค้นหา</button>
+        <button id="btnReset" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="GetExcel()"><i class="fa fa-file-excel"></i> ส่งออก Excel</button>
+
+    </div>
+
+</div>
+
+
+
+

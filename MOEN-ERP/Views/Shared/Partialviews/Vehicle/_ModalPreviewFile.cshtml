@@ -1,0 +1,42 @@
+﻿@model MOEN_ERP.Models.ViewModel.PreviewFile
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalPreviewFile">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                @switch (Model.ReportName)
+                {
+                    case "RPT_VehicleGatePassTicket":
+                        <h3 class="modal-title">ใบผ่านประตู</h3>
+                        break;
+
+                }
+
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+
+                @switch (Model.ReportName)
+                {
+                    case "RPT_VehicleGatePassTicket":
+                        <iframe name="Preview" id="Preview" src='@Url.Action("Pfd","GenerateFile",new{ReportName = "RPT_VehicleGatePassTicket", ReportId = @Model.ReportId })' onload="hideWait();" style="width: 100%; height: 800px;">
+                        </iframe>
+                        break;
+
+                }
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>

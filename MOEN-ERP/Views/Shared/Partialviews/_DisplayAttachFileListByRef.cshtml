@@ -1,0 +1,24 @@
+﻿@*@model Model.*@
+
+<div id="divModalSelectSnackAtttachResults_@Model">
+
+</div>
+
+
+<script>
+    
+    $(function(){
+        
+        var url = '@Url.Action("GetAttachFileListByRef","Shared")';
+      
+            $.get(url, {
+                ReferenceId: '@Model',
+                ReferenceTable: 'CateringRestaurant',
+                ReferenceGroup: 'CateringRestaurant'
+            }).done(function (res) {
+            $('#divModalSelectSnackAtttachResults_@Model').html(res);
+            });   
+
+    });
+
+</script>

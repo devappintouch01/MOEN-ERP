@@ -1,0 +1,111 @@
+﻿@model MOEN_ERP.DAL.Models.VAssetReturnItem
+
+@using (Html.AjaxBeginForm("SaveAssetReturnItem", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divlstTab1" }, new { enctype = "multipart/form-data" }))
+{
+    <input type="hidden" value="@ViewBag.guidPage" name="guidPage" />
+    <input type="hidden" value="@ViewBag.rowId" name="rowId" />
+    <input type="hidden" value="@Model.AssetId" name="AssetId" id="asAssetId" />
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetail">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>ครุภัณฑ์ส่งคืน</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label required">เลขครุภัณฑ์</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" asp-for="Code" id="asCode">
+                                <button class="btn btn-primary" type="button" onclick="OpenMdlSearchAsset()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">เลขสินทรัพย์</label>
+                            <input class="form-control form-control-sm" readonly asp-for="AssetNumberGfmis" id="asAssetNumberGfmis" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label required">จำนวน</label>
+                            <input class="form-control form-control-sm" readonly asp-for="Amount" id="asAmount" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">จำนวนเงิน</label>
+                            <input class="form-control form-control-sm" readonly asp-for="Cost" id="asCost" />
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-12">
+                                <label class="col-form-label required">สภาพ</label>
+                            </div>
+                            <div class="col-12">
+                                @if (Model.IsUsable == null) { Model.IsUsable = true; }
+                                <input class="form-check-input" type="radio" value="true" name="IsUsable" id="IsUsableT" checked="@(Model.IsUsable)">
+                                <label class="form-check-label" for="IsUsableT">
+                                    ใช้งานได้แต่หมดความจำเป็นใช้งาน
+                                </label>
+                                <input class="form-check-input" type="radio" value="false" name="IsUsable" id="IsUsableF" checked="@(!Model.IsUsable)">
+                                <label class="form-check-label" for="IsUsableF">
+                                    ชำรุด
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label required">ลักษณะการชำรุด</label>
+                            <textarea class="form-control form-control-sm" rows="2" name="ReturnDetail" id="asReturnDetail">@Model.ReturnDetail</textarea>
+                        </div>
+                    </div>
+                   @*  <br />
+                    <hr />
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check mt-3 ms-3">
+                                <input class="form-check-input" type="checkbox" value="true" name="Ischeck" id="chkIscheck" checked="@(Model.Ischeck)">
+                                <label class="form-check-label ms-2" for="chkIscheck">
+                                    ตรวจสอบแล้ว
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">บันทึกจากเจ้าหน้าที่ ศทส.</label>
+                            <textarea class="form-control form-control-sm" rows="2" name="CheckDatail">@Model.CheckDatail</textarea>
+                        </div>
+                    </div> *@
+                </div>
+
+
+                <div class="modal-footer justify-content-end gap-5">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="submitFormSaveAssetReturnItem()"><i class="fa fa-save"></i> บันทึก</button>
+                    <button id="btnsubmitFormSaveAssetReturnItem" type="submit" class="d-none"></button>
+                    <button id="btnClsMdlARI" type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
+
+<script>
+    $('#mdlDetail').modal('show');
+
+    function submitFormSaveAssetReturnItem() {
+        var submit = true;
+
+        if ($("#asCode").val() == "" || $("#asReturnDetail").val() == "") {
+            submit = false;
+            Swal.fire('กรุณากรอกข้อมูลให้ครบถ้วน', '', 'info');
+        }
+
+        if (submit) {
+            $("#btnsubmitFormSaveAssetReturnItem").click();
+        }
+    }
+</script>

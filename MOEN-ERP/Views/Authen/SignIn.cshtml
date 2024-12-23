@@ -1,0 +1,186 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutSignIn.cshtml";
+}
+@model MOEN_ERP.Models.Common.SignInModel
+@{
+    //Request.HttpContext.Connection.RemoteIpAddress.ToString();
+    var IpAddress = this.Context.Connection.RemoteIpAddress.ToString();
+}
+<style>
+    .bg-transparent {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+</style>
+<!--begin::Body-->
+<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 p-lg-20">
+    <!--begin::Card-->
+    <div class="bg-body d-flex flex-column align-items-stretch flex-center rounded-4 w-md-600px p-20">
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-center flex-column flex-column-fluid px-lg-10 pb-15 pb-lg-20">
+            <!--begin::Form-->
+            <form asp-bs-action="SignIn" asp-bs-controller="Authen" asp-bs-route="post" method="post" class="form w-100" novalidate="novalidate" asp-antiforgery="true">
+                <!--begin::Aside-->
+                <div class="text-center mb-11">
+                    <!--begin::Logo-->
+                    <a href="#" class="mb-7">
+                        <img alt="Logo" src="~/images/logo/moen-logo.png" style="width: 100%" />
+                    </a>
+                    <!--end::Logo-->
+                    <!--begin::Title-->
+                    <!--	<h2 class="text-white fw-normal m-0">Branding tools designed for your business</h2> -->
+                    <!--end::Title-->
+                </div>
+                <!--begin::Aside-->
+                <!--begin::Heading-->
+                <div class="text-center mb-11">
+                    <!--begin::Title-->
+                    <h2 class="text-dark fw-bolder mb-3">ระบบบริหารจัดการทรัพยากรภายในองค์กร</h2>
+                    <!--end::Title-->
+                    <!--begin::Subtitle-->
+                    <!--<div class="text-gray-500 fw-semibold fs-6">Your Social Campaigns</div>-->
+                    <!--end::Subtitle=-->
+                </div>
+                <div class="text-center mb-11">
+                    <h3 class="text-dark fw-bolder mb-3">(Enterprise Resource Planning : ERP)</h3>
+                </div>
+                <div class="text-center mb-11">
+                    <h4 class="text-gray-500 fw-bolder mb-3">Enter your details to login to your account</h4>
+                </div>
+                <!--begin::Heading-->
+                <!--begin::Input group=-->
+                <div class="fv-row mb-8">
+                    <!--begin::Email-->
+
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                            </svg>
+                        </span>
+                        <input type="text" placeholder="ชื่อผู้ใช้" asp-for="UserName" autocomplete="off" class="form-control bg-transparent" />
+                    </div>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                    <!--end::Email-->
+                </div>
+                <!--end::Input group=-->
+                <div class="fv-row mb-3" data-kt-password-meter="true">
+                    <!--begin::Password-->
+                   @* <div class="input-group input-group-sm">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"></path>
+                            </svg>
+                        </span>
+                        <div class="position-xxl-relative position-xl-relative position-lg-relative  position-md-relative position-sm-relative col-xxl col-xl  col-lg col-md col-sm ">
+                            <input type="password" placeholder="รหัสผ่าน" asp-for="Password" autocomplete="off" class="form-control form-control-sm  bg-transparent" />
+                            <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 p-0" data-kt-password-meter-control="visibility">
+                                <i class="bi bi-eye-slash fs-2"></i>
+                                <i class="bi bi-eye fs-2 d-none"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>*@
+                   
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"></path>
+                            </svg>
+                        </span>
+                        <div class="position-xxl-relative position-xl-relative position-lg-relative  position-md-relative position-sm-relative col-xxl col-xl  col-lg col-md col-sm ">
+                            <input class="form-control  bg-transparent" type="password" placeholder="รหัสผ่าน" asp-for="Password" autocomplete="off" />
+                            <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 p-0" data-kt-password-meter-control="visibility">
+                                <i class="bi bi-eye-slash fs-2"></i>
+                                <i class="bi bi-eye fs-2 d-none"></i>
+                            </span>
+
+                        </div>
+                        @*<input type="password" placeholder="Password" asp-for="Password" autocomplete="off" class="form-control bg-transparent">*@
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <!--end::Password-->
+                </div>
+                <!--end::Input group=-->
+                <!--end::Input group=-->
+                <div class="fv-row mb-3">
+                    <!--begin::Captcha-->
+                    @* <dnt-captcha asp-captcha-generator-max="999999"
+                                 asp-captcha-generator-min="111111"
+                                 asp-captcha-generator-language="English"
+                                 asp-captcha-generator-display-mode="ShowDigits"
+                                 asp-use-relative-urls="true"
+                                 asp-placeholder="Enter Captcha"
+                                 asp-font-name="Tohoma"
+                                 asp-font-size="20"
+                                 asp-fore-color="#333333"
+                                 asp-back-color="#ccc"
+                                 asp-text-box-class="form-control"
+                                 asp-text-box-template="<div class='input-group'><span class='input-group-text'><span class='bi-lock'></span></span>{0}</div>"
+                                 asp-validation-error-message="กรุณาระบุรหัสยืนยัน"
+                                 asp-validation-message-class="text-danger"
+                                 asp-refresh-button-class="bi-arrow-counterclockwise btn-lg"
+                                 asp-show-refresh-button="true"
+                                 asp-dir="ltr" /> *@
+
+                    <!--end::Captcha-->
+                </div>
+                <input type="hidden" asp-for="IpAddress" value="@IpAddress" />
+                <!--end::Input group=-->
+                @if (TempData["signinMsg"] != null)
+                {
+                    <div class="fv-row mb-3">
+                        <div class="caption text-danger">
+                            @TempData["signinMsg"]
+                        </div>
+                    </div>
+                }
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
+                    <div></div>
+                    <!--begin::Link-->
+                    @*<a href="../../demo1/dist/authentication/layouts/creative/reset-password.html" class="link-primary">Forgot Password ?</a>*@
+                    <!--end::Link-->
+                </div>
+                <!--end::Wrapper-->
+                <!--begin::Submit button-->
+                <div class="d-grid mb-10">
+                    <button type="submit" class="btn btn-primary">
+                        <!--begin::Indicator label-->
+                        <span class="indicator-label">Sign In</span>
+                        <!--end::Indicator label-->
+                        <!--begin::Indicator progress-->
+                        <span class="indicator-progress">
+                            Please wait...
+                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                        <!--end::Indicator progress-->
+                    </button>
+                </div>
+                <!--end::Submit button-->
+                <!--begin::Sign up-->
+                <div class="text-gray-500 text-center fw-semibold fs-6">
+                   @* Not a Member yet?
+                    <a href="../../demo1/dist/authentication/layouts/creative/sign-up.html" class="link-primary">Sign up</a>*@
+                </div>
+                <!--end::Sign up-->
+                @Html.AntiForgeryToken()
+            </form>
+            <!--end::Form-->
+        </div>
+        <!--end::Wrapper-->
+        <!--begin::Footer-->
+        <div class="d-flex flex-stack px-lg-10">
+            <div class="me-0">
+            </div>
+            <!--begin::Links-->
+            <div class="d-flex fw-semibold text-primary fs-base gap-5">              
+                <span class="fw-semibold text-muted">@ViewBag.FileVersion</span>
+            </div>
+            <!--end::Links-->
+        </div>
+        <!--end::Footer-->
+    </div>
+    <!--end::Card-->
+</div>
+<!--end::Body-->

@@ -1,0 +1,785 @@
+﻿@model MOEN_ERP.Models.Data.AssetBorrowDetailModel
+
+@section Title {
+    <span class="fs-1 fw-semibold">ยืม-คืนครุภัณฑ์</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">ยืม-คืนครุภัณฑ์</li>
+}
+@using (Html.BeginForm("SaveAssetBorrowDetail", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.assetBorrow.StatusId)
+    @Html.HiddenFor(x => x.assetBorrow.Id)
+    @Html.HiddenFor(x => x.guidPage)
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขที่ใบยืม</label>
+                    <input class="form-control form-control-sm" asp-for="assetBorrow.Code" readonly />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">วันที่ใบยืม</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" asp-for="assetBorrow.DocumentDate" id="DocumentDate" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                    <small class="text-danger d-none" id="reqDocumentDate">
+                        กรุณากรอกวันที่ใบยืม
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">สถานะ</label>
+                    <input class="form-control form-control-sm" readonly />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">ประเภทการยืม </label>
+                    <select class="form-select form-select-sm" asp-for="assetBorrow.AssetBorrowType" id="AssetBorrowType" onchange="onChangeType()">
+                        <option value="" selected="@(Model.assetBorrow.AssetBorrowType == null)">กรุณาระบุ</option>
+                        <option value="I" selected="@(Model.assetBorrow.AssetBorrowType == "I")">เพื่อใช้ภายในส่วนราชการ</option>
+                        <option value="O" selected="@(Model.assetBorrow.AssetBorrowType == "O")">เพื่อนำออกไปใช้ภายนอกส่วนราชการ</option>
+                        <option value="D" selected="@(Model.assetBorrow.AssetBorrowType == "D")">ยืมระหว่างกรม</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqAssetBorrowType">
+                        กรุณาเลือกประเภทการยืม
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3" id="divBorrowerOfficerId">
+                    <label class="col-form-label required">ผู้ขอยืม</label>
+                    <select class="form-select form-select-sm" asp-for="assetBorrow.BorrowerOfficerId" id="BorrowerOfficerId" asp-items="ViewBag.Officer">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqBorrowerOfficerId">
+                        กรุณาเลือกผู้ขอยืม
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3" id="divBorrowerPositionName">
+                    <label class="col-form-label">ตำแหน่ง</label>
+                    <input class="form-control form-control-sm" asp-for="assetBorrow.BorrowerPositionName" />
+                </div>
+
+            </div>
+
+            <div class="row mb-3" id="divTypeNotO">
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">สำนัก/กอง/ศูนย์</label>
+                    <select class="form-select form-select-sm" asp-for="assetBorrow.BorrowerOrganizationId" id="BorrowerOrganizationId" asp-items="ViewBag.OrganizationId">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqBorrowerOrganizationId">
+                        กรุณาเลือกสำนัก/กอง/ศูนย์
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">กลุ่ม/ฝ่าย/ส่วน</label>
+                    <input class="form-control form-control-sm" asp-for="assetBorrow.BorrowerDivisionName" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">&nbsp;</label>
+                    <div class="row fv-row mb-3 mt-2">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                            <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="radio" id="BorrowerOfficerTypeO" name="assetBorrow.BorrowerOfficerType" value="O" checked="@(Model.assetBorrow.BorrowerOfficerType == "O")">
+                                <label class="form-check-label" for="BorrowerOfficerTypeO">
+                                    ข้าราชการ
+                                </label>
+                            </div>
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="radio" id="BorrowerOfficerTypeE" name="assetBorrow.BorrowerOfficerType" value="E" checked="@(Model.assetBorrow.BorrowerOfficerType == "E")">
+                                <label class="form-check-label" for="BorrowerOfficerTypeE">
+                                    ลูกจ้างประจำ
+                                </label>
+                            </div>
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                <input class="form-check-input" type="radio" id="BorrowerOfficerTypeP" name="assetBorrow.BorrowerOfficerType" value="P" checked="@(Model.assetBorrow.BorrowerOfficerType == "P")">
+                                <label class="form-check-label" for="BorrowerOfficerTypeP">
+                                    พนักงานราชการ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เบอร์โทรศัพท์ภายใน</label>
+                    <input class="form-control form-control-sm" onkeypress="return OnlyNumbersTime(event,false)" asp-for="assetBorrow.BorrowerPhoneExtension" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เบอร์มือถือ</label>
+                    <input class="form-control form-control-sm" onkeypress="return OnlyNumbersTime(event,false)" asp-for="assetBorrow.BorrowerMobile" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">E-mail</label>
+                    <input class="form-control form-control-sm mask-email" asp-for="assetBorrow.BorrowerEmail" />
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="col-form-label required">เอกสารการยืม</label>
+                    <input class="form-control form-control-sm" asp-for="assetBorrow.BorrowDocument" id="BorrowDocument" />
+                    <small class="text-danger d-none" id="reqBorrowDocument">
+                        กรุณากรอกเอกสารการยืม
+                    </small>
+                </div>
+            </div>
+                <div class="row mb-3">
+
+                <div class="col-md-12 mb-3 mt-10">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                                ข้อมูลการยืม
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                                ข้อมูลการคืน
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                        <div class="row mt-5">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label required">เนื่องจาก</label>
+                                <textarea class="form-control form-control-sm" rows="2" name="assetBorrow.Detail" id="Detail">@Model.assetBorrow.Detail</textarea>
+                                <small class="text-danger d-none" id="reqDetail">
+                                    กรุณากรอกเนื่องจาก
+                                </small>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="col-form-label required">ยืมตั้งแต่วันที่</label>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" asp-for="assetBorrow.BorrowFromDate" id="BorrowFromDate" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                                <small class="text-danger d-none" id="reqBorrowFromDate">
+                                    กรุณากรอกยืมตั้งแต่วันที่
+                                </small>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="col-form-label required">วันที่กำหนดส่งคืน</label>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" asp-for="assetBorrow.DueDate" id="DueDate" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                                <small class="text-danger d-none" id="reqDueDate">
+                                    กรุณากรอกวันที่กำหนดส่งคืน
+                                </small>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="col-form-label required">ผู้ยืม</label>
+                                <div class="row fv-row mb-3 mt-2">
+                                    <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                        <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                            <input class="form-check-input" type="radio" value="S" id="BorrowerTypeS" name="assetBorrow.BorrowerType" checked="@(Model.assetBorrow.BorrowerType == "S" ||Model.assetBorrow.BorrowerType == null )">
+                                            <label class="form-check-label" for="BorrowerTypeS">
+                                                ตนเอง
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                            <input class="form-check-input" type="radio" value="O" id="BorrowerTypeO" name="assetBorrow.BorrowerType" checked="@(Model.assetBorrow.BorrowerType == "O")">
+                                            <label class="form-check-label" for="BorrowerTypeO">
+                                                ผู้อื่น
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <small class="text-danger d-none" id="reqBorrowerType">
+                                    กรุณากรอกผู้ยืม
+                                </small>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="col-form-label">ชื่อ - นามสกุล</label>
+                                <input class="form-control form-control-sm" asp-for="assetBorrow.OtherName" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="col-form-label">ตำแหน่ง</label>
+                                <input class="form-control form-control-sm" asp-for="assetBorrow.OtherPositionName" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="col-form-label">เบอร์โทรศัพท์ภายใน</label>
+                                <input class="form-control form-control-sm" asp-for="assetBorrow.OtherPhoneExtension" onkeypress="return OnlyNumbersTime(event,false)" />
+                            </div>
+
+                            <div class="col-md-3">
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="col-form-label">เบอร์มือถือ</label>
+                                <input class="form-control form-control-sm" asp-for="assetBorrow.OtherMobile" onkeypress="return OnlyNumbersTime(event,false)" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label class="col-form-label">E-mail</label>
+                                <input class="form-control form-control-sm mask-email" asp-for="assetBorrow.OtherEmail" />
+                            </div>
+
+                            <hr class="mt-10 mb-10" />
+
+                            <div class="col-md-6 mb-1">
+                                <label class="col-form-label">รายการครุภัณฑ์</label>
+                            </div>
+
+                            <div class="col-lg-12 text-end">
+                                <button type="button" class="btn btn-success btn-sm" id="btnMdlTab1" data-bs-toggle="modal" data-bs-target="#mdlDetail"><i class="fa fa-plus"></i> เพิ่มรายการ</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeTableTab1()"><i class="fa fa-trash"></i> ลบรายการ</button>
+                            </div>
+
+                            <div id="divlstTab1">
+                                @await Html.PartialAsync("_tableAssetBorrowDetailTab1", Model)
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                        <div class="row mt-5">
+
+                            <h2>รายการครุภัณฑ์</h2>
+
+                            <div class="col-lg-12 text-end">
+                                <button type="button" class="btn btn-info btn-sm" onclick="receiveTab2()"><i class="fa fa-check"></i> รับคืน</button>
+                                <button type="button" class="btn btn-warning btn-sm" onclick="returnTab2()"><i class="fa fa-reply"></i> ส่งคืน</button>
+                            </div>
+
+                            <div id="divlstTab2">
+                                @await Html.PartialAsync("_tableAssetBorrowDetailTab2", Model)
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">หมายเหตุ</label>
+                        <textarea class="form-control form-control-sm" rows="2" name="assetBorrow.Remark">@Model.assetBorrow.Remark</textarea>
+                    </div>
+
+
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">ผู้บังคับบัญชาของผู้ยืม</label>
+                        <select class="form-select form-select-sm" asp-for="assetBorrow.BorrowApproveOfficerId" asp-items="ViewBag.Officer">
+                            <option value="">กรุณาระบุ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">ผอ./หัวหน้าของผู้ให้ยืม</label>
+                        <select class="form-select form-select-sm" asp-for="assetBorrow.LendApproveOfficerId" asp-items="ViewBag.Officer">
+                            <option value="">กรุณาระบุ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">ผู้ให้ยืม/ผู้เบิก</label>
+                        <select class="form-select form-select-sm" asp-for="assetBorrow.LenderOfficerId" asp-items="ViewBag.Officer">
+                            <option value="">กรุณาระบุ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">วันที่ผู้บังคับบัญชาของผู้ยืมพิจารณา </label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm" readonly value="@Model.assetBorrow.BorrowApproveDate?.ToString("dd/MM/yyyy")" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">วันที่ผอ./หัวหน้าของผู้ให้ยืมพิจารณา </label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm" readonly value="@Model.assetBorrow.LendApproveDate?.ToString("dd/MM/yyyy")" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">วันที่ให้ยืม/เบิก </label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm" readonly value="@Model.assetBorrow.LendDate?.ToString("dd/MM/yyyy")" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">ผู้รับมอบ</label>
+                        <select class="form-select form-select-sm" asp-for="assetBorrow.ReceiveOfficerId" asp-items="ViewBag.Officer">
+                            <option value="">กรุณาระบุ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8 mb-3">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">วันที่รับมอบ </label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm" readonly value="@Model.assetBorrow.ReceiveDate?.ToString("dd/MM/yyyy")" />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <hr />
+
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">ไฟล์แนบ </label>
+                        <div id="fileList"></div>
+                    </div>
+                </div>
+
+                <div class="mt-10 row">
+                    <div class="col-8">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="submitForm('btnsave')"><i class="fa fa-save"></i> บันทึก</button>
+                        <button class="d-none" id="btnsave"></button>
+                        @*<button class="btn btn-warning btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button>
+                    <button class="btn btn-danger btn-sm text-end"><i class="fa fa-trash"></i> ลบ</button>*@
+                        <a href="@Url.Action("AssetBorrowList","Asset")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                        @*<button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>*@
+                    </div>
+                    <div class="col-4 text-end">
+                        @*<button type="button" class="btn btn-success btn-sm"><i class="fa fa-check"></i> อนุมัติ</button>
+                    <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> ไม่อนุมัติ</button>
+                    <button class="btn btn-warning btn-sm"><i class="fas fa-share"></i> ส่งกลับแก้ไข</button>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDetailHistory"><i class="fa fa-history"></i> ประวัติการพิจารณา</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetail">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>ครุภัณฑ์</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.AjaxBeginForm("SearchVAsset", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblModalTab1" }, new { enctype = "multipart/form-data", id = "frmSearchVAsset" }))
+                {
+                    <input type="hidden" id="mdl1guidPage" name="guidPage" value="@Model.guidPage" readonly />
+
+                    <div class="row mb-3">
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขครุภัณฑ์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <input class="form-control form-control-sm" name="Code" />
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขสินทรัพย์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <input class="form-control form-control-sm" name="AssetNumberGFMIS" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                            <button id="btnVAssetResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                        </div>
+                    </div>
+                }
+                <div class="row mb-3" id="divTblModalTab1">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" onclick="AddVAsset()"><i class="fa fa-save"></i> เลือกรายการที่ระบุ</button>
+                <button type="button" class="btn btn-warning btn-sm" onclick="AddAllVAsset()"><i class="fa fa-check"></i> เลือกรายการทั้งหมด</button>
+                <button id="closeMdlVAsset" type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#btnMdlTab1').click(function () {
+        $('#btnVAssetResetSearch').click();
+    });
+    $('#btnVAssetResetSearch').click(function () {
+        setTimeout(
+            function () {
+                $('#mdl1guidPage').val('@Model.guidPage');
+                $('#frmSearchVAsset').submit();
+            }, 500);
+    });
+
+    function AddVAsset() {
+        var selectedIds = [];
+        var checkboxes = document.querySelectorAll('.item-checkbox-Vasset:checked');
+
+        checkboxes.forEach(function (checkbox) {
+            selectedIds.push(checkbox.value);
+        });
+
+        if (selectedIds.length > 0) {
+            $.ajax({
+                url: '@Url.Action("SaveVAssetSelect", "Asset")',
+                type: 'POST',
+                data: { lstId: selectedIds, guidPage: '@Model.guidPage' },
+                success: function (response) {
+                    $('#divlstTab1').html(response);
+                },
+                error: function () {
+                    alert('เกิดข้อผิดพลาดในการบันทึก');
+                }
+            });
+        } else {
+            alert('กรุณาเลือกอย่างน้อย 1 รายการ');
+        }
+    }
+
+    function AddAllVAsset() {
+        var checkboxes = document.querySelectorAll('.item-checkbox');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = true;
+        });
+        AddVAsset();
+    }
+</script>
+
+<div id="divMdlTab2Detail1"></div>
+
+
+
+
+
+@using (Html.AjaxBeginForm("SaveAssetBorrowItemReceiveTab2", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divlstTab2" }, new { enctype = "multipart/form-data" }))
+{
+    <input type="hidden" name="guidPage" value="@Model.guidPage" readonly />
+    <input type="hidden" name="lstSelectedIds" id="lstSelectedIds" readonly />
+
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlTab2Detail2">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>รับคืน</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="row col-md-6 mb-3">
+                            <label class="col-form-label">ผู้รับคืน <span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" asp-items="ViewBag.Officer" name="ReturneeBy" id="ReturneeBy" required>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">วันที่รับคืน </label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control form-control-sm " placeholder="วว/ดด/ปปปป" name="ReturnReceiveDate" id="ReturnReceiveDate" />
+                                <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                    <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> บันทึก</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
+@using (Html.AjaxBeginForm("SaveAssetBorrowItemReturnTab2", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divlstTab2" }, new { enctype = "multipart/form-data" }))
+{
+    <input type="hidden" name="guidPage" value="@Model.guidPage" readonly />
+    <input type="hidden" name="lstSelectedIds" id="lstSelectedIdstab2" readonly />
+
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlTab2Detail3">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>ส่งคืน</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="row col-md-6 mb-3">
+                            <label class="col-form-label">ผู้ส่งคืน <span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" asp-items="ViewBag.Officer" name="ReturnBy" id="ReturnBy" required>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">วันที่ส่งคืน <span class="text-danger">*</span></label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control form-control-sm " placeholder="วว/ดด/ปปปป" name="ReturnDate" id="ReturnDate" />
+                                <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                    <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> บันทึก</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa fa-ban"></i>  ปิด</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
+@* 
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailHistory">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>ประวัติการพิจารณา</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                        <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                    <th class="text-center" style="width:5%">#</th>
+                                    <th class="text-center">วันที่</th>
+                                    <th class="text-center">ผู้ดำเนินการ</th>
+                                    <th class="text-center">ผู้ดำเนินการลำดับถัดไป</th>
+                                    <th class="text-center">การดำเนินการ</th>
+                                    <th class="text-center">ความคิดเห็น</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">09/08/2567</td>
+                                    <td class="text-center">เจ้าหน้าที่ทดสอบ 1</td>
+                                    <td class="text-center">เจ้าหน้าที่พัสดุ 1</td>
+                                    <td class="text-center">ส่งเรื่องพิจารณา</td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">10/08/2567</td>
+                                    <td class="text-center">เจ้าหน้าที่พัสดุ 1</td>
+                                    <td class="text-center">เจ้าหน้าที่ทดสอบ 1</td>
+                                    <td class="text-center">ส่งกลับแก้ไข</td>
+                                    <td class="text-center"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div> *@
+
+@section Scripts {
+    <script src="~/js/custom/input-mask.js"></script>
+
+    <script>
+
+        function onChangeType(){
+            if ($("#AssetBorrowType").val() == 'D') {
+                $("#divBorrowerOfficerId").addClass("d-none");
+                $("#divBorrowerPositionName").addClass("d-none");
+                $("#divTypeNotO").addClass("d-none");
+            }
+            else{
+                $("#divBorrowerOfficerId").removeClass("d-none");
+                $("#divBorrowerPositionName").removeClass("d-none");
+                $("#divTypeNotO").removeClass("d-none");
+            }
+            
+        }
+
+
+        function submitForm(type) {
+            var submit = true;
+
+            if ($("#DueDate").val() == "") {
+                $('#reqDueDate').removeClass("d-none");
+                $(window).scrollTop($('#DueDate').offset().top - 150);
+                submit = false;
+            }
+
+            if ($("#BorrowFromDate").val() == "") {
+                $('#reqBorrowFromDate').removeClass("d-none");
+                $(window).scrollTop($('#BorrowFromDate').offset().top - 150);
+                $('#1-tab').click();
+                submit = false;
+            }
+
+            if ($("#Detail").val() == "") {
+                $('#reqDetail').removeClass("d-none");
+                $(window).scrollTop($('#Detail').offset().top - 150);
+                $('#1-tab').click();
+                submit = false;
+            }
+
+            if ($("#AssetBorrowType").val() != 'D' && $("#BorrowDocument").val() == "") {
+                $('#reqBorrowDocument').removeClass("d-none");
+                $(window).scrollTop($('#BorrowDocument').offset().top - 150);
+                $('#1-tab').click();
+                submit = false;
+            }
+
+            if ($("#AssetBorrowType").val() != 'D' && $("#BorrowerOrganizationId").val() == "") {
+                $('#reqBorrowerOrganizationId').removeClass("d-none");
+                $(window).scrollTop($('#BorrowerOrganizationId').offset().top - 150);
+                submit = false;
+            }
+
+            if ($("#AssetBorrowType").val() != 'D' && $("#BorrowerOfficerId").val() == "") {
+                $('#reqBorrowerOfficerId').removeClass("d-none");
+                $(window).scrollTop($('#BorrowerOfficerId').offset().top - 150);
+                submit = false;
+            }
+
+            if ($("#AssetBorrowType").val() == "") {
+                $('#reqAssetBorrowType').removeClass("d-none");
+                $(window).scrollTop($('#AssetBorrowType').offset().top - 150);
+                submit = false;
+            }
+
+            if ($("#DocumentDate").val() == "") {
+                $('#reqDocumentDate').removeClass("d-none");
+                $(window).scrollTop($('#DocumentDate').offset().top - 150);
+                submit = false;
+            }
+
+            if (submit) {
+                $("#" + type).click();
+            }
+        }
+
+        SetInputDate('DocumentDate');
+        SetInputDate('BorrowFromDate');
+        SetInputDate('DueDate');
+        SetInputDate('ReturnReceiveDate');
+        SetInputDate('ReturnDate');
+
+        AttachFile('fileList', '@Model.assetBorrow.Id', 'FileGuidId', null, 'AssetBorrow', null, false, false);
+        
+
+        $('#tblTab1').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+        $('#tblTab2').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+    </script>
+}
+

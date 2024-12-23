@@ -1,0 +1,106 @@
+﻿@* @model MOEN_ERP.DAL.Models.MasterAssetTypeSub *@
+@model MOEN_ERP.Models.ViewModel.MasterAssetTypeDetailModel
+
+
+
+<style>
+    .modal + .modal {
+        background: rgba(0, 0, 0, 0.6);
+    }
+</style>
+
+@using (Html.AjaxBeginForm("SaveMasterAssetTypeSub", "Master", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblMasterAssetTypeSub" }, new { enctype = "multipart/form-data", @class = "needs-validation", @novalidate = "novalidate" }))
+{
+
+
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlMasterAssetTypeSub">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>หมวดหมู่ครุภัณฑ์รายการย่อย</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(x => x.MasterAssetTypeSub.Id)
+                    <div class="row mb-5">
+                        <input class="form-control form-control-sm" asp-for="MasterAssetTypeSub.AssetTypeId" name="MasterAssetTypeSub.AssetTypeId" hidden />
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ชื่อรายการย่อย <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-sm" asp-for="MasterAssetTypeSub.NameThai" name="MasterAssetTypeSub.NameThai" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">อายุการใช้งาน(ค่าเสื่อม) <span class="text-danger">*</span></label>
+                            <input id="txtLifeTimeDepreciation" class="form-control form-control-sm" asp-for="MasterAssetTypeSub.LifeTimeDepreciation" name="MasterAssetTypeSub.LifeTimeDepreciation" onkeyup="CaltoDepreciation(this)" onclick="CaltoDepreciation(this)" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">อัตราค่าเสื่อมราคา/ปี(ร้อยละ) <span class="text-danger">*</span></label>
+                            <input id="txtDepreciation" class="form-control form-control-sm" asp-for="MasterAssetTypeSub.Depreciation" name="MasterAssetTypeSub.Depreciation" onkeypress="return isNumberKey(event)" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">อายุการใช้งาน(ทดแทน) <span class="text-danger">*</span></label>
+                            <input  class="form-control form-control-sm" asp-for="MasterAssetTypeSub.LifeTimeUse" name="MasterAssetTypeSub.LifeTimeUse" required />
+                        </div>
+                       
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+
+    $('#mdlMasterAssetTypeSub').modal('show');
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function CaltoDepreciation(res) {
+
+        var txtLifeTimeDepreciation = res.value;
+        var intLifeTimeDepreciation = Number(txtLifeTimeDepreciation);
+        //alert(intLifeTimeDepreciation);
+        var result;      
+         
+        if (intLifeTimeDepreciation != 0) {
+            result = (100 / intLifeTimeDepreciation);
+            //alert(result);
+            document.getElementById('txtDepreciation').value = parseFloat(result).toFixed(2);
+        }
+        else {
+            document.getElementById('txtDepreciation').value = "";
+        }          
+
+    }
+
+    (function () {
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        hideWait();
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+</script>

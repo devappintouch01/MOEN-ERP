@@ -1,0 +1,360 @@
+﻿@model MOEN_ERP.Models.Data.AssetWriteOffDetailModel
+
+@section Title {
+    <span class="fs-1 fw-semibold">ตัดจำหน่ายทรัพย์สิน</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">ตัดจำหน่ายทรัพย์สิน</li>
+}
+@using (Html.BeginForm("SaveAssetWriteOff", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    var statusName = "";
+    if (Model.assetWriteOff.WriteOffStatus != null)
+    {
+        statusName = Model.assetWriteOff.WriteOffStatus == "C" ? "ยืนยันการตัดจำหน่าย" : "ร่าง";
+    }
+
+    @Html.HiddenFor(x => x.assetWriteOff.Id)
+    @Html.HiddenFor(x => x.guidPage)
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขที่ตัดจำหน่าย</label>
+                    <input class="form-control form-control-sm" readonly asp-for="assetWriteOff.Code" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">วันที่ตัดจำหน่าย</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm " placeholder="วว/ดด/ปปปป" name="assetWriteOff.WriteOffDate" id="WriteOffDate" value="@Model.assetWriteOff.WriteOffDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                    <small class="text-danger d-none" id="reqWriteOffDate">
+                        กรุณากรอกวันที่ตัดจำหน่าย
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">สถานะทั้งหมด</label>
+                    <input class="form-control form-control-sm" readonly value="@statusName" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">ประเภท</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetWriteOff.WriteOffTypeId" id="WriteOffTypeId" asp-items="ViewBag.MasterWriteOffType" onchange="AssetWriteOffTypeIdChange(this)">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqWriteOffTypeId">
+                        กรุณาเลือกประเภท
+                    </small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขที่เอกสารอ้างอิง</label>
+                    <input class="form-control form-control-sm" asp-for="assetWriteOff.ReferenceDocument" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่ในเอกสารอ้างอิง</label>
+                    <div class="position-relative">
+                        <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="assetWriteOff.ReferenceDate" id="ReferenceDate" value="@Model.assetWriteOff.ReferenceDate?.ToString("dd/MM/yyyy")" />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 mb-3">
+                    <label class="col-form-label">รายละเอียดเพิ่มเติม/หมายเหตุ</label>
+                    <textarea class="form-control form-control-sm" rows="2" name="assetWriteOff.WriteOffDetail">@Model.assetWriteOff.WriteOffDetail</textarea>
+                </div>
+
+
+                <div class="col-md-4 mb-3 @(Model.assetWriteOff.WriteOffTypeId == 5 ? "" : "d-none")" id="divTypeId5">
+                    <label class="col-form-label">หน่วยงานที่รับโอน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="assetWriteOff.DestinationOrganizationId" id="DestinationOrganizationId" asp-items="ViewBag.MasterOrganization">
+                        <option value="">กรุณาระบุ</option>
+                    </select>
+                </div>
+
+                <div class="col-md-12 mb-3 mt-10">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                                รายการทรัพย์สินที่ตัดจำหน่าย
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+                                หลักฐานการตัดจำหน่าย
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                            <div class="row mt-5">
+                                <h6>รายการทรัพย์สินที่ตัดจำหน่าย</h6>
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-end">
+                                    <button type="button" class="btn btn-success btn-sm" onclick="OpenMdlVAsset()">
+                                        <i class="fa fa-plus"></i> เพิ่มรายการ
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeTableTab1()"><i class="fa fa-trash"></i> ลบรายการ</button>
+                                </div>
+
+
+                                <div id="divTableTab1">
+                                    @await Html.PartialAsync("_tableAssetWriteOffListTab1", Model)
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                            <div class="row mt-5">
+                                <div class="col-md-12 mb-3">
+                                    <h6>หลักฐานการตัดจำหน่าย</h6>
+                                    <div id="fileList"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="mt-10">
+                <button type="button" class="btn btn-primary btn-sm" onclick="submitForm('btnsave')"><i class="fa fa-save"></i> บันทึก</button>
+                <button class="d-none" id="btnsave" name="assetWriteOff.WriteOffStatus" value="D"></button>
+
+                @if (Model.assetWriteOff.WriteOffStatus == "N")
+                {
+                    <button type="button" class="btn btn-success btn-sm" onclick="submitForm('btnsent')"><i class="fa fa-check"></i> ยืนยัน</button>
+                    <button class="d-none" id="btnsent" name="assetWriteOff.WriteOffStatus" value="C"></button>
+                }
+
+                <a href="@Url.Action("AssetWriteOffList","Asset")" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้ารายการ</a>
+                @*<button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>*@
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailVasset">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายการทรัพย์สินส่งคืน/รอจำหน่าย</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.AjaxBeginForm("GetTableWriteOffVAsset", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblVAsset" }, new { enctype = "multipart/form-data", id = "searchFormVAsset" }))
+                {
+                    <div class="row mb-3">
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขครุภัณฑ์</label>
+                            </div>
+                            <div class="col-8 ">
+                                <input class="form-control form-control-sm" name="vasCode" id="vasCode" />
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขสินทรัพย์</label>
+                            </div>
+                            <div class="col-8 ">
+                                <input class="form-control form-control-sm" name="vasAssetNumberGFMIS" id="vasAssetNumberGFMIS" />
+                            </div>
+                        </div>
+
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">วันที่ตรวจรับ</label>
+                            </div>
+                            <div class="col-8 ">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="vasApproveDateFrom" id="vasApproveDateFrom" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">ถึง</label>
+                            </div>
+                            <div class="col-8 ">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="vasApproveDateTo" id="vasApproveDateTo" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                            </div>
+                            <div class="col-10 ">
+                                <div class="row fv-row mb-3 mt-2">
+                                    <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                        <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                            <input class="form-check-input" type="checkbox" value="Y" name="vasIsExpire" id="vasIsExpire">
+                                            <small class="form-check-label" for="vasIsExpire">
+                                                เฉพาะครุภัณฑ์ที่เกินอายุการใช้งาน
+                                            </small>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                            <button type="button" id="btnResetSearchVasset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                        </div>
+                    </div>
+                }
+                <div id="divTblVAsset"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" onclick="AddVAsset()"><i class="fa fa-check"></i> เลือกรายการที่ระบุ</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function OpenMdlVAsset() {
+            $('#vasCode').val('');
+            $('#vasAssetNumberGFMIS').val('');
+            $('#vasApproveDateFrom').val('');
+            $('#vasApproveDateTo').val('');
+            $('#vasIsExpire').prop('checked', false);
+            $('#searchFormVAsset').submit();
+            $('#mdlDetailVasset').modal('show');
+        }
+        $('#btnResetSearchVasset').click(function () {
+            $('#vasCode').val('');
+            $('#vasAssetNumberGFMIS').val('');
+            $('#vasApproveDateFrom').val('');
+            $('#vasApproveDateTo').val('');
+            $('#vasIsExpire').prop('checked', false);
+            $('#searchFormVAsset').submit();
+        });
+
+        function AddVAsset() {
+            var selectedIds = [];
+            var checkboxes = document.querySelectorAll('.item-checkbox-Vasset:checked');
+
+            checkboxes.forEach(function (checkbox) {
+                selectedIds.push(checkbox.value);
+            });
+
+            if (selectedIds.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("SaveVAssetWriteOffVAssetSelect", "Asset")',
+                    type: 'POST',
+                    data: { lstId: selectedIds, guidPage: '@Model.guidPage', awId: '@Model.assetWriteOff.Id' },
+                    success: function (response) {
+                        $('#divTableTab1').html(response);
+                    },
+                    error: function () {
+                        alert('เกิดข้อผิดพลาดในการบันทึก');
+                    }
+                });
+            } else {
+                alert('กรุณาเลือกอย่างน้อย 1 รายการ');
+            }
+        }
+
+        function submitForm(type) {
+            var submit = true;
+
+
+            if ($("#WriteOffDate").val() == "") {
+                $('#reqWriteOffDate').removeClass("d-none");
+                $(window).scrollTop($('#WriteOffDate').offset().top - 150);
+                submit = false;
+            }
+
+            if ($("#WriteOffTypeId").val() == "") {
+                $('#reqWriteOffTypeId').removeClass("d-none");
+                $(window).scrollTop($('#WriteOffTypeId').offset().top - 150);
+                submit = false;
+            }
+
+            if (submit) {
+                $("#" + type).click();
+            }
+        }
+
+        function AssetWriteOffTypeIdChange(selectObject) {
+            var value = selectObject.value;
+
+            if (value == '5') {
+                $("#divTypeId5").removeClass("d-none")
+            }
+            else {
+                $("#divTypeId5").addClass("d-none")
+            }
+        }
+
+        SetInputDate('ReferenceDate');
+        SetInputDate('WriteOffDate');
+        SetInputDate('vasApproveDateFrom');
+        SetInputDate('vasApproveDateTo');
+        AttachFile('fileList', '@Model.assetWriteOff.Id', 'FileGuidId', null, 'AssetWriteOff', null, false, false);
+
+
+        $('#tblTab1').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+    </script>
+}

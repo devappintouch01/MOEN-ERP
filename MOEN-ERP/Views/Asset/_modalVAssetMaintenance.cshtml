@@ -1,0 +1,194 @@
+﻿@model MOEN_ERP.DAL.Models.VAssetMaintenance
+@{
+    bool read = ViewBag.read;
+}
+
+    @using (Html.AjaxBeginForm("SaveVAssetMaintenance", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTableTab3" }, new { enctype = "multipart/form-data" }))
+    {
+        <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetail3">
+            <div class="modal-dialog modal-lg">
+                <input type="hidden" name="guidPage" value="@ViewBag.guidPage" />
+                <input type="hidden" name="rowId" value="@ViewBag.rowId" />
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.CreateBy)
+                @Html.HiddenFor(x => x.CreateOn)
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">
+                            <label>ซ่อมบำรุงรักษาทรัพย์สิน</label>
+                        </h3>
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                <fieldset @(read ? "disabled" : "")>
+                    <div class="modal-body">
+
+                        <div class="row mb-3">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label">เลขที่แจ้งซ่อม</label>
+                                <input class="form-control form-control-sm" readonly asp-for="Code" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label required">วันที่แจ้งซ่อม</label>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="RequestDate" id="vamRequestDate" value="@Model.RequestDate?.ToString("dd/MM/yyyy")" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                    <small class="text-danger d-none" id="reqvamRequestDate">กรุณากรอกวันที่แจ้งซ่อม</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label required">วันที่ซ่อมบำรุง</label>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm" placeholder="วว/ดด/ปปปป" name="ReceiveDate" id="vamReceiveDate" value="@Model.ReceiveDate?.ToString("dd/MM/yyyy")" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                    <small class="text-danger d-none" id="reqvamReceiveDate">กรุณากรอกวันที่ซ่อมบำรุง</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label required">รายการซ่อมบำรุง</label>
+                                <textarea class="form-control form-control-sm" rows="2" name="MaintenanceDetail" id="vamMaintenanceDetail">@Model.MaintenanceDetail</textarea>
+                                <small class="text-danger d-none" id="reqvamMaintenanceDetail">กรุณากรอกรายการซ่อมบำรุง</small>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label">ชื่อผู้ขาย/ผู้รับจ้าง/ผู้บริจาค</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" asp-for="SupplierName" id="vamSupplierName">
+                                    <input type="hidden" asp-for="SupplierId" id="vamSupplierId">
+                                    <button class="btn btn-primary" type="button" onclick="OpenMdlSupplier('vamSupplierName','vamSupplierId')"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label required">ราคาต่อหน่วย</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" asp-for="Cost" id="vamCost" onchange="recalculatevamPrices()">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                                <small class="text-danger d-none" id="reqvamCost">กรุณากรอกราคาต่อหน่วย</small>
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label required">จำนวนหน่วย</label>
+                                <input class="form-control form-control-sm" asp-for="Amount" id="vamAmount" onchange="recalculatevamPrices()" />
+                                <small class="text-danger d-none" id="reqvamAmount">กรุณากรอกจำนวนหน่วย</small>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label">จำนวนเงินรวม</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" readonly asp-for="TotalCost" id="vamTotalCost">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label required">วันที่ตรวจรับ</label>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="ApproveDate" id="vamApproveDate" value="@Model.ApproveDate?.ToString("dd/MM/yyyy")" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label required">วันที่ลงบัญชี</label>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="AccountingDate" id="vamAccountingDate" value="@Model.AccountingDate?.ToString("dd/MM/yyyy")" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label">หมายเหตุ</label>
+                                <textarea class="form-control form-control-sm" rows="2" name="Remark">@Model.Remark</textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
+
+                    <div class="modal-footer justify-content-start">
+                        @if (!read)
+                        {
+                            <button type="button" class="btn btn-sm btn-primary" onclick="submitVAssetMaintenance()"><i class="fa fa-save"></i> บันทึก</button>
+                            <button type="submit" class="d-none" id="btnSubmitVAssetMaintenance"></button>
+                        }
+                        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    }
+<script>
+    SetInputDate('vamRequestDate');
+    SetInputDate('vamReceiveDate');
+    SetInputDate('vamApproveDate');
+    SetInputDate('vamAccountingDate');
+
+
+    function recalculatevamPrices() {
+        var unitCost = parseFloat($('#vamCost').val());
+        var receiveAmount = parseFloat($('#vamAmount').val());
+
+        if (isNaN(unitCost)) unitCost = 0;
+        if (isNaN(receiveAmount)) receiveAmount = 0;
+
+        var totalPrice = unitCost * receiveAmount;
+        $('#vamTotalCost').val(totalPrice.toFixed(2));
+    }
+
+    $('#mdlDetail3').modal('show');
+
+    function submitVAssetMaintenance() {
+        var submit = true;
+
+        if ($("#vamAmount").val() == "") {
+            $('#reqvamAmount').removeClass("d-none");
+            submit = false;
+        }
+
+        if ($("#vamCost").val() == "") {
+            $('#reqvamCost').removeClass("d-none");
+            submit = false;
+        }
+
+        if ($("#vamMaintenanceDetail").val() == "") {
+            $('#reqvamMaintenanceDetail').removeClass("d-none");
+            submit = false;
+        }
+
+        if ($("#vamReceiveDate").val() == "") {
+            $('#reqvamReceiveDate').removeClass("d-none");
+            submit = false;
+        }
+
+        if ($("#vamRequestDate").val() == "") {
+            $('#reqvamRequestDate').removeClass("d-none");
+            submit = false;
+        }
+
+        if (submit) {
+            $("#btnSubmitVAssetMaintenance").click();
+        }
+    }
+
+
+
+</script>

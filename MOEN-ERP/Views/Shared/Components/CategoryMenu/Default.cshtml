@@ -1,0 +1,101 @@
+﻿@model List<MOEN_ERP.DAL.Models.SystemMenu>
+
+@{
+    string actionName = ViewBag.Action;
+    string controllerName = ViewBag.Controller;
+    string controllerMainName = ViewBag.ControllerMain;
+}
+@if (Model != null)
+{
+
+    @foreach (var item in Model.Where(x => x.ParentMenuId == null))
+    {
+
+        string active = (actionName == item.ActionName && controllerName == item.ControllerName) ? "active" : string.Empty;
+        string show = (controllerMainName == item.ControllerMainName) ? "show" : string.Empty;
+        if (string.IsNullOrEmpty(controllerMainName) && string.IsNullOrEmpty(item.ControllerMainName)) show = string.Empty;
+
+        if (item.IsParent == true)
+        {
+            <!--begin:Menu item-->
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion @show">
+
+                <!--begin:Menu link-->
+                <span class="menu-link @active">
+                    <span class="menu-icon">
+                        <i class="@item.IconCss"></i>
+                    </span>
+                    <span class="menu-title">@item.MenuName</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <!--end:Menu link-->
+                <!--begin:Menu sub-->
+                <div class="menu-sub menu-sub-accordion @show">
+
+                    @foreach (var itemSub in Model.Where(x => x.ParentMenuId == item.Id))
+                    {
+                        string activeSub = (controllerName == itemSub.ControllerName && actionName == itemSub.ActionName) ? "active" : string.Empty;
+
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link @activeSub" href="@Url.Action(itemSub.ActionName,itemSub.ControllerName)">
+                                <span class="menu-bullet">
+                                    @if (!string.IsNullOrEmpty(@itemSub.IconCss))
+                                    {
+                                        <i class="@itemSub.IconCss"></i>
+                                    }
+                                    else
+                                    {
+                                        <span class="bullet bullet-dot"></span>
+                                    }
+                                </span>
+                                <span class="menu-title">@itemSub.MenuName</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    }
+
+                </div>
+                <!--end:Menu sub-->
+
+            </div>
+            <!--end:Menu item-->
+        }
+        else
+        {
+            if (item.ActionName == "DisplayScreen" && item.ControllerName == "VehicleDisplay")
+            {
+                <div class="menu-item">
+                    <a class="menu-link @active" href="#" data-bs-toggle="modal" data-bs-target="#mdlScreen">
+                        <span class="menu-icon">
+                            <i class="@item.IconCss"></i>
+                        </span>
+                        <span class="menu-title">@item.MenuName</span>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link @active" href="@Url.Action(item.ActionName,item.ControllerName)">
+                        <span class="menu-icon">
+                            <i class="@item.IconCss"></i>
+                        </span>
+                        <span class="menu-title">@item.MenuName</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+            }
+         
+        }
+
+
+    }
+
+}
+

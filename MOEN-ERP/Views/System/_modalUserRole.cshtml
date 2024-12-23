@@ -1,0 +1,84 @@
+﻿@model MOEN_ERP.DAL.Models.SystemUserRoleAssign
+@using (Html.AjaxBeginForm("SaveUserRoleAssign", "System", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblRoleAssign" }, new { enctype = "multipart/form-data", @class = "needs-validation", @novalidate = "novalidate" }))
+{
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.SystemUserId)
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlUserDetailRole">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>Role Details</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-5">
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ระบบ</label>
+                            <select class="form-select form-select-sm" name="SystemMenuGroupId" asp-for="SystemMenuGroupId" asp-items="ViewBag.SystemMenuGroups">
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ระดับการใช้งาน</label>
+                            <select class="form-select form-select-sm" name="SystemRoleId" asp-for="SystemRoleId" asp-items="ViewBag.SystemRoles">
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">วันที่เริ่มใช้งาน</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control form-control-sm" value="@Model.EffectiveDate?.ToString("dd/MM/yyyy")"
+                                       placeholder="วว/ดด/ปปปป" name="EffectiveDate" id="EffectiveDate" />
+                                <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                    <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">วันที่สิ้นสุด</label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control form-control-sm" value="@Model.ExpireDate?.ToString("dd/MM/yyyy")"
+                                       placeholder="วว/ดด/ปปปป" name="ExpireDate" id="ExpireDate" />
+                                <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                    <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt-5 mb-3">
+                            <div class="row fv-row">
+                                <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                        <input class="form-check-input" type="radio" value="true" name="Active" checked=@(Model.Active == null || Model.Active.Value)>
+                                        <label class="form-check-label">
+                                            ใช้งาน
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                        <input class="form-check-input" type="radio" value="false" name="Active" checked=@(Model.Active != null && !Model.Active.Value)>
+                                        <label class="form-check-label">
+                                            ไม่ใช้งาน
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" data-bs-dismiss="modal" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> ตกลง</button>
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-sm btn-light"><i class="fa  fa-ban"></i>  ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $('#mdlUserDetailRole').modal('show');
+    SetInputDate('ExpireDate');
+    SetInputDate('EffectiveDate');
+</script>

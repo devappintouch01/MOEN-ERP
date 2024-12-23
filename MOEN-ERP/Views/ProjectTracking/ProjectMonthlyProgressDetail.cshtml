@@ -1,0 +1,368 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายงานความก้าวหน้าประจำเดือน</span>
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายงานความก้าวหน้าประจำเดือน</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขที่อ้างอิง</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">รูปแบบโครงการ</label>
+                <div class="row fv-row">
+                    <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                        <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                            <input class="form-check-input" type="radio" value="true" name="Active" checked>
+                            <label class="form-check-label">
+                                ใช้งบประมาณ
+                            </label>
+                        </div>
+                        <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                            <input class="form-check-input" type="radio" value="false" name="Active">
+                            <label class="form-check-label">
+                                ไม่ใช้งบประมาณ
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">งบที่ได้รับจัดสรร</label>
+                <select class="form-select form-select-sm" disabled="disabled">
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">จำนวนเงิน</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">รวมเงินคำของบประมาณ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หน่วยงาน</label>
+                <select class="form-select form-select-sm" disabled="disabled">
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="col-form-label">ชื่องาน/โครงการ </label>
+                <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+            </div>
+
+
+        </div>
+
+        <div class="col-md-12 mb-3 mt-10">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                        ความก้าวหน้าการใช้จ่ายงบประมาณประจำเดือน
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                        ความก้าวหน้าการปฏิบัติงานประจำเดือน
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+                        ความก้าวหน้าการจัดซื้อจัดจ้าง
+                    </button>
+                </li>
+
+
+            </ul>
+            <div class="tab-content">
+
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    <div class="row mt-5">
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">ประจำเดือน</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ตุลาคม</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">งบประมาณตามแผน</label>
+                            <input class="form-control form-control-sm" readonly value="" />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">ผลการเบิกจ่ายเงินงบประมาณ (บาท)</label>
+                            <input class="form-control form-control-sm" readonly value="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                    <div class="row mt-5">
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">ประจำเดือน</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ตุลาคม</option>
+                            </select>
+                        </div>
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab2" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 style=" overflow-x:auto;"">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+
+                                        <th class="text-center">กิจกรรม</th>
+                                        <th class="text-center">เดือน</th>
+                                        <th class="text-center">อัตราสัดส่วนของงานทั้งหมด</th>
+                                        <th class="text-center"><span class="required">เปอร์เซ็นงานแล้วเสร็จ</span></th>
+                                        <th class="text-center">สถานะ</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            กิจกรรมที่ 1
+                                        </td>
+                                        <td>
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value="">ตุลาคม</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="50" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="50" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="เป็นไปตามแผน" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value="">พฤศจิกายน</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="50" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            รวม
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="100" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            กิจกรรมที่ 2
+                                        </td>
+                                        <td>
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value="">ตุลาคม</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="100" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            รวม
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="100" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-form-label">ผลรวมกิจกรรมทั้งหมด</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" readonly value="10">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-form-label">สถานะภาพรวม</label>
+                            <input class="form-control form-control-sm text-center" readonly="readonly" value="เป็นไปตามแผน" />
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ผลสัมฤทธิ์หรือประโยชน์ที่คาดว่าจะได้รับในการใช้จ่ายงบประมาณ (พ.ร.บ)</label>
+                            <textarea class="form-control form-control-sm"  rows="2"> </textarea>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">รายงานผลผลสัมฤทธิ์หรือประโยชน์ที่คาดว่าจะได้รับในการใช้จ่ายงบประมาณ (รายงานผล)</label>
+                            <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ปัญหาอุปสรรคด้านการใช้จ่ายงบประมาณ</label>
+                            <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ปัญหาอุปสรรคด้านการดำเนินงาน</label>
+                            <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ปัญหาอุปสรรคที่ไม่สามารถดำเนินการได้ตามแผน</label>
+                            <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ข้อเสนอแนะ</label>
+                            <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">คำชี้แจงอื่นๆ เพิ่มเติม</label>
+                            <textarea class="form-control form-control-sm" rows="2"> </textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                    <div class="row mt-5">
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">ประจำเดือน</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ตุลาคม</option>
+                            </select>
+                        </div>
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+
+                                        <th class="text-center">ลำดับ</th>
+                                        <th class="text-center">ขั้นตอน</th>
+                                        <th class="text-center">เดือน</th>
+                                        <th class="text-center">ดำเนินการตามแผน</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">จัดทำแผนจัดซื้อจัดจ้าง</td>
+                                        <td class="text-center">
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value=""></option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center"><input type="checkbox" value="0" /></td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">ร่าง TOR</td>
+                                        <td class="text-center">
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value=""></option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center"><input type="checkbox" value="0" /></td>
+                                    </tr>
+                                    <tr>
+
+                                        <td class="text-center">3</td>
+                                        <td class="text-center">จัดทำรายงาน</td>
+                                        <td class="text-center">
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value=""></option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center"><input type="checkbox" value="0" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mt-10 row">
+            <div class="col-6">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                <button class="btn btn-warning btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button>
+                <a href="@Url.Action("ProjectMonthlyProgressCentralDetail","ProjectTracking")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+            </div>
+            <div class="col-6 text-end">
+                <button class="btn btn-warning btn-sm"><i class="fas fa-share"></i> ส่งกลับแก้ไข</button>
+            </div>
+        </div>
+    </div>
+</div>
+

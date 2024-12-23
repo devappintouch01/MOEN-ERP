@@ -1,0 +1,1150 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">แผนการใช้จ่ายงบประมาณ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">แผนการใช้จ่ายงบประมาณ</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขที่คำขอ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ<span class="text-danger">*</span></label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หน่วยงาน<span class="text-danger">*</span></label>
+                <select class="form-select form-select-sm" disabled="disabled">
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">รวมเงินคำของบประมาณ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>            
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+          
+        </div>
+
+        <div class="col-md-12 mb-3 mt-10">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                        งบบุคลากร
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                        งบดำเนินงาน
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+                        งบเงินอุดหนุน
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="4-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">
+                        งบลงทุน
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="5-tab" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="tab5" aria-selected="false">
+                        งบรายจ่ายอื่น
+                    </button>
+                </li>
+
+            </ul>
+            <div class="tab-content">
+
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    <div class="row mt-5">
+                        <div class="col-lg-12 text-end">
+                            <button type="button" id="collapser1" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+                            <button type="button" id="expander1" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+                        </div>
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" style="width:15%">รายการ </th>
+                                        <th class="text-center" style="width:10%">งบประมาณที่ได้รับอนุมัติ(พ.ร.บ.)</th>
+                                        <th class="text-center">ต.ค.</th>
+                                        <th class="text-center">พ.ย.</th>
+                                        <th class="text-center">ธ.ค.</th>
+                                        <th class="text-center">ม.ค.</th>
+                                        <th class="text-center">ก.พ.</th>
+                                        <th class="text-center">มี.ค.</th>
+                                        <th class="text-center">เม.ย.</th>
+                                        <th class="text-center">พ.ค.</th>
+                                        <th class="text-center">มิ.ย.</th>
+                                        <th class="text-center">ก.ค.</th>
+                                        <th class="text-center">ส.ค.</th>
+                                        <th class="text-center">ก.ย.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-node-id="1">
+                                        <td>
+                                            เงินเดือน
+                                        </td>                                       
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="261,789,700" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control form-control-sm text-center"value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control form-control-sm text-center"value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                         <td>
+                                            <input class="form-control form-control-sm text-center"value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                       
+                                    </tr>
+                                    <tr data-node-id="2">
+                                        <td>
+                                            ค่าจ้างประจำ
+                                        </td>                                        
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="0" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="3">
+                                        <td>
+                                            พนักงานราชการ
+                                        </td>                                      
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="0" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            $('#tbltab1').simpleTreeTable({
+                                expander: $('#expander1'),
+                                collapser: $('#collapser1'),
+                                storeKey: 'simple-tree-table-basic'
+                            });
+                        </script>                       
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                    <div class="row mt-5">
+                        <div class="col-lg-12 text-end">
+                            <button type="button" id="collapser2" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+                            <button type="button" id="expander2" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+                        </div>
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab2" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 style=" overflow-x:auto;"">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" style="width:15%">รายการ </th>
+                                        <th class="text-center" style="width:10%">งบประมาณที่ได้รับอนุมัติ(พ.ร.บ.)</th>
+                                        <th class="text-center">ต.ค.</th>
+                                        <th class="text-center">พ.ย.</th>
+                                        <th class="text-center">ธ.ค.</th>
+                                        <th class="text-center">ม.ค.</th>
+                                        <th class="text-center">ก.พ.</th>
+                                        <th class="text-center">มี.ค.</th>
+                                        <th class="text-center">เม.ย.</th>
+                                        <th class="text-center">พ.ค.</th>
+                                        <th class="text-center">มิ.ย.</th>
+                                        <th class="text-center">ก.ค.</th>
+                                        <th class="text-center">ส.ค.</th>
+                                        <th class="text-center">ก.ย.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-node-id="1">
+                                        <td>
+                                            ค่าตอบแทน
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="244,500" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="1.1" data-node-pid="1">
+                                        <td>
+                                            ค่าอาหารทำการนอกเวลา
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="244,500" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="1.2" data-node-pid="1">
+                                        <td>
+                                            ค่าเช่าบ้าน
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="0" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="2">
+                                        <td>
+                                            ค่าใช้สอย
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="61,766,900" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="2.1" data-node-pid="2">
+                                        <td>
+                                            ค่าเบี้ยเลี้ยง ค่าเช่าที่พักและค่าพาหนะ
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="3,093,800" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="2.2" data-node-pid="2">
+                                        <td>
+                                            ค่าซ่อมแซมยานพาหนะและขนส่ง
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="500,000" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center"  value="" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            $('#tbltab2').simpleTreeTable({
+                                expander: $('#expander2'),
+                                collapser: $('#collapser2'),
+                                storeKey: 'simple-tree-table-basic'
+                            });
+                        </script>                      
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                    <div class="row mt-5">
+                        <div class="col-lg-12 text-end">
+                            <button type="button" id="collapser5" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+                            <button type="button" id="expander5" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+                        </div>
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab3" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">                   
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" style="width:20%">รายการ </th>
+                                        <th class="text-center" >งบประมาณที่ได้รับอนุมัติ(พ.ร.บ.)</th>
+                                        <th class="text-center">ต.ค.</th>
+                                        <th class="text-center">พ.ย.</th>
+                                        <th class="text-center">ธ.ค.</th>
+                                        <th class="text-center">ม.ค.</th>
+                                        <th class="text-center">ก.พ.</th>
+                                        <th class="text-center">มี.ค.</th>
+                                        <th class="text-center">เม.ย.</th>
+                                        <th class="text-center">พ.ค.</th>
+                                        <th class="text-center">มิ.ย.</th>
+                                        <th class="text-center">ก.ค.</th>
+                                        <th class="text-center">ส.ค.</th>
+                                        <th class="text-center">ก.ย.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-node-id="1">
+                                        <td >
+                                            โครงการเพิ่มสมรรถนะด้านการบริหาร
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="28,440,000" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                          <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="1.1" data-node-pid="1">                                       
+                                        <td colspan="14">
+                                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                                                <thead class="table-primary">
+                                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                                        <th class="text-center" width="70">ลำดับ</th>
+                                                        <th class="text-center" style="width:15%">รายการ </th>
+                                                        <th class="text-center" style="width:10%">งบประมาณที่ได้รับอนุมัติ(พ.ร.บ.)</th>
+                                                        <th class="text-center">ต.ค.</th>
+                                                        <th class="text-center">พ.ย.</th>
+                                                        <th class="text-center">ธ.ค.</th>
+                                                        <th class="text-center">ม.ค.</th>
+                                                        <th class="text-center">ก.พ.</th>
+                                                        <th class="text-center">มี.ค.</th>
+                                                        <th class="text-center">เม.ย.</th>
+                                                        <th class="text-center">พ.ค.</th>
+                                                        <th class="text-center">มิ.ย.</th>
+                                                        <th class="text-center">ก.ค.</th>
+                                                        <th class="text-center">ส.ค.</th>
+                                                        <th class="text-center">ก.ย.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-center">1</td>                                                        
+                                                        <td class="text-center">โครงการเพิ่มสมรรถนะด้านการบริหารและจัดการพลังงานครบวงจรในชุมชนระดับตำบลและเครือข่ายพลังงานชุมชน</td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="28,440,000" />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm text-center"  value="" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            $('#tbltab3').simpleTreeTable({
+                                expander: $('#expander5'),
+                                collapser: $('#collapser5'),
+                                storeKey: 'simple-tree-table-basic'
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+                    <div class="row mt-5">
+                        <div class="col-lg-12 text-end">
+                            <button type="button" id="collapser4" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+                            <button type="button" id="expander4" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+                        </div>
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab4" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                                <thead class="table-primary align-middle">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" style="width:20%">รายการ </th>
+                                        <th class="text-center">งบประมาณที่ได้รับอนุมัติ(พ.ร.บ.)</th>
+                                        <th class="text-center">ต.ค.</th>
+                                        <th class="text-center">พ.ย.</th>
+                                        <th class="text-center">ธ.ค.</th>
+                                        <th class="text-center">ม.ค.</th>
+                                        <th class="text-center">ก.พ.</th>
+                                        <th class="text-center">มี.ค.</th>
+                                        <th class="text-center">เม.ย.</th>
+                                        <th class="text-center">พ.ค.</th>
+                                        <th class="text-center">มิ.ย.</th>
+                                        <th class="text-center">ก.ค.</th>
+                                        <th class="text-center">ส.ค.</th>
+                                        <th class="text-center">ก.ย.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-node-id="1">
+                                        <td>
+                                            ค่าครุภัณฑ์
+                                        </td>                                       
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="200,000" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="1.1" data-node-pid="1">
+                                        <td>
+                                            ค่าครุภัณฑ์สำนักงาน
+                                        </td>                                     
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="200,000" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                       
+                                    </tr>
+
+                                    <tr data-node-id="1.1" data-node-pid="1">                                      
+                                        <td colspan="14">
+                                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                                                <thead class="table-primary">
+                                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">                                                        
+                                                        <th class="text-center" width="70">ลำดับ</th>
+                                                        <th class="text-center" style="width:15%">รายการ </th>
+                                                        <th class="text-center" style="width:10%">งบประมาณที่ได้รับอนุมัติ(พ.ร.บ.)</th>
+                                                        <th class="text-center">ต.ค.</th>
+                                                        <th class="text-center">พ.ย.</th>
+                                                        <th class="text-center">ธ.ค.</th>
+                                                        <th class="text-center">ม.ค.</th>
+                                                        <th class="text-center">ก.พ.</th>
+                                                        <th class="text-center">มี.ค.</th>
+                                                        <th class="text-center">เม.ย.</th>
+                                                        <th class="text-center">พ.ค.</th>
+                                                        <th class="text-center">มิ.ย.</th>
+                                                        <th class="text-center">ก.ค.</th>
+                                                        <th class="text-center">ส.ค.</th>
+                                                        <th class="text-center">ก.ย.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>                                                        
+                                                        <td class="text-center">1</td>
+                                                        <td class="text-center">
+                                                            รายการที่ครุภัณฑ์สำนักงาน
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="200,000" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>                                
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            $('#tbltab4').simpleTreeTable({
+                                expander: $('#expander4'),
+                                collapser: $('#collapser4'),
+                                storeKey: 'simple-tree-table-basic'
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
+                    <div class="row mt-5">
+                        <div class="col-lg-12 text-end">
+                            <button type="button" id="collapser5" class="btn btn-warning btn-sm"><i class="fa fa-minus-circle"></i> ย่อทั้งหมด</button>
+                            <button type="button" id="expander5" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> แสดงทั้งหมด</button>
+                        </div>
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-5">
+                            <table id="tbltab5" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" style="width:20%">รายการ </th>
+                                        <th class="text-center">งบประมาณที่ได้รับอนุมัติ(พ.ร.บ.)</th>
+                                        <th class="text-center">ต.ค.</th>
+                                        <th class="text-center">พ.ย.</th>
+                                        <th class="text-center">ธ.ค.</th>
+                                        <th class="text-center">ม.ค.</th>
+                                        <th class="text-center">ก.พ.</th>
+                                        <th class="text-center">มี.ค.</th>
+                                        <th class="text-center">เม.ย.</th>
+                                        <th class="text-center">พ.ค.</th>
+                                        <th class="text-center">มิ.ย.</th>
+                                        <th class="text-center">ก.ค.</th>
+                                        <th class="text-center">ส.ค.</th>
+                                        <th class="text-center">ก.ย.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-node-id="1">
+                                        <td>
+                                            โครงการเจรจาและประชุมนานาชาติ
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="28,440,000" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr data-node-id="1.1" data-node-pid="1">                                       
+                                        <td colspan="14">
+                                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                                                <thead class="table-primary">
+                                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">                                                        
+                                                        <th class="text-center" width="70">ลำดับ</th>
+                                                        <th class="text-center" style="width:15%">รายการ </th>
+                                                        <th class="text-center" style="width:10%">งบประมาณที่ได้รับอนุมัติ(พ.ร.บ.)</th>
+                                                        <th class="text-center">ต.ค.</th>
+                                                        <th class="text-center">พ.ย.</th>
+                                                        <th class="text-center">ธ.ค.</th>
+                                                        <th class="text-center">ม.ค.</th>
+                                                        <th class="text-center">ก.พ.</th>
+                                                        <th class="text-center">มี.ค.</th>
+                                                        <th class="text-center">เม.ย.</th>
+                                                        <th class="text-center">พ.ค.</th>
+                                                        <th class="text-center">มิ.ย.</th>
+                                                        <th class="text-center">ก.ค.</th>
+                                                        <th class="text-center">ส.ค.</th>
+                                                        <th class="text-center">ก.ย.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>                                                       
+                                                        <td class="text-center">1</td>
+                                                        <td class="text-center">โครงการเจรจาและประชุมนานาชาติ</td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm text-center" readonly="readonly" value="12,425,300" />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                         <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control form-control-sm text-center" value="" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <script>
+                            $('#tbltab5').simpleTreeTable({
+                                expander: $('#expander5'),
+                                collapser: $('#collapser5'),
+                                storeKey: 'simple-tree-table-basic'
+                            });
+                        </script>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mt-10 row">
+            <div class="col-6">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                <button class="btn btn-warning btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button>
+                <button class="btn btn-danger btn-sm text-end"><i class="fa fa-trash"></i> ลบ</button>
+                <a href="@Url.Action("BudgetPlanExpenseList","Budget")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+            </div>
+            <div class="col-6 text-end">
+                <button type="button" class="btn btn-success btn-sm"><i class="fa fa-check"></i> อนุมัติ</button>
+                <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> ไม่อนุมัติ</button>
+                <button class="btn btn-warning btn-sm"><i class="fas fa-share"></i> ส่งกลับแก้ไข</button>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDetailHistory"><i class="fa fa-history"></i> ประวัติการพิจารณา</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailHistory">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>ประวัติการพิจารณา</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                        <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                    <th class="text-center" style="width:5%">#</th>
+                                    <th class="text-center">วันที่</th>
+                                    <th class="text-center">ผู้ดำเนินการ</th>
+                                    <th class="text-center">ผู้ดำเนินการลำดับถัดไป</th>
+                                    <th class="text-center">การดำเนินการ</th>
+                                    <th class="text-center">ความคิดเห็น</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">09/08/2567</td>
+                                    <td class="text-center">เจ้าหน้าที่ทดสอบ 1</td>
+                                    <td class="text-center">เจ้าหน้าที่พัสดุ 1</td>
+                                    <td class="text-center">ส่งเรื่องพิจารณา</td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">10/08/2567</td>
+                                    <td class="text-center">เจ้าหน้าที่พัสดุ 1</td>
+                                    <td class="text-center">เจ้าหน้าที่ทดสอบ 1</td>
+                                    <td class="text-center">ส่งกลับแก้ไข</td>
+                                    <td class="text-center"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+    function onpenModal(id) {
+        $('#' + id).modal('show');
+    }
+
+  
+</script>

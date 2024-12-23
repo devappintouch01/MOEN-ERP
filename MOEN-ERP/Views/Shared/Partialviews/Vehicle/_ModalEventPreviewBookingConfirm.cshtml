@@ -1,0 +1,84 @@
+﻿<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalManageAdminCarModel">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span class="btn btn-sm btn-icon bg-success "><i class="fa fa-check text-white"></i></span> ยืนยันการจองยานพาหนะ</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex mt-2">
+
+                        <div class="form-check  form-check-custom form-check-solid  me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                            <input class="form-check-input" type="checkbox" name="status">
+                            <label class="form-check-label" for="status">
+                                ยืนยันการจองแต่ยังไม่ดำเนินการจัดยานพาหนะ
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-form-label col-lg-4 text-lg-end">ประเภทยานพาหนะ <span class="required"></span> : </label>
+                    <div class="col-xxl-8 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <select class="form-select form-select-sm" data-control="select2">
+                            <option>กรุณาเลือก</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-form-label col-lg-4 text-lg-end">ทะเบียนยานพาหนะ <span class="required"></span> : </label>
+                    <div class="col-xxl-8 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <select class="form-select form-select-sm" data-control="select2">
+                            <option>กรุณาเลือก</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-form-label col-lg-4 text-lg-end">พนักงานขับรถ <span class="required"></span> : </label>
+                    <div class="col-xxl-8 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <select class="form-select form-select-sm" data-control="select2">
+                            <option>กรุณาเลือก</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+            <div class="modal-footer d-flex justify-content-between">
+                <div>
+                </div>
+                <div>
+                    <button id="btnConfirm" type="button" class="btn btn-sm btn-primary">ยืนยัน</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                </div>
+                <div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('#btnConfirm').click(function(){
+            Swal.fire({ title: 'บันทึกข้อมูลสำเร็จ', text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+        });
+    });
+</script>
+

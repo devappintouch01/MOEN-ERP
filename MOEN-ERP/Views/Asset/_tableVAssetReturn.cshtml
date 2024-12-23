@@ -1,0 +1,103 @@
+﻿@model List<MOEN_ERP.DAL.Models.VAssetReturn>
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="tblMain" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center"></th>
+                        <th class="text-center" style="width:5%">#</th>
+                        <th class="text-center">เลขที่ส่งคืน</th>
+                        <th class="text-center">วันที่ส่งคืน</th>
+                        <th class="text-center">สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var no = 1;
+                    }
+                    @foreach(var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <a href="@Url.Action("AssetReturnDetail","Asset",new {arId= item.Id})" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                    <i class="fa fa-edit fs-4"></i>
+                                </a>
+                                <a class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                                   data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ"
+                                   data-ajax="true"
+                                   data-ajax-method="POST"
+                                   data-ajax-mode="replace"
+                                   data-ajax-update="#tbl"
+                                   data-ajax-confirm="ต้องการลบรายการนี้หรือไม่"
+                                   href='@Url.Action("DelAssetReturn", "Asset", new {arId = item.Id})'>
+                                    <i class="fa fa-trash fs-4"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">@no</td>
+                            <td class="text-center">@item.Code</td>
+                            <td class="text-center">@item.ReturnDate?.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@item.StatusName</td>
+                        </tr>
+                        no++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $('#tblMain').DataTable({
+        language: {
+            url: `${baseURL}/js/th.json`,
+        },
+        "paging": true,
+        "searching": false,
+        "lengthChange": true,
+        "lengthMenu": [25, 50, 100],
+        "ordering": false,
+        "order": [],
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: 'none',
+                target: ''
+            }
+        },
+        "pageLength": 25,
+        deferLoading: 10,
+        dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+    });
+
+</script>
+
+
+
+
+@if (ViewBag.submitForm == true)
+{
+    <script>
+        $('#searchForm').submit();
+    </script>
+}
+
+@if (ViewBag.success != null)
+{
+    <script>
+        Swal.fire('@ViewBag.success', '', 'success');
+    </script>
+}
+@if (ViewBag.error != null)
+{
+    <script>
+        Swal.fire('@ViewBag.error', '', 'error');
+    </script>
+}

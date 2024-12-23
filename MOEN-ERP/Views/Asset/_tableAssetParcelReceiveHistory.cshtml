@@ -1,0 +1,131 @@
+﻿@model List<MOEN_ERP.DAL.Models.VMaterialIn>
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="tblMain" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center"></th>
+                        <th class="text-center" width="50">#</th>
+                        <th class="text-center">เลขที่รับ</th>
+                        <th class="text-center">วันที่รับ</th>
+                        <th class="text-center">ชื่อผู้ขาย/ผู้รับจ้าง/ผู้จำหน่าย</th>
+                        <th class="text-center">รวมเป็นเงิน</th>
+                        <th class="text-center">สถานะ</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int no = 1;
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @if (item.Status != "N")
+                                {
+                                    if (item.WarehouseLevel == "3")
+                                    {
+                                        <a href="@Url.Action("AssetParcelReceiveProvinceDetail","Asset" , new { materialInId = item.Id , history = true })" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                       data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ดูรายละเอียด">
+                                        <i class="fa fa-search fs-4"></i>
+                                        </a>
+                                    }
+                                    else if (item.WarehouseLevel != "3")
+                                    {
+                                        <a href="@Url.Action("AssetParcelReceiveDetail","Asset" , new { materialInId = item.Id, history = true })" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                           data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ดูรายละเอียด">
+                                            <i class="fa fa-search fs-4"></i>
+                                        </a>
+                                    }
+                                }
+                                @if (item.Status != "A")
+                                {
+                                    if(item.WarehouseLevel == "3")
+                                    {
+                                        <a href="@Url.Action("AssetParcelReceiveProvinceDetail","Asset" , new { materialInId = item.Id , history = true})" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                           data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                            <i class="fa fa-edit fs-4"></i>
+                                        </a>
+                                    }
+                                    else if (item.WarehouseLevel != "3")
+                                    {
+                                        <a href="@Url.Action("AssetParcelReceiveDetail","Asset" , new { materialInId = item.Id , history = true})" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                           data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                            <i class="fa fa-edit fs-4"></i>
+                                        </a>
+                                    }
+                            
+                                    <a class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                                       data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ"
+                                       data-ajax="true"
+                                       data-ajax-method="POST"
+                                       data-ajax-mode="replace"
+                                       data-ajax-update="#tbl"
+                                       data-ajax-confirm="ต้องการลบรายการนี้หรือไม่"
+                                       href='@Url.Action("DelMaterialInHistory", "Asset", new {Id = item.Id})'>
+                                        <i class="fa fa-trash fs-4"></i>
+                                    </a>
+                                }
+                            </td>
+                            <td class="text-center">@no</td>
+                            <td class="text-center">@item.Code</td>
+                            <td class="text-center">@item.ReceiveDate?.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@item.SupplierName</td>
+                            <td class="text-center">@item.TotalValue</td>
+                            <td class="text-center">@item.StatusName</td>
+                        </tr>
+                        no++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#tblMain').DataTable({
+        language: {
+            url: `${baseURL}/js/th.json`,
+        },
+        "paging": true,
+        "searching": false,
+        "lengthChange": true,
+        "lengthMenu": [25, 50, 100],
+        "ordering": true, 
+        "order": [],
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: 'none',
+                target: ''
+            }
+        },
+        "pageLength": 25,
+        deferLoading: 10,
+        dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+    });
+</script>
+
+@if (ViewBag.success != null)
+{
+    <script>
+        Swal.fire('@ViewBag.success', '', 'success');
+        $("#btnSearch").click();
+    </script>
+}
+@if (ViewBag.error != null)
+{
+    <script>
+        Swal.fire('@ViewBag.error', '', 'error');
+        $("#btnSearch").click();
+    </script>
+}

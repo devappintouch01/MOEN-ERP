@@ -1,0 +1,73 @@
+﻿@model List<MOEN_ERP.Models.RawData.VSystemNotificationVehicle>;
+
+<div class="card-body p-2" id="kt_drawer_chat_messenger_body">
+
+
+    <!--begin::Messages-->
+    <div id="divNotificationBody" class="scroll-y me-n5 pe-5" data-kt-element="messages" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_drawer_chat_messenger_header, #kt_drawer_chat_messenger_footer" data-kt-scroll-wrappers="#kt_drawer_chat_messenger_body" data-kt-scroll-offset="0px">
+
+        @if (Model.Count() > 0)
+        {
+
+            <div class="d-flex justify-content-end mb-2">
+                <div class="row p-3">
+                    <a href="javascript:void(0)" onclick="DeleteAllNoti('0');" class="text-muted fs-7 mb-1"><i class="fa fa-trash"></i> ลบทั้งหมด</a>
+                </div>
+            </div>
+
+            @foreach (var itm in Model)
+            {
+                <div id="divNotificationItem_@itm.Id" class="p-2  m-2 rounded @(itm.Status == "N" ? "bg-light-warning" : "bg-light-info")  text-dark fw-semibold text-start" data-kt-element="message-text" style="width:100%">
+
+                    <div class="d-flex bd-highlight">
+                        <div class="p-2 w-100 bd-highlight">
+
+                            <div class="d-flex align-items-center mb-2">
+
+                                <div class="btn btn-icon btn-custom btn-info">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="ms-3">
+                                    <div class="row pt-2">
+                                        <a href="@Url.Action("RedirectVehicleNotifications","Shared",new {pId = itm.Id})" class="fs-5 fw-bold text-gray-900 text-hover-primary me-1">@itm.Title</a>
+                                    </div>
+                                    <div class="row">
+                                        <span class="text-muted fs-7 mb-1">@string.Format("เลขที่ใบจอง {0} {1}",itm.BookingCode, itm.Detail)</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="text-muted fs-7 mb-1">@string.Format("{0:dd/MM/yyyy HH:mm}",itm.NotificationDate)</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="p-2 flex-shrink-1 bd-highlight">
+                            <a href="javascript:void(0)" onclick="DeleteNoti('@itm.Id');" class="text-muted fs-7 mb-1"><i class="fa fa-trash"></i></a>
+                        </div>
+                    </div>
+
+
+                </div>
+            }
+        }
+        else
+        {
+            <div class="d-flex justify-content-center mb-2">
+                <div class="row p-3">
+                    <span class="text-muted fs-7 mb-1">ไม่มีข้อมูลการแจ้งเตือน</span>
+                </div>
+            </div>
+
+
+        }
+
+
+
+    </div>
+    <!--end::Messages-->
+
+</div>

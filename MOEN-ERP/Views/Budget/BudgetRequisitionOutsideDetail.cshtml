@@ -1,0 +1,703 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">เบิกจ่ายเงินนอกงบประมาณ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">เบิกจ่ายเงินนอกงบประมาณ</li>
+}
+
+<div class="card">
+    <div class="card-body">
+
+
+
+        <div class="row col-xl-12 col-lg-12 col-md-12 mb-3">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label required">วันที่</label>
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="Date1" id="Date1" />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label">เลขที่คำขอ</label>
+                <input type="text" class="form-control form-control-sm" disabled />
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label">สถานะ</label>
+                <input type="text" class="form-control form-control-sm" disabled />
+            </div>
+        </div>
+
+
+        <div class="row col-xl-12 col-lg-12 col-md-12 mb-3">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label required">หน่วยงาน</label>
+                <select class="form-select form-select-sm">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label required">ปีงบประมาณ</label>
+                <input type="text" class="form-control form-control-sm" />
+            </div>
+        </div>
+
+        <div class="row col-xl-12 col-lg-12 col-md-12 mb-3">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="col-form-label required">ชื่อโครงการ</label>
+                <select class="form-select form-select-sm">
+                    <option value=""></option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row col-xl-12 col-lg-12 col-md-12 mb-3">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label class="col-form-label required">รายละเอียด</label>
+                <input type="text" class="form-control form-control-sm" />
+            </div>
+
+        </div>
+
+        <div class="row col-xl-12 col-lg-12 col-md-12 mb-6">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label">วันที่เบิกจ่าย</label>
+                <input type="text" class="form-control form-control-sm" />
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label">เบิกฎีกา</label>
+                <input type="text" class="form-control form-control-sm" />
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label">เลขที่เอกสาร</label>
+                <input type="text" class="form-control form-control-sm" />
+            </div>
+        </div>
+
+
+
+        <div class="row col-xl-12 col-lg-12 col-md-12 mb-3">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+
+                <div class="row mb-3">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_1" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="IsShowOnlyAssignedWork">
+                            รายรับ
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row mb-3" style="margin-left:30px">
+                    <label class="col-form-label required">เลือกประเภทรายรับ</label>
+                </div>
+
+                <!-- 1_1 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_1_1" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            โอนเงินเข้าบัญชี
+                        </label>
+                    </div>
+                </div>
+                <div id="div_1_1" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 1_1 end. -->
+                <!-- 1_2 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_1_2" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ดอกเบี้ย
+                        </label>
+                    </div>
+                </div>
+                <div id="div_1_2" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 1_2 end. -->
+                <!-- 1_3 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_1_3" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ภาษีหัก ณ ที่จ่าย
+                        </label>
+                    </div>
+                </div>
+                <div id="div_1_3" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 1_3 end. -->
+                <!-- 1_4 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_1_4" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ค่าปรับ
+                        </label>
+                    </div>
+                </div>
+                <div id="div_1_4" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 1_4 end. -->
+                <!-- 1_5 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_1_5" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            เงินประกันผลงาน
+                        </label>
+                    </div>
+                </div>
+                <div id="div_1_5" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 1_5 end. -->
+
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+
+                <div class="row mb-3">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_2" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="IsShowOnlyAssignedWork">
+                            รายจ่าย
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="col-form-label required" style="margin-left:30px">เลือกประเภทรายจ่าย</label>
+                </div>
+
+
+                <!-- 2_1 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_2_1" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ผูกพัน
+                        </label>
+                    </div>
+                </div>
+                <div id="div_2_1" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 2_1 end. -->
+                <!-- 2_2 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_2_2" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            เงินโอนให้ภูมิภาค
+                        </label>
+                    </div>
+                </div>
+                <div id="div_2_2" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 2_2 end. -->
+                <!-- 2_3 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_2_3" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ลูกหนี้เงินยืม
+                        </label>
+                    </div>
+                </div>
+                <div id="div_2_3" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 2_3 end. -->
+                <!-- 2_4 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_2_4" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ค่าใช้สอย
+                        </label>
+                    </div>
+                </div>
+                <div id="div_2_4" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 2_4 end. -->
+                <!-- 2_5 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_2_5" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ค่าวัสดุ
+                        </label>
+                    </div>
+                </div>
+                <div id="div_2_5" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 2_5 end. -->
+                <!-- 2_6 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_2_6" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ค่าสาธารณูปโภค
+                        </label>
+                    </div>
+                </div>
+                <div id="div_2_6" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 2_6 end. -->
+                <!-- 2_7 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_2_7" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ค่าจ้างที่ปรึกษา
+                        </label>
+                    </div>
+                </div>
+                <div id="div_2_7" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 2_7 end. -->
+            </div>
+
+
+
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+
+                    <div class="row mb-3">
+                        <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                            <input id="chk_3" class="form-check-input" type="checkbox">
+                            <label class="form-check-label">
+                                ส่งคืน
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-form-label required" style="margin-left:30px">เลือกประเภทส่งคืน</label>
+                    </div>
+                <!-- 3_1 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_3_1" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            เงินต้น
+                        </label>
+                    </div>
+                </div>
+                <div id="div_3_1" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 3_1 end. -->
+                <!-- 3_2 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_3_2" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ดอกเบี้ย
+                        </label>
+                    </div>
+                </div>
+                <div id="div_3_2" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 3_2 end. -->
+                <!-- 3_3 -->
+                <div class="row mb-3" style="margin-left:30px">
+                    <div class="form-check form-check-custom form-check-solid me-10 mb-2">
+                        <input id="chk_3_3" class="form-check-input" type="checkbox">
+                        <label class="form-check-label">
+                            ค่าปรับ
+                        </label>
+                    </div>
+                </div>
+                <div id="div_3_3" class="row mb-3 d-none" style="margin-left:30px">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <!-- 3_3 end. -->
+
+            </div>
+
+        </div>
+
+
+        <div class="row col-xl-12 col-lg-12 col-md-12 mb-3">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <label class="col-form-label">แนบไฟล์</label>
+                <input type="file" class="form-control form-control-sm" />
+            </div>
+        </div>
+
+
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+        <a href="@Url.Action("BudgetRequisitionOutsideList","Budget")" class="btn btn-secondary btn-sm"><i class="fa fa-repeat"></i> กลับหน้าหลัก</a>
+        <button type="button" class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $('#table1').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "ordering": false,
+            "info": true,
+            "autoWidth": false,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 10,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+
+
+        //-- 1_1
+        const chk_1_1 = document.getElementById('chk_1_1');
+        const div_1_1 = document.getElementById('div_1_1');
+
+        chk_1_1.addEventListener('change', function () {
+            if (this.checked) {
+                div_1_1.classList.remove('d-none');
+            } else {
+                div_1_1.classList.add('d-none');
+            }
+        });
+        //-- 1_1 end.
+
+        //-- 1_2
+        const chk_1_2 = document.getElementById('chk_1_2');
+        const div_1_2 = document.getElementById('div_1_2');
+
+        chk_1_2.addEventListener('change', function () {
+            if (this.checked) {
+                div_1_2.classList.remove('d-none');
+            } else {
+                div_1_2.classList.add('d-none');
+            }
+        });
+        //-- 1_2 end.
+
+        //-- 1_3
+        const chk_1_3 = document.getElementById('chk_1_3');
+        const div_1_3 = document.getElementById('div_1_3');
+
+        chk_1_3.addEventListener('change', function () {
+            if (this.checked) {
+                div_1_3.classList.remove('d-none');
+            } else {
+                div_1_3.classList.add('d-none');
+            }
+        });
+        //-- 1_3 end.
+
+        //-- 1_4
+        const chk_1_4 = document.getElementById('chk_1_4');
+        const div_1_4 = document.getElementById('div_1_4');
+
+        chk_1_4.addEventListener('change', function () {
+            if (this.checked) {
+                div_1_4.classList.remove('d-none');
+            } else {
+                div_1_4.classList.add('d-none');
+            }
+        });
+        //-- 1_4 end.
+
+
+        //-- 1_5
+        const chk_1_5 = document.getElementById('chk_1_5');
+        const div_1_5 = document.getElementById('div_1_5');
+
+        chk_1_5.addEventListener('change', function () {
+            if (this.checked) {
+                div_1_5.classList.remove('d-none');
+            } else {
+                div_1_5.classList.add('d-none');
+            }
+        });
+        //-- 1_5 end.
+
+
+        //-- 2_1
+        const chk_2_1 = document.getElementById('chk_2_1');
+        const div_2_1 = document.getElementById('div_2_1');
+
+        chk_2_1.addEventListener('change', function () {
+            if (this.checked) {
+                div_2_1.classList.remove('d-none');
+            } else {
+                div_2_1.classList.add('d-none');
+            }
+        });
+        //-- 2_1 end.
+
+        //-- 2_2
+        const chk_2_2 = document.getElementById('chk_2_2');
+        const div_2_2 = document.getElementById('div_2_2');
+
+        chk_2_2.addEventListener('change', function () {
+            if (this.checked) {
+                div_2_2.classList.remove('d-none');
+            } else {
+                div_2_2.classList.add('d-none');
+            }
+        });
+        //-- 2_2 end.
+        //-- 2_3
+        const chk_2_3 = document.getElementById('chk_2_3');
+        const div_2_3 = document.getElementById('div_2_3');
+
+        chk_2_3.addEventListener('change', function () {
+            if (this.checked) {
+                div_2_3.classList.remove('d-none');
+            } else {
+                div_2_3.classList.add('d-none');
+            }
+        });
+        //-- 2_3 end.
+        //-- 2_4
+        const chk_2_4 = document.getElementById('chk_2_4');
+        const div_2_4 = document.getElementById('div_2_4');
+
+        chk_2_4.addEventListener('change', function () {
+            if (this.checked) {
+                div_2_4.classList.remove('d-none');
+            } else {
+                div_2_4.classList.add('d-none');
+            }
+        });
+        //-- 2_4 end.
+        //-- 2_5
+        const chk_2_5 = document.getElementById('chk_2_5');
+        const div_2_5 = document.getElementById('div_2_5');
+
+        chk_2_5.addEventListener('change', function () {
+            if (this.checked) {
+                div_2_5.classList.remove('d-none');
+            } else {
+                div_2_5.classList.add('d-none');
+            }
+        });
+        //-- 2_5 end.
+        //-- 2_6
+        const chk_2_6 = document.getElementById('chk_2_6');
+        const div_2_6 = document.getElementById('div_2_6');
+
+        chk_2_6.addEventListener('change', function () {
+            if (this.checked) {
+                div_2_6.classList.remove('d-none');
+            } else {
+                div_2_6.classList.add('d-none');
+            }
+        });
+        //-- 2_6 end.
+        //-- 2_7
+        const chk_2_7 = document.getElementById('chk_2_7');
+        const div_2_7 = document.getElementById('div_2_7');
+
+        chk_2_7.addEventListener('change', function () {
+            if (this.checked) {
+                div_2_7.classList.remove('d-none');
+            } else {
+                div_2_7.classList.add('d-none');
+            }
+        });
+        //-- 2_7 end.
+
+        //-- 3_1
+        const chk_3_1 = document.getElementById('chk_3_1');
+        const div_3_1 = document.getElementById('div_3_1');
+
+        chk_3_1.addEventListener('change', function () {
+            if (this.checked) {
+                div_3_1.classList.remove('d-none');
+            } else {
+                div_3_1.classList.add('d-none');
+            }
+        });
+        //-- 3_1 end.
+        //-- 3_2
+        const chk_3_2 = document.getElementById('chk_3_2');
+        const div_3_2 = document.getElementById('div_3_2');
+
+        chk_3_2.addEventListener('change', function () {
+            if (this.checked) {
+                div_3_2.classList.remove('d-none');
+            } else {
+                div_3_2.classList.add('d-none');
+            }
+        });
+        //-- 3_2 end.
+        //-- 3_3
+        const chk_3_3 = document.getElementById('chk_3_3');
+        const div_3_3 = document.getElementById('div_3_3');
+
+        chk_3_3.addEventListener('change', function () {
+            if (this.checked) {
+                div_3_3.classList.remove('d-none');
+            } else {
+                div_3_3.classList.add('d-none');
+            }
+        });
+        //-- 3_3 end.
+
+        const chk_1 = document.getElementById('chk_1');
+        chk_1.addEventListener('change', function () {
+            if (this.checked) {
+                chk_1_1.disabled = false;
+                chk_1_2.disabled = false;
+                chk_1_3.disabled = false;
+                chk_1_4.disabled = false;
+                chk_1_5.disabled = false;
+
+            } else {
+                chk_1_1.disabled = true;
+                chk_1_2.disabled = true;
+                chk_1_3.disabled = true;
+                chk_1_4.disabled = true;
+                chk_1_5.disabled = true;
+            }
+        });
+
+        const chk_2 = document.getElementById('chk_2');
+        chk_2.addEventListener('change', function () {
+            if (this.checked) {
+                chk_2_1.disabled = false;
+                chk_2_2.disabled = false;
+                chk_2_3.disabled = false;
+                chk_2_4.disabled = false;
+                chk_2_5.disabled = false;
+                chk_2_6.disabled = false;
+                chk_2_7.disabled = false;
+                chk_2_8.disabled = false;
+                chk_2_9.disabled = false;
+                chk_2_10.disabled = false;
+
+            } else {
+                chk_2_1.disabled = true;
+                chk_2_2.disabled = true;
+                chk_2_3.disabled = true;
+                chk_2_4.disabled = true;
+                chk_2_5.disabled = true;
+                chk_2_6.disabled = true;
+                chk_2_7.disabled = true;
+                chk_2_8.disabled = true;
+                chk_2_9.disabled = true;
+                chk_2_10.disabled = true;
+            }
+        });
+
+        const chk_3 = document.getElementById('chk_3');
+        chk_3.addEventListener('change', function () {
+            if (this.checked) {
+                chk_3_1.disabled = false;
+                chk_3_2.disabled = false;
+                chk_3_3.disabled = false;
+            } else {
+                chk_3_1.disabled = true;
+                chk_3_2.disabled = true;
+                chk_3_3.disabled = true;
+               
+            }
+        });
+
+        $(function () {
+            chk_1_1.disabled = true;
+            chk_1_2.disabled = true;
+            chk_1_3.disabled = true;
+            chk_1_4.disabled = true;
+            chk_1_5.disabled = true;
+
+            chk_2_1.disabled = true;
+            chk_2_2.disabled = true;
+            chk_2_3.disabled = true;
+            chk_2_4.disabled = true;
+            chk_2_5.disabled = true;
+            chk_2_6.disabled = true;
+            chk_2_7.disabled = true;
+
+            chk_3_1.disabled = true;
+            chk_3_2.disabled = true;
+            chk_3_3.disabled = true;
+    
+        });
+
+
+    </script>
+}

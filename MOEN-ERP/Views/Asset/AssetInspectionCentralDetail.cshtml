@@ -1,0 +1,259 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">การตรวจสอบประจำปี</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">การตรวจสอบประจำปี</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขที่อ้างอิง</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ <span class="text-danger">*</span></label>
+                <input class="form-control form-control-sm" />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <input class="form-control form-control-sm" value="รับรองผล" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">วันที่เริ่มต้น</label>
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="Date1" id="Date1" />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">วันที่สิ้นสุด</label>
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="Date1" id="Date1" />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หมายเหตุ</label>
+                <textarea class="form-control form-control-sm" rows="2"> </textarea>
+            </div>
+
+
+            <div class="col-md-12 mb-3 mt-10">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                            หน่วยงาน
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                            คณะกรรมการตรวจสอบฯ
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    <div class="row mt-5">
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary align-middle">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" width="50" rowspan="2">
+                                        </th>
+                                        <th class="text-center" style="width:5%" rowspan="2">#</th>
+                                        <th class="text-center" rowspan="2">หน่วยงาน</th>
+                                        <th class="text-center" rowspan="2">สถานะ</th>
+                                        <th class="text-center" colspan="2">สิ่งปลูกสร้าง</th>
+                                        <th class="text-center" colspan="4">ครุภัณฑ์</th>
+                                    </tr>
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+
+                                        <th class="text-center">ทั้งหมด</th>
+                                        <th class="text-center">ชำรุด</th>
+                                        <th class="text-center">ทั้งหมด</th>
+                                        <th class="text-center">ชำรุด</th>
+                                        <th class="text-center">ไม่พบ</th>
+                                        <th class="text-center">พบผิดที่</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <a href="@Url.Action("AssetInspectionOrganizationDetail","Asset")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                                <i class="fa fa-edit fs-4"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">สำนักงานพลังงานจังหวัดสมุทรปราการ</td>
+                                        <td class="text-center">ดำเนินการ</td>
+                                        <td class="text-center">30</td>
+                                        <td class="text-center">3</td>
+                                        <td class="text-center">1,000</td>
+                                        <td class="text-center">50</td>
+                                        <td class="text-center">150</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                    <div class="row mt-5">
+
+                        <div class="col-lg-12 text-end">
+                            <button type="button" class="btn btn-success btn-sm"><i class="fa fa-file-excel"></i> Export Excel</button>
+                            <button type="button" class="btn btn-warning btn-sm"><i class="fa fa-file-import"></i> นำเข้า Excel</button>
+                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDetail"><i class="fa fa-plus"></i> เพิ่มรายการ</button>
+                            <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> ลบรายการ</button>
+                        </div>
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" width="50">
+                                            <input type="checkbox" value="1" />
+                                        </th>
+                                        <th class="text-center" style="width:5%">ลำดับ</th>
+                                        <th class="text-center">หน่วยงาน</th>
+                                        <th class="text-center">ชื่อ - นามสกุล</th>
+                                        <th class="text-center">ตำแหน่งในชุดคณะรายการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <input type="checkbox" value="1" />
+                                        </td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">กก.</td>
+                                        <td class="text-center">นายทดสอบ ระบบ</td>
+                                        <td class="text-center">
+                                            <select class="form-select form-select-sm">
+                                                <option value=""> </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="mt-10 row">
+            <div class="col-12">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                <button class="btn btn-warning btn-sm"><i class="fa fa-check"></i> รับรองผล</button>
+                <a href="@Url.Action("AssetInspectionList","Asset")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+                <button class="btn btn-success btn-sm"><i class="fa fa-file-excel"></i> Export Excel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetail">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>เพิ่มรายการ</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">หน่วยงาน</label>
+                        <select class="form-select form-select-sm">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">ชื่อ - นามสกุล</label>
+                        <select class="form-select form-select-sm">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3 text-center">
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                        <button type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                        <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                    <th class="text-center" width="50">
+                                        <input type="checkbox" />
+                                    </th>
+                                    <th class="text-center" style="width:5%">#</th>
+                                    <th class="text-center">หน่วยงาน</th>
+                                    <th class="text-center">ชื่อสกุล</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <input type="checkbox" />
+                                    </td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">กก.</td>
+                                    <td class="text-center">นายทดสอบ ระบบ</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

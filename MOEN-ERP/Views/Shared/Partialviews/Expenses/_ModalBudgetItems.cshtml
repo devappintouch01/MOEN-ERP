@@ -1,0 +1,95 @@
+﻿@model MOEN_ERP.Models.ViewModel.ExpensesRequest.SearchModalBudgetItems
+
+<div class="modal fade" id="modalSelectBudgetItems" tabindex="-1" role="dialog" aria-labelledby="modalSelectBudgetItems" aria-hidden="true" style="z-index: 1069 !important;">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">รายการงบประมาณ</h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                @using (Html.AjaxBeginForm("SearchBudgetItems", "Shared", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "divBudgetItemsResults", LoadingElementId = "global-loader" }, new { @id = "frmSearchBudgetItems" }))
+                {
+                    <div class="row mb-3">
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <label class="col-form-label">ปีงบประมาณ</label>
+                            <input type="text" asp-for="SearchBudgetFiscalYear" class="form-control form-control-sm" />
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <label class="col-form-label">สำนัก</label>
+                           @* <input type="text" asp-for="SearchOrganizationId" class="form-control form-control-sm" />*@
+                            <select asp-for="SearchOrganizationId" class="form-select form-select-sm" data-control="select2" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownOrganizationModal,"Value","Text"))">
+                                <option value="">กรุณาเลือก</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <label class="col-form-label">ชื่อรายการ</label>
+                            @*<input type="text" asp-for="SearchBudgetAllocateId" class="form-control form-control-sm" />*@
+                            <select asp-for="SearchBudgetAllocateId" class="form-select form-select-sm" data-control="select2" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownBudgetExpenseTypeModal,"Value","Text"))">
+                                <option value="">กรุณาเลือก</option>
+                            </select>
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <label class="col-form-label">รายการย่อย</label>
+                            <input type="text" asp-for="SearchBudgetName" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="d-flex justify-content-center">
+                            <button id="btnModalBudgetItemsSubmitSearch" type="button" class="btn btn-primary btn-sm">ค้นหา</button>
+                            &nbsp;
+                            <button id="btnModalBudgetItemsResetSearch" type="button" class="btn btn-secondary btn-sm">ล้างเงื่อนไข</button>
+                        </div>
+                    </div>
+
+                }
+
+                <div id="divBudgetItemsResults"></div>
+
+
+
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+
+                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('#frmSearchBudgetItems').submit();
+    });
+
+    $('#btnModalBudgetItemsSubmitSearch').click(function () {
+        $('#frmSearchBudgetItems').submit();
+    });
+
+    $('#btnModalBudgetItemsResetSearch').click(function () {
+        $('#frmSearchBudgetItems')[0].reset();
+        $('#frmSearchBudgetItems').submit();
+    })
+</script>

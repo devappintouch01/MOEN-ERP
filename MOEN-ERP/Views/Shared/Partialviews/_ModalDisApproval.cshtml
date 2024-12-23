@@ -1,0 +1,43 @@
+﻿@model MOEN_ERP.Models.MockupViewModel
+@{
+    var actionType = Model.ActionType;
+    var formType = Model.FormType;
+}
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalManageVDOConferences">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                @if (formType == "room")
+                {
+                    <h3 class="modal-title"><span class="btn btn-icon bg-danger"><i class="fa fa-close"></i></span> ไม่อนุมัติการจองห้องประชุม</h3>
+                }
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <label class="col-form-label col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">ความคิดเห็น <span class="required"></span> : </label>
+
+                </div>
+                <div class="row mb-3">                  
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <textarea class="form-control form-control-sm" rows="4"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">ยืนยัน</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>

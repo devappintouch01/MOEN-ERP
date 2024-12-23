@@ -1,0 +1,75 @@
+﻿@model List<MOEN_ERP.DAL.Models.VMaterialStock>
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="tblMain" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center" style="width:5%">#</th>
+                        <th class="text-center">รายการ</th>
+                        <th class="text-center">หน่วยนับ</th>
+                        <th class="text-center">จำนวนหน่วย</th>
+                        @if(ViewBag.Novat == true)
+                        {
+                            <th class="text-center">ราคาต่อหน่วย (ก่อนVAT)</th>
+                        }
+                        <th class="text-center">ราคาต่อหน่วย (ร่วมVAT)</th>
+                        <th class="text-center">จำนวนเงิน</th>
+                        <th class="text-center">หมวดพัสดุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int no = 1;
+                    }
+                    @foreach(var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@no</td>
+                            <td class="text-center">@item.MaterialName</td>
+                            <td class="text-center">@item.UnitName</td>
+                            <td class="text-center">@item.Available</td>
+                            @if (ViewBag.Novat == true)
+                            {
+                            <td class="text-center">@item.UnitPriceNoVat</td>
+                            }
+                            <td class="text-center">@item.UnitPrice</td>
+                            <td class="text-center">@item.TotalPrice</td>
+                            <td class="text-center">@item.Gpsccode</td>
+
+                        </tr>
+                        no++;
+                    }
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#tblMain').DataTable({
+        language: {
+            url: `${baseURL}/js/th.json`,
+        },
+        "paging": true,
+        "searching": false,
+        "lengthChange": true,
+        "lengthMenu": [25, 50, 100],
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                type: 'none',
+                target: ''
+            }
+        },
+        "pageLength": 25,
+        deferLoading: 10,
+        dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+    });
+</script>

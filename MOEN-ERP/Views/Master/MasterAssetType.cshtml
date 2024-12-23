@@ -1,0 +1,135 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">หมวดหมู่ครุภัณฑ์</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">หมวดหมู่ครุภัณฑ์</li>
+}
+
+<style>
+    .modal + .modal {
+        background: rgba(0, 0, 0, 0.6);
+    }
+</style>
+
+<div class="card">
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>ค้นหา&nbsp;&nbsp;</h2>
+                <input id="btnFilter" onclick="showHideFilter()" type="button" style="border:unset; font-size:x-small;" value="แสดง"></input><button style="border:unset; font-size:x-small;" onclick=" showHideFilter()"> <i class="fas fa-angle-down"></i></button>
+            </div>
+        </div>
+        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+            <a class="btn btn-success btn-sm"
+               data-ajax="true"
+               data-ajax-method="POST"
+               data-ajax-mode="replace"
+               data-ajax-update="#mdlDetail"
+               href='@Url.Action("MasterAssetTypeDetail", "Master")'>
+                <i class="fa fa-plus"></i> สร้างใหม่
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body" id="divFilter" style="display: none;">
+        @using (Html.AjaxBeginForm("MasterAssetType", "Master", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tbl" }, new { enctype = "multipart/form-data", id = "searchForm" }))
+        {      
+
+            <div class="row mb-3" >
+                <div class="row col-md-6 mb-3">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">ชื่อหมวดหมู่ครุภัณฑ์</label>
+                    </div>
+                    <div class="col-8 text-end">
+                        <input class="form-control form-control-sm" name="NameThai" />
+                    </div>
+                </div>
+
+                <div class="row col-md-6 mb-3 align-items-center">
+                    <div class="col-4 text-end">
+                        <label class="col-form-label">สถานะการใช้งาน</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="row fv-row">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                    <input class="form-check-input" type="radio" value="true" name="Active" checked>
+                                    <label class="form-check-label">
+                                        ใช้งาน
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                    <input class="form-check-input" type="radio" value="false" name="Active">
+                                    <label class="form-check-label">
+                                        ไม่ใช้งาน
+                                    </label>
+                                </div>
+                                <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                    <input class="form-check-input" type="radio" value="" name="Active">
+                                    <label class="form-check-label">
+                                        ทั้งหมด
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+               
+            </div>
+
+            <div class="card-footer text-center">
+                <button type="submit" id="btnSearch" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="tbl"></div>
+<div id="mdlDetail"></div>
+<div id="mdlDetailSub"></div>
+
+
+@section Scripts {
+    <script>
+        $("#btnSearch").click();
+        $('#btnResetSearch').click(function () {
+            setTimeout(
+                function () {
+                    $('#searchForm').submit();
+                }, 500);
+        });
+
+        function showHideFilter() {
+            var x = document.getElementById("divFilter");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+
+            var elem = document.getElementById("btnFilter");
+            if (elem.value == "ซ่อน") elem.value = "แสดง";
+            else elem.value = "ซ่อน";
+        }        
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#_modalMasterAssetType").modal('show');
+        });
+    </script>
+@* 
+    @if (ViewBag.autoOpenAssetTypeId != null)
+    {
+        <script>
+            $(document).ready(function () {
+                alert('open');
+            });
+        </script>
+    } *@
+}

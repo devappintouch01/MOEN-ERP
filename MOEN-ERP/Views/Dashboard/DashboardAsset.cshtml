@@ -1,0 +1,506 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายงานสถิติระบบพัสดุ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายงานสถิติระบบพัสดุ</li>
+}
+
+<style>
+    .chartdiv {
+        max-width: 500px;
+    }
+
+</style>
+
+<div class="card">
+
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>เเสดงข้อมูลตามช่วงเวลา</h2>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ประจำปีงบประมาณ</label>
+                </div>
+                <div class="col-8 text-end">
+                    <input class="form-control form-control-sm" name="" />
+                </div>
+            </div>
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">หน่วยงาน</label>
+                </div>
+                <div class="col-8 text-end">
+                    <select class="form-select form-select-sm" name="">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+            <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="row row-cols-5">
+                <div class="col">
+                    <div class="btn btn-primary w-100">
+                        ยอดยกมา<br />288,911,469 บาท
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="btn btn-primary w-100">
+                        การได้มาของสินทรัพย์<br />30,254,469 บาท
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="btn btn-primary w-100">
+                        การโอนสินทรัพย์<br />4,552,221 บาท
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="btn btn-primary w-100">
+                        การจำหน่ายสินทรัพย์<br />68,421,221 บาท
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="btn btn-primary w-100">
+                        ยอดยกไป<br />245,861,951 บาท
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card col-md-6 p-4">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <h5>รายงานเทียบสินทรัพย์ที่ได้รับมาในแต่ละปี</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body  border border-primary">
+                    <div class="row mb-3 justify-content-center">
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-md-6 p-4">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <h5>รายงานเทียบสินทรัพย์ที่ได้รับมาแต่ละหน่วยงาน</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body  border border-primary">
+                    <div class="row mb-3 justify-content-center">
+                        <canvas id="chart2"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-md-6 p-4">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <h5>รายงานการได้มาของสินทรัพย์</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body  border border-primary">
+                    <div class="row mb-3 justify-content-center">
+                        <canvas id="chart3"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-md-6 p-4">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <h5>รายงานการจำหน่ายครุภัณฑ์</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body  border border-primary">
+                    <div class="row mb-3 justify-content-center">
+                        <canvas id="chart4"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-md-6 p-4">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <h5>รายงานการสำรวจครุภัณฑ์ จำแนกตามสถานะ</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body  border border-primary">
+                    <div class="row mb-3 justify-content-center">
+                        <div class="chartdiv">
+                            <canvas id="chart5"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-md-6 p-4">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <h5>รายงานการสำรวจครุภัณฑ์ จำแนกตามสถานภาพ</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body  border border-primary">
+                    <div class="row mb-3 justify-content-center">
+                        <div class="chartdiv">
+                            <canvas id="chart6"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-md-6 p-4">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <h5>รายงานเทียบการเบิกวัสดุในแต่ละปี</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body  border border-primary">
+                    <div class="row mb-3 justify-content-center">
+                        <canvas id="chart7"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-md-6 p-4">
+                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <h5>รายงานเทียบการเบิกวัสดุแต่ละหน่วยงาน</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body  border border-primary">
+                    <div class="row mb-3 justify-content-center">
+                        <canvas id="chart8"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        var options = {
+            tooltips: {
+                enabled: false
+            },
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                }
+            }
+        };
+
+
+        const ctx1 = document.getElementById('chart1');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['2564', '2565', '2566', '2567'],
+                datasets: [
+                    {
+                        label: 'บาท',
+                        data: [3562699920, 5500699920, 425229590, 2534958192],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: 'black',
+                        formatter: function (value) {
+                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+
+
+
+        const ctx2 = document.getElementById('chart2');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['ตสน.', 'กพร.', 'กก.', 'ศทส.', 'กยผ.', 'สร.', 'กตร.', 'ศปท.'],
+                datasets: [
+                    {
+                        label: 'บาท',
+                        data: [307943, 326034, 226940, 202456, 563021, 450321, 496032, 102596],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: 'black',
+                        formatter: function (value) {
+                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+
+        const ctx3 = document.getElementById('chart3');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: [''],
+                datasets: [
+                    {
+                        label: 'ซื้อ/จ้าง',
+                        data: [18936044],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'รับบริจาค',
+                        data: [ 56391 ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'โอนงานระหว่างก่อสร้างเป็นสินทรัพย์',
+                        data: [495302],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'ได้มาจากการปรับปรุงบัญชี',
+                        data: [1024569],
+                        borderWidth: 1
+                    },
+                ]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: 'black',
+                        formatter: function (value) {
+                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx4 = document.getElementById('chart4');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['ขายสินทรัพย์', 'จำหน่ายจากการปรับปรุงบัญชี'],
+                datasets: [
+                    {
+                        label: 'บาท',
+                        data: [18936044, 4392019,],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }, plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+
+        const ctx5 = document.getElementById('chart5');
+        new Chart(ctx5, {
+            type: 'pie',
+            data: {
+                labels: ['ไม่พบ', 'พบ', 'พบผิดที่'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [56, 37, 7],
+                    borderWidth: 1
+                }]
+            },
+            options: options,
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx6 = document.getElementById('chart6');
+        new Chart(ctx6, {
+            type: 'pie',
+            data: {
+                labels: ['ปกติ', 'ชำรุด'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [50, 50],
+                    borderWidth: 1
+                }]
+            },
+            options: options,
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx7 = document.getElementById('chart7');
+        new Chart(ctx7, {
+            type: 'bar',
+            data: {
+                labels: ['2564', '2565', '2566', '2567'],
+                datasets: [
+                    {
+                        label: 'บาท',
+                        data: [300000, 100000, 500000, 400000],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: 'black',
+                        formatter: function (value) {
+                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx8 = document.getElementById('chart8');
+        new Chart(ctx8, {
+            type: 'bar',
+            data: {
+                labels: ['กพภ.', 'สร.', 'ศปท.', 'ตสน.', 'ผตร.', 'ศทส.', 'กก.', 'กยผ.', 'คตป.', 'กกต.'],
+                datasets: [
+                    {
+                        label: '',
+                        data: [3000, 2000, 5000, 1000, 3000, 2000, 1400, 1600, 2400, 2000],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: 'black',
+                        formatter: function (value) {
+                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+
+    </script>
+}

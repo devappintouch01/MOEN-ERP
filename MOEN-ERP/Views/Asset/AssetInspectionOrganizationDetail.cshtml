@@ -1,0 +1,462 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">การตรวจสอบประจำปี</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">การตรวจสอบประจำปี</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขที่อ้างอิง</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">วันที่เริ่มต้น</label>
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="Date1" id="Date1" readonly />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">วันที่สิ้นสุด</label>
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="Date1" id="Date1" readonly />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หมายเหตุ</label>
+                <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+            </div>
+
+
+            <div class="col-md-12 mb-3 mt-10">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                            รายการทรัพย์สินที่ตรวจสอบ
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                            ครุภัณฑ์ที่มีปัญหา
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+                            รายการวัสดุคงเหลือ
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="4-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">
+                            คณะกรรมการตรวจสอบ
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    <div class="row mt-5">
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">หน่วยงาน</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ทั้งหมด</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">สถานที่จัดเก็บ/ใช้งาน</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ทั้งหมด</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">สถานะ</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ทั้งหมด</option>
+                            </select>
+                        </div>
+                        <div class="mb-5 text-center">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                            <button type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนสิ่งปลูกสร้างทั้งหมด</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนสิ่งปลูกสร้างที่ชำรุด</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนครุภัณฑ์ทั้งหมด</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนครุภัณฑ์ที่ชำรุด</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนครุภัณฑ์ที่ไม่พบ</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนครุภัณฑ์ที่พบผิดที่</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+                        <div class="col-md-8 mb-3">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">เลขครุภัณฑ์</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control form-control-sm" />
+                                <button class="btn btn-primary btn-sm" type="button"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary align-middle">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" width="50">
+                                        </th>
+                                        <th class="text-center" style="width:5%">ลำดับ</th>
+                                        <th class="text-center">ลำดับ</th>
+                                        <th class="text-center">เลขครุภัณฑ์</th>
+                                        <th class="text-center">เลขสินทรัพย์</th>
+                                        <th class="text-center">รายการ</th>
+                                        <th class="text-center">หน่วยงาน</th>
+                                        <th class="text-center">สถานที่จัดเก็บ/ใช้งาน</th>
+                                        <th class="text-center">รายละเอียดสถานที่จัดเก็บ/ใช้งาน</th>
+                                        <th class="text-center" width="300">สถานะ</th>
+                                        <th class="text-center" width="200">สภาพ</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <a href="@Url.Action("AssetInspectionOrganizationDurableArticlesDetail","Asset")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                                <i class="fa fa-edit fs-4"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">001</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center">เก้าอี้รับแขก</td>
+                                        <td class="text-center">กก.</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+
+                                        <td class="text-center">
+                                            <div class="row fv-row mb-3 mt-2">
+                                                <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                                    <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="1" name="rdo1">
+                                                        <label class="form-check-label">
+                                                            ไม่พบ
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="2" name="rdo1">
+                                                        <label class="form-check-label">
+                                                            พบ
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="3" name="rdo1">
+                                                        <label class="form-check-label">
+                                                            พบผิดที่
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="row fv-row mb-3 mt-2">
+                                                <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                                    <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="1" name="rdo2">
+                                                        <label class="form-check-label">
+                                                            ปกติ
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="2" name="rdo2">
+                                                        <label class="form-check-label">
+                                                            ชำรุด
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                    <div class="row mt-5">
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">หน่วยงาน</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ทั้งหมด</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">สถานะ</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ทั้งหมด</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">สภาพ</label>
+                            <select class="form-select form-select-sm">
+                                <option value="">ทั้งหมด</option>
+                            </select>
+                        </div>
+                        <div class="mb-5 text-center">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                            <button type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนครุภัณฑ์ที่ชำรุด</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนครุภัณฑ์ที่ไม่พบ</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="col-form-label">จำนวนครุภัณฑ์ที่พบผิดที่</label>
+                            <input class="form-control form-control-sm" readonly />
+                        </div>
+
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary align-middle">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" width="50">
+                                        </th>
+                                        <th class="text-center" style="width:5%">ลำดับ</th>
+                                        <th class="text-center">ลำดับ</th>
+                                        <th class="text-center">เลขครุภัณฑ์</th>
+                                        <th class="text-center">เลขสินทรัพย์</th>
+                                        <th class="text-center">รายการ</th>
+                                        <th class="text-center">หน่วยงาน</th>
+                                        <th class="text-center">สถานที่จัดเก็บ/ใช้งาน</th>
+                                        <th class="text-center">รายละเอียดสถานที่จัดเก็บ/ใช้งาน</th>
+                                        <th class="text-center" width="300">สถานะ</th>
+                                        <th class="text-center" width="200">สภาพ</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <a href="@Url.Action("AssetInspectionOrganizationDurableArticlesDetail","Asset")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                                <i class="fa fa-edit fs-4"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">001</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center">เก้าอี้รับแขก</td>
+                                        <td class="text-center">กก.</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+
+                                        <td class="text-center">
+                                            <div class="row fv-row mb-3 mt-2">
+                                                <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                                    <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="1" name="rdo1">
+                                                        <label class="form-check-label">
+                                                            ไม่พบ
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="2" name="rdo1">
+                                                        <label class="form-check-label">
+                                                            พบ
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="3" name="rdo1">
+                                                        <label class="form-check-label">
+                                                            พบผิดที่
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="row fv-row mb-3 mt-2">
+                                                <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                                    <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="1" name="rdo2">
+                                                        <label class="form-check-label">
+                                                            ปกติ
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="2" name="rdo2">
+                                                        <label class="form-check-label">
+                                                            ชำรุด
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                    <div class="row mt-5">
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary align-middle">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                 
+                                        <th class="text-center" style="width:5%">ลำดับ</th>
+                                        <th class="text-center">รายการ</th>
+                                        <th class="text-center">หน่วยนับ</th>
+                                        <th class="text-center">จำนวนหน่วย</th>
+                                        <th class="text-center" width="200">สถานะ</th>
+                                        <th class="text-center">คำชี้แจง</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">กระดาษถ่ายเอกสาร A4</td>
+                                        <td class="text-center">รีม</td>
+                                        <td class="text-center">10</td>
+                            
+                                        <td class="text-center">
+                                            <div class="row fv-row mb-3 mt-2">
+                                                <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                                    <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="1" name="rdo3">
+                                                        <label class="form-check-label">
+                                                            ครบ
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                        <input class="form-check-input" type="radio" value="2" name="rdo3">
+                                                        <label class="form-check-label">
+                                                            ไม่ครบ
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <input class="form-control form-control-sm" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+                    <div class="row mt-5">
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary align-middle">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+
+                                        <th class="text-center" style="width:5%">ลำดับ</th>
+                                        <th class="text-center">หน่วยงาน</th>
+                                        <th class="text-center">ชื่อ - นามสกุล</th>
+                                        <th class="text-center">ตำแหน่งในชุดคณะกรรมการ</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">กก.</td>
+                                        <td class="text-center">นายทดสอบ ระบบ</td>
+                                        <td class="text-center"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="mt-10 row">
+            <div class="col-12">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                <button class="btn btn-warning btn-sm"><i class="fa fa-stop-circle"></i> เสร็จสิ้น</button>
+                <a href="@Url.Action("AssetInspectionCentralDetail","Asset")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+                <button class="btn btn-success btn-sm"><i class="fa fa-file-excel"></i> Export Excel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

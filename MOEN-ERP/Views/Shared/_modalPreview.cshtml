@@ -1,0 +1,195 @@
+﻿@*@using MOEN_ERP.Models.Common.PreviewModels*@
+@{
+    var curUser = (new Appz(this.Context).CurrentSignInUser);
+}
+
+@switch (curUser.UserRole.Id)
+{
+    case 17:
+    <!--โสตทัศน์-->
+        <div class="modal fade" id="modal-Preview" tabindex="-1" role="dialog" aria-labelledby="modalUploadMultiple" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @*<h5 class="modal-title">จำหน่ายตัวแทนสิทธิบัตร</h5>*@
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+
+                            <iframe name="Preview" id="Preview" src="~/PDF/แบบฟอร์มขอใช้บริการงานโสต.pdf" onload="hideWait();" style="width: 100%; height: 800px;">
+                            </iframe>
+                        </div>
+                        <h5 class="mb-5">ประวัติการพิจารณา</h5>
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md">
+                            <table id="table1" class="table table-striped table-row-bordered gy-5 gs-7">
+                                <thead>
+                                    <tr class="fw-semibold fs-6 text-gray-80">
+                                        <th>วันที่</th>
+                                        <th>ผู้พิจารณา</th>
+                                        <th>ผู้พิจารณาลำดับถัดไป</th>
+                                        <th>ผู้การพิจารณา</th>
+                                        <th>ความคิดเห็น</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>03/06/2566 10:00</td>
+                                        <td>นายเจ้าหน้าที่ส่วนงานพัสดุ</td>
+                                        <td></td>
+                                        <td>อนุมัติให้ดำเนินการ</td>
+                                        <td>เห็นควรดำเนินการ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>02/06/2566 08:00</td>
+                                        <td>นายทดสอบ จองห้องประชุม</td>
+                                        <td>นายเจ้าหน้าที่ ส่วนงานพัสดุ</td>
+                                        <td>ส่งเรื่องพิจารณา</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i class="fas fa-check"></i> ดำเนินการแล้ว</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        break;
+    case 16:
+    <!--จัดเลี้ยง-->
+        <div class="modal fade" id="modal-Preview" tabindex="-1" role="dialog" aria-labelledby="modalUploadMultiple" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @*<h5 class="modal-title">จำหน่ายตัวแทนสิทธิบัตร</h5>*@
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+
+                            <iframe name="Preview" id="Preview" src="~/PDF/แบบขอใช้บริการจัดเลี้ยง.pdf" onload="hideWait();" style="width: 100%; height: 800px;">
+                            </iframe>
+                        </div>
+                        <h5 class="mb-5">ประวัติการพิจารณา</h5>
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md">
+                            <table id="table1" class="table table-striped table-row-bordered gy-5 gs-7">
+                                <thead>
+                                    <tr class="fw-semibold fs-6 text-gray-80">
+                                        <th>วันที่</th>
+                                        <th>ผู้พิจารณา</th>
+                                        <th>ผู้พิจารณาลำดับถัดไป</th>
+                                        <th>ผู้การพิจารณา</th>
+                                        <th>ความคิดเห็น</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>03/06/2566 10:00</td>
+                                        <td>นายเจ้าหน้าที่ส่วนงานพัสดุ</td>
+                                        <td></td>
+                                        <td>อนุมัติให้ดำเนินการ</td>
+                                        <td>เห็นควรดำเนินการ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>02/06/2566 08:00</td>
+                                        <td>นายทดสอบ จองห้องประชุม</td>
+                                        <td>นายเจ้าหน้าที่ ส่วนงานพัสดุ</td>
+                                        <td>ส่งเรื่องพิจารณา</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-window-close"></i> ปิด</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        break;
+    default:
+        <div class="modal fade" id="modal-Preview" tabindex="-1" role="dialog" aria-labelledby="modalUploadMultiple" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @*<h5 class="modal-title">จำหน่ายตัวแทนสิทธิบัตร</h5>*@
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+
+                            <iframe name="Preview" id="Preview" src="~/PDF/แบบฟอร์มขอใช้บริการงานโสต.pdf" onload="hideWait();" style="width: 100%; height: 800px;">
+                            </iframe>
+                        </div>
+                        <h5 class="mb-5">ประวัติการพิจารณา</h5>
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md">
+                            <table id="table1" class="table table-striped table-row-bordered gy-5 gs-7">
+                                <thead>
+                                    <tr class="fw-semibold fs-6 text-gray-80">
+                                        <th>วันที่</th>
+                                        <th>ผู้พิจารณา</th>
+                                        <th>ผู้พิจารณาลำดับถัดไป</th>
+                                        <th>ผู้การพิจารณา</th>
+                                        <th>ความคิดเห็น</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>03/06/2566 10:00</td>
+                                        <td>นายเจ้าหน้าที่ส่วนงานพัสดุ</td>
+                                        <td></td>
+                                        <td>อนุมัติให้ดำเนินการ</td>
+                                        <td>เห็นควรดำเนินการ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>02/06/2566 08:00</td>
+                                        <td>นายทดสอบ จองห้องประชุม</td>
+                                        <td>นายเจ้าหน้าที่ ส่วนงานพัสดุ</td>
+                                        <td>ส่งเรื่องพิจารณา</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i class="fas fa-check"></i> ดำเนินการแล้ว</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        break;
+}
+
+
+<script>
+    $('#modal-Preview').modal('show');
+</script>
+
+<script language="javascript" type="text/javascript">
+
+
+    function closeProgressIndicator() {
+
+        var iframe = document.getElementById("Preview");
+
+        if (iframe.document.readyState == "complete") {
+
+            hideWait();
+        }
+
+    }
+
+</script>

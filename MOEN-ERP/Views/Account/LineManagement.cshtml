@@ -1,0 +1,188 @@
+﻿@model MOEN_ERP.Models.Data.OfficerLineToken
+
+@section Title{
+    <span class="fs-1 fw-semibold">รับการแจ้งเตือนผ่านไลน์</span>
+
+}
+@section Breadcrumb{
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รับการแจ้งเตือนผ่าน LINE</li>
+}
+
+<form id="frmEventManageLineToken" asp-action="EventManageLineToken" asp-controller="Account">
+    <div class="card">
+        <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+            <!--begin::Card title-->
+            <div class="card-title">
+                <!--begin::Search-->
+                <div class="d-flex align-items-center position-relative my-1">
+                    <h2>รับการแจ้งเตือนผ่าน LINE</h2>
+
+                </div>
+                <!--end::Search-->
+            </div>
+            <!--end::Card title-->
+            <!--begin::Card toolbar-->
+            <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+            </div>
+            <!--end::Card toolbar-->
+        </div>
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-md-4 col-sm-12">
+                    <img src="~/images/line/img_line_notify.png" alt="user" class="img-fluid rounded-start" alt="...">
+                </div>
+
+                <div class="col-md-8 col-sm-12">
+                    <div class="card-body text-center">
+                        <h2 class="card-title mb-5">รับการแจ้งเตือนตัวต่อตัวผ่าน LINE Notify</h2>
+                        <div class="mb-3">
+                            <h4 class="card-text">กรอก LINE Token ของท่าน</h4>
+                        </div>
+                        <div class="row mb-2 fv-row">
+                            <input type="text" asp-for="LineToken" class="form-control form-control-sm" disabled="@(Model.LineToken == null || Model.LineToken == "" ? false : true)" />
+                        </div>
+
+                        <div class="text-center">
+                            @if (Model.LineToken == null)
+                            {
+
+                                <button type="submit" class="btn btn-primary btn-sm">ยืนยัน</button>
+                            }
+                            else
+                            {
+
+                                <button id="btnDeleteToken" type="button" data-url="@Url.Action("DeleteLineToken","Account",new{pId = Model.Id})" class="btn btn-danger btn-sm">ยกเลิกการรับการแจ้งเตือนผ่าน LINE</button>
+                            }
+
+
+                        </div>
+                        <div class="mt-6">
+                            <p class="card-text"><a href="@Url.Action("LineNotifyTokenMe","Howto")" target="_blank">วิธีการได้รับ LINE Token</a></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+@section Scripts{
+<script>
+
+
+
+    var validatorformEventManageLineToken;
+    $(function () {
+        // Define form element
+        const formEventManageLineToken = document.getElementById('frmEventManageLineToken');
+
+        validatorformEventManageLineToken = FormValidation.formValidation(
+            formEventManageLineToken,
+            {
+
+                fields: {
+                    'LineToken': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุ Line Token'
+                            }
+                        }
+                    },
+                },
+
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        );
+
+
+    });
+
+    //---- Save ----//
+
+    $('#frmEventManageLineToken').submit(async function (e) {
+        //--
+        // debugger
+        e.preventDefault();
+        var $valid = await validatorformEventManageLineToken.validate().then(function (status) { return status });
+        if ($valid != 'Valid') return false;
+        //--
+        showWait();
+        //--post
+        $.post($(this).attr('action'), $(this).serialize(), function (res) {
+           
+            if (res.type == "success") {
+                hideWait();
+                    Swal.fire({ title: res.message, text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+            }
+            else {
+                hideWait();
+                Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+            }
+        }, 'json');
+
+        //--post end
+        return false;
+        //--
+    });
+
+
+
+        //-- Delete
+        $('#btnDeleteToken').click(function (e) {
+            e.preventDefault();
+            var url = $(this).data('url');
+            Swal.fire({
+                title: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
+                text: '',
+                icon: 'warning',
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#3B9EF8',
+                showCancelButton: true,
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    //--confirm
+                    showWait();
+                    $.post(url).done(function (res) {
+                        //--res
+                        hideWait();
+                        if (res.type == "success") {
+                            Swal.fire({ title: 'ลบข้อมูลสำเร็จ', text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                                .then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+                                });
+                        }
+                        else {
+                            Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+                        }
+                        //--res end.
+                    });
+
+                    //--confirm end.
+                }
+            });
+
+        });
+
+
+</script>
+}

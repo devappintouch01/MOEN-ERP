@@ -1,0 +1,131 @@
+﻿@model MOEN_ERP.Models.MockupViewModel
+@{
+    var actionType = Model.ActionType;
+}
+<div class="modal fade" id="modal-Preview" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modalUploadMultiple" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+       
+                @if (Model.FormType == "AssingCarBookingList")
+                {
+                    if (Model.ActionType == "confirm")
+                    {
+                        <h5 class="modal-title">ยืนยันการจองยานพาหนะ</h5>
+                    }
+
+                }
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+                    @if (Model.FormType == "AssingCarBookingList")
+                    {
+                        if (Model.ActionType == "confirm")
+                        {
+                            <iframe name="Preview" id="Preview" src="~/PDF/ขออนุญาตใช้รถยนต์.pdf" onload="hideWait();" style="width: 100%; height: 800px;">
+                            </iframe>
+                        }
+
+                    }    
+
+                </div>
+                <h5 class="mb-5">ประวัติการพิจารณา</h5>
+
+                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md">
+
+
+                    @if (Model.FormType == "AssingCarBookingList")
+                    {
+                        if (Model.ActionType == "confirm")
+                        {
+                            <table id="table1" class="table table-row-dashed table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80">
+                                        <th class="d-none"></th>
+                                        <th>วันที่</th>
+                                        <th>ผู้พิจารณา</th>
+                                        <th>ผู้พิจารณาลำดับถัดไป</th>
+                                        <th>การพิจารณา</th>
+                                        <th>ความคิดเห็น</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="d-none">1</th>
+                                        <td>03/06/2566 10:00</td>
+                                        <td>นายเจ้าหน้าที่ ส่วนงานพัสดุ</td>
+                                        <td></td>
+                                        <td>อนุมัติให้ดำเนินการ</td>
+                                        <td>เห็นควรดำเนินการ</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="d-none">2</th>
+                                        <td>02/06/2566 08:00</td>
+                                        <td>นายทดสอบ จองยานพาหนะ</td>
+                                        <td>นายเจ้าหน้าที่ ส่วนงานพัสดุ</td>
+                                        <td>ส่งเรื่องพิจารณา</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+
+                    }
+
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+
+                @if (Model.FormType == "AssingCarBookingList")
+                {
+                    if (Model.ActionType == "confirm")
+                    {
+                        <div>
+                            
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                            <button data-url="@Url.Action("VehicalModalEventPreviewBookingConfirm","Shared")" type="button" class="btn btn-sm btn-success" data-toggle="ajax-modal-confirm"><i class="fas fa-check"></i> ยืนยันการจอง</button>
+                            <button data-url="@Url.Action("VehicalModalEventPreviewBookingRefuse","Shared")" type="button" class="btn btn-sm btn-danger" data-toggle="ajax-modal-refuse"><i class="fas fa-close"></i> ปฏิเสธการจอง</button>
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">กลับหน้ารายการ</button>
+                        </div>
+                    }
+                }
+
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divModalApprove"></div>
+
+<script>
+    $(function () {
+
+        var divModalApprove = $('#divModalApprove');
+
+        $('button[data-toggle="ajax-modal-confirm"]').click(function () {
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                divModalApprove.html(data);
+                divModalApprove.find('.modal').modal('show');
+            });
+        });
+
+        $('button[data-toggle="ajax-modal-refuse"]').click(function () {
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                divModalApprove.html(data);
+                divModalApprove.find('.modal').modal('show');
+            });
+        });
+
+    });
+</script>

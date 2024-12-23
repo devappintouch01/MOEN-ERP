@@ -1,0 +1,77 @@
+﻿@*@model MOEN_ERP.Models.ViewModel.VehicleQueue.SearchVehicleQueueView
+*@
+
+@*@using (Html.AjaxBeginForm("SearchVehicleQueue", "Shared", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "divResultsQueue", LoadingElementId = "global-loader" }, new { @id = "frmSearchVehicleQueue" }))
+{*@
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalViewVehicleDetail">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h3 class="modal-title">คิวการเดินรถ</h3>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+
+                   @* @Html.HiddenFor(m => m.SearchQueueDate)
+                    @Html.HiddenFor(m => m.SearchAction)*@
+
+                  
+
+
+                    <div id="divResultsQueue"></div>
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@*}*@
+
+
+<script>
+
+    $(function () {
+
+        var dataTmp = {};    
+
+        if ($('#hddTravelFromDate').val() != '') {
+            dataTmp.SearchQueueDate = $('#hddTravelFromDate').val();
+        }
+        else {
+            dataTmp.SearchQueueDate = moment().add('year', 543).format('DD/MM/YYYY');
+
+        }
+
+        hddTravelFromDate
+        $.post('@Url.Action("SearchVehicleQueue","Shared")', dataTmp).done(function (data) {
+            $('#divResultsQueue').html(data);
+        });
+
+    });
+
+
+
+    function SearchQueue(_action) {
+        // $('#SearchAction').val(_action);
+        var dataTmp = {};
+        dataTmp.SearchQueueDate = $('#CurrentQueueDate').val();
+        dataTmp.SearchAction = _action;
+
+        $.post('@Url.Action("SearchVehicleQueue","Shared")', dataTmp).done(function (data) {
+            $('#divResultsQueue').html('');
+            $('#divResultsQueue').html(data);
+        });
+    }
+</script>

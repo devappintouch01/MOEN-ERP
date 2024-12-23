@@ -1,0 +1,423 @@
+﻿@{
+    var curUser = (new Appz(this.Context).CurrentSignInUser);
+}
+
+<style>
+    .border-z-1 {
+        border: solid !important;
+        border-width: 1px;
+    }
+
+
+    #calendar {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .fc-daygrid-event {
+        white-space: normal !important;
+        align-items: normal !important;
+    }
+
+    .fc-h-event .fc-event-main-frame {
+        display: block; /* for make fc-event-title-container expand */
+    }
+</style>
+
+
+@section Title{
+    <span class="fs-1 fw-semibold"> ปฏิทินการจองยานพาหนะ</span>
+        }
+<div class="card">
+    <div class="card-header">
+
+        <div class="card-title" style="width:50%">
+            <h4>รายการยานพาหนะ</h4>
+        </div>
+
+        <div class="card-toolbar" style="width:30%">
+            <label class="form-label col-lg-4 col-md-4 col-sm-12">เลือกประเภทยานพาหนะ</label>
+            <div class="com-lg-8 col-md-8 col-sm-12">
+                <select class="form-select form-select-sm" data-control="select2">
+                    <option>ทั้งหมด</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="tns tns-default" style="direction: ltr">
+            <!--begin::Slider-->
+            <div data-tns="true"
+                 data-tns-loop="true"
+                 data-tns-swipe-angle="false"
+                 data-tns-speed="2000"
+                 data-tns-autoplay="false"
+                 data-tns-autoplay-timeout="18000"
+                 data-tns-controls="true"
+                 data-tns-nav="false"
+                 data-tns-items="7"
+                 data-tns-center="false"
+                 data-tns-dots="false"
+                 data-tns-prev-button="#kt_team_slider_prev1"
+                 data-tns-next-button="#kt_team_slider_next1">
+
+                <!--begin::Item-->
+
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #65ACFF">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0000 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #50CB16">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0001 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #F4A054">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0002 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #F35553">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0003 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #676DE2">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0004 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #DD7AE3">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0005 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #9E9E9E">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0006 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #9E9E9E">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0007 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <div class="text-center px-2 py-2">
+                    <div class="card h-auto" style="background-color: #9E9E9E">
+                        <img src="~/images/van.jpg" class="card-img-top" alt="...">
+                        <div class="card-body p-2">
+                            <a href="#" onclick="showDetailCar();">
+                                <p class="card-text text-white">รถตู้ กก 0008 กทม.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Item-->
+            </div>
+            <!--end::Slider-->
+            <!--begin::Slider button-->
+            <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_prev1">
+                <span class="svg-icon svg-icon-3x">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.2657 11.4343L15.45 7.25C15.8642 6.83579 15.8642 6.16421 15.45 5.75C15.0358 5.33579 14.3642 5.33579 13.95 5.75L8.40712 11.2929C8.01659 11.6834 8.01659 12.3166 8.40712 12.7071L13.95 18.25C14.3642 18.6642 15.0358 18.6642 15.45 18.25C15.8642 17.8358 15.8642 17.1642 15.45 16.75L11.2657 12.5657C10.9533 12.2533 10.9533 11.7467 11.2657 11.4343Z" fill="currentColor"></path>
+                    </svg>
+                </span>
+            </button>
+            <!--end::Slider button-->
+            <!--begin::Slider button-->
+            <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_next1">
+                <span class="svg-icon svg-icon-3x">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.6343 12.5657L8.45001 16.75C8.0358 17.1642 8.0358 17.8358 8.45001 18.25C8.86423 18.6642 9.5358 18.6642 9.95001 18.25L15.4929 12.7071C15.8834 12.3166 15.8834 11.6834 15.4929 11.2929L9.95001 5.75C9.5358 5.33579 8.86423 5.33579 8.45001 5.75C8.0358 6.16421 8.0358 6.83579 8.45001 7.25L12.6343 11.4343C12.9467 11.7467 12.9467 12.2533 12.6343 12.5657Z" fill="currentColor"></path>
+                    </svg>
+                </span>
+            </button>
+            <!--end::Slider button-->
+        </div>
+
+
+    </div>
+</div>
+
+<div id="divCalendarCar" class="card mt-10">
+    <div class="card-body">
+        <div class="col-xxl-12 col-xl-12 col-md-12">
+            <div id='calendarCar'></div>
+        </div>
+    </div>
+</div>
+
+<div id="divDetailCar" class="card mt-10" style="display:none">
+    <div class="card-body">
+        <div class="col-xxl-12 col-xl-12 col-md-12">
+
+            <h5 class="text-center">
+                รายละเอียด รถตู้ กก 0000 กทม.
+            </h5>
+
+            <div class="row">
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                        <div class="row py-3 shadow-5">
+                            <div class="col-12 mb-1">
+                                <div class="lightbox">
+                                    <img src="~/images/van.jpg"
+                                         alt="Gallery image 1"
+                                         class="ecommerce-gallery-main-img active w-100" />
+                                </div>
+                            </div>
+                            <div class="col-3 mt-1">
+                                <img src="~/images/van.jpg"
+                                     data-mdb-img="~/images/van.jpg"
+                                     alt="Gallery image 1"
+                                     class="active w-100" />
+                            </div>
+                            <div class="col-3 mt-1">
+                                <img src="~/images/car/2.jpg"
+                                     data-mdb-img="~/images/car/2.jpg"
+                                     alt="Gallery image 2"
+                                     class="w-100" />
+                            </div>
+                            <div class="col-3 mt-1">
+                                <img src="~/images/car/3.jpg"
+                                     data-mdb-img="~/images/car/3.jpg"
+                                     alt="Gallery image 3"
+                                     class="w-100" />
+                            </div>
+                            <div class="col-3 mt-1">
+                                <img src="~/images/car/4.jpg"
+                                     data-mdb-img="~/images/car/4.jpg"
+                                     alt="Gallery image 4"
+                                     class="w-100" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="mt-4">
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>ประเภทยานพาหนะ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">รถตู้</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>ทะเบียนยานพาหนะ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">กก 0000 กทม.</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>ประเภทเชื้อเพลิง : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">Diesel</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>จำนวนที่นั่ง : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">14 ที่นั่ง</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>รุ่น/ยี่ห้อ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">TOYOTA Commuter</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>หน่วยงานรับผิดชอบ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">ตัวอย่างหน่วยงาน</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>ผู้รับผิดชอบยานพาหนะ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">นายผู้รับผิดชอบ ยานพาหนะ</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>เบอร์โทรผู้รับผิดชอบ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">080-0000000</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>รายละเอียดเพิ่มเติม : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">-</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 form-control-label text-end">
+                                <label>หมายเหตุ : </label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <label class="form-control-label">-</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <hr />
+            <div class="text-center">
+                <button type="button" class="btn btn-secondary me-3">ประวัติการใช้งาน</button>
+                <button type="button" class="btn btn-secondary me-3">ประวัติการเสียภาษี พ.ร.บ.</button>
+                <button type="button" class="btn btn-secondary me-3">ประวัติการซ่อมบำรุงรักษา</button>
+                <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="detail-car">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ModalTitile"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id='calendar1' class="modal-body">
+            </div>
+            <br />
+            <div class="modal-footer  justify-content-between ">
+                <div class="row mb-3">
+                    <div class="col-lg">
+                        <span class="fs-3 col-lg-7">สัญลักษณ์ของสถานะเส้นเวลา</span>
+
+
+                        <button class="btn btn-success" disabled></button>
+                        <span>จัดรถแล้ว</span>
+
+                        <button class="btn btn-danger" disabled></button>
+                        <span>ไม่สามารถจองได้</span>
+
+                        <button class="btn btn-white border border-dark" disabled></button>
+                        <span>ว่าง</span>
+                    </div>
+
+
+                </div>
+                <div class="">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script src="~/js/pages/vehiclecalendar/calendar.js"></script>
+    <script>
+        $('button[data-event="room-detail"]').click(function () {
+            var divDetail = $('#divDetail');
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                showDetail();
+                divDetail.html(data);
+            });
+        });
+    </script>
+ }

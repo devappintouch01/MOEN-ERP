@@ -1,0 +1,45 @@
+﻿@{
+    var curUser = new Appz(this.Context).CurrentSignInUser;
+
+}
+
+@* @if (curUser?.SystemInfo?.SystemInfoName == "VehicleBooking")
+{
+    @await Component.InvokeAsync("HeaderVehicle")
+}
+else if (curUser?.SystemInfo?.SystemInfoName == "MeetingRoomBooking")
+{
+    @await Component.InvokeAsync("HeaderMeetingRoom")
+} *@
+
+@switch (curUser?.SystemInfo?.SystemInfoName)
+{
+    case "MasterManagementSystem":
+        @await Component.InvokeAsync("HeaderMeetingRoom")
+        ;
+        break;
+
+    case "BudgetingSystem":
+        @await Component.InvokeAsync("HeaderMeetingRoom")
+        ;
+        break;
+
+    case "ProjectMonitoringSystem":
+        @await Component.InvokeAsync("HeaderVehicle")
+        ;
+        break;
+
+    case "InventoryManagementSystem":
+        @await Component.InvokeAsync("HeaderMeetingRoom")
+        ;
+        break;
+
+    case "ExecutiveReportingSystem":
+        @await Component.InvokeAsync("HeaderMeetingRoom")
+        ;
+        break;
+
+    default:
+        // Optional: Handle the default case if necessary
+        break;
+}

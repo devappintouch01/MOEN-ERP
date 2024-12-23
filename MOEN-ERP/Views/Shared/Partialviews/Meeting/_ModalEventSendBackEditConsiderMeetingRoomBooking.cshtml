@@ -1,0 +1,135 @@
+﻿@model MOEN_ERP.Models.ViewModel.MeetingRoomBooking.MeetingRoomBookingFormEvent
+
+@using MOEN_ERP.Services;
+
+<form id="frmModalEventSendBackEditConsiderMeetingRoomBooking" asp-action="EventSendBackEditConsiderMeetingRoomBooking" asp-controller="Shared">
+
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalEventSendBackEditConsiderMeetingRoomBooking">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+
+
+                    <h3 class="modal-title">
+                        <span class="btn btn-sm btn-icon bg-warning">
+                            <i class="fa fa-reply text-white"></i>
+                        </span>
+                        <label>ส่งกลับแก้ไขการจองห้องประชุม</label>
+                    </h3>
+
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    @Html.HiddenFor(m => m.MeetingRoomBookingId)
+                    @Html.HiddenFor(m => m.AudioVisualServiceRequestId)
+                    @Html.HiddenFor(m => m.VideoConferenceBookingId)
+                    @Html.HiddenFor(m => m.CateringServiceRequestId)
+                    @Html.HiddenFor(m => m.CateringServiceExpensesId)
+                    @Html.HiddenFor(m => m.ActionType)
+
+
+                    <div class="row mb-3">
+                        <label class="col-form-label col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">เหตุผลการส่งกลับแก้ไข <span class="required"></span> : </label>
+                    </div>
+
+                    <div class="row fv-row mb-3">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <textarea asp-for="ActionRemark" class="form-control form-control-sm" data-kt-autosize="true" autocomplete="off"></textarea>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>บันทึก</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</form>
+
+<script>
+
+
+
+    var validatorEventSendBackEditConsiderMeetingRoomBooking;
+    $(function () {
+        // Define form element
+        const formEventSendBackEditConsiderMeetingRoomBooking = document.getElementById('frmModalEventSendBackEditConsiderMeetingRoomBooking');
+
+        validatorEventSendBackEditConsiderMeetingRoomBooking = FormValidation.formValidation(
+            formEventSendBackEditConsiderMeetingRoomBooking,
+            {
+
+                fields: {
+                    'ActionRemark': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเหตุผลการส่งกลับแก้ไข'
+                            }
+                        }
+                    },
+                },
+
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        );
+
+
+    });
+
+    //---- Save ----//
+
+    $('#frmModalEventSendBackEditConsiderMeetingRoomBooking').submit(async function (e) {
+        //--
+        // debugger
+        e.preventDefault();
+        var $valid = await validatorEventSendBackEditConsiderMeetingRoomBooking.validate().then(function (status) { return status });
+        if ($valid != 'Valid') return false;
+        //--
+        showWait();
+        //--post
+        $.post($(this).attr('action'), $(this).serialize(), function (res) {
+            hideWait();
+            if (res.type == "success") {
+                Swal.fire({ title: res.message, text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            $('.modal').modal('hide');
+                            $('.modal-backdrop').remove();
+                            window.location.replace(`@MyHttpContext.AppBaseUrl/MeetingRoomConsider/ConsiderMeetingRoomBookingList`);
+                        }
+                    });
+            }
+            else {
+                Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+            }
+        }, 'json');
+
+        //--post end
+        return false;
+        //--
+    });
+
+
+
+</script>

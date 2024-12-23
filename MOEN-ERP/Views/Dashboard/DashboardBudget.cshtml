@@ -1,0 +1,967 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายงานสถิติระบบงบประมาณ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายงานสถิติระบบงบประมาณ</li>
+}
+
+<style>
+    .chartdiv {
+        max-width: 500px;
+    }
+
+</style>
+
+<div class="card">
+
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>แสดงข้อมูลช่วงเวลา</h2>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">ประจำปีงบประมาณ</label>
+                </div>
+                <div class="col-8 text-end">
+                    <input class="form-control form-control-sm" name="" />
+                </div>
+            </div>
+            <div class="row col-md-6 mb-3">
+                <div class="col-4 text-end">
+                    <label class="col-form-label">หน่วยงาน</label>
+                </div>
+                <div class="col-8 text-end">
+                    <select class="form-select form-select-sm" name="">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+            <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-12 mb-3 mt-10">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                            ภาพรวมคำของบประมาณประจำปี
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                            การจัดสรร/เบิกจ่าย
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                        <div class="row mt-5">
+
+                            <div class="card col-md-6 p-4 ">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5 border border-primary ">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานภาพรวมของบประมาณ จำแนกตามหลังงบประมาณ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <div class="chartdiv">
+                                            <canvas id="chart1"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานภาพรวมของบประมาณ จำแนกตามหลังงบประมาณ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <div class="chartdiv">
+                                            <canvas id="chart2"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานภาพรวมของบประมาณ จำแนกตามแผนงาน</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <div class="chartdiv">
+                                            <canvas id="chart3"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานภาพรวมของบประมาณ จำแนกตามกิจกรรม/โครงการ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <div class="chartdiv">
+                                            <canvas id="chart4"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานภาพรวมคำของบประมาณ จำแนกตามหน่วยงาน</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <div class="">
+                                            <canvas id="chart5"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานภาพรวมคำของบประมาณ เรียงลำดับจากน้อยไปมาก(ส่วนกลาง)</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart6"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card col-md-12 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานภาพรวมคำของบประมาณ เรียงลำดับจากน้อยไปมาก(ภูมิภาค)</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart7"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                        <div class="row mt-5">
+
+                            <div class="col-md-4 p-4">
+                                <div class="btn btn-primary w-100">
+                                    งบประมาณทั้งสิ้น 103.3284 (ลบ.)
+                                </div>
+                            </div>
+                            <div class="col-md-4 p-4">
+                                <div class="btn btn-primary w-100">
+                                    เบิกจ่าย 63.2063 (ลบ.)
+                                </div>
+                            </div>
+                            <div class="col-md-4 p-4">
+                                <div class="btn btn-primary w-100">
+                                    คงเหลือ 40.2112 (ลบ.)
+                                </div>
+                            </div>
+
+                            <div class="card col-md-12 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานผลการเบิกจ่าย จำแนกตามหน่วยงาน</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <div class="col-md-6 p-4">
+                                            รอ licence แผนที่กับลูกค้า
+                                        </div>
+                                        <div class="col-md-6 p-4">
+                                            <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                                                <table id="tb1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                                    <thead class="table-primary">
+                                                        <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                                            <th class="text-center">หน่วยงาน</th>
+                                                            <th class="text-center">เบิกจ่าย (%)</th>
+                                                            <th class="text-center">เบิกจ่าย (ลบ.)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-center">ภูเก็ต</td>
+                                                            <td class="text-center">36.68</td>
+                                                            <td class="text-center">1,2350.4300</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">ตราด</td>
+                                                            <td class="text-center">84.28</td>
+                                                            <td class="text-center">4,2350.450</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">ระยอง</td>
+                                                            <td class="text-center">98.21</td>
+                                                            <td class="text-center">340.556</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-12 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานแผน/ผลการใช้จ่ายเงิน</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart8"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร จำแนกตามแหล่งงบประมาณ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <div class="chartdiv">
+                                            <canvas id="chart9"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร จำแนกตามแหล่งงบประมาณ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart10"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร จำแนกตามประเภทหมวดงบประมาณ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <div class="chartdiv">
+                                            <canvas id="chart11"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร จำแนกตามประเภทหมวดงบประมาณ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart12"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร จำแนกตามแผนงาน</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart13"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร จำแนกตามกิจกรรม/โครงการ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart14"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร จำแนกตามหน่วยงาน</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart15"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-6 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร เรียงอันดับจากน้อยไปมาก (ส่วนกลาง)</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart16"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card col-md-12 p-4">
+                                <div class="card-header align-items-center py-5 gap-2 gap-md-5  border border-primary">
+                                    <div class="card-title">
+                                        <div class="d-flex align-items-center position-relative my-1">
+                                            <h5>รายงานจัดสรร เรียงอันดับจากน้อยไปมาก (ส่วนภูมิภาค)</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body  border border-primary">
+                                    <div class="row mb-3 justify-content-center">
+                                        <canvas id="chart17"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        var options = {
+            tooltips: {
+                enabled: false
+            },
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                }
+            }
+        };
+
+
+        const ctx = document.getElementById('chart1');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['งบประมาณแผ่นดิน', 'เงินนอกงบประมาณ', 'งบจังหวัด', 'งบเบิกแทนกัน'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [12, 19, 3, 5],
+                    borderWidth: 1
+                }]
+            },
+            options: options,
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx2 = document.getElementById('chart2');
+        new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: ['งบบุคคลากร', 'งบดำเนินงาน', 'งบลงทุน', 'งบอุดหนุน', 'งบรายจ่ายอื่น'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [12, 19, 3, 5, 1],
+                    borderWidth: 1
+                }]
+            },
+            options: options,
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx3 = document.getElementById('chart3');
+        new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: ['แผนงานบุคลากรภาครัฐ', 'แผนงานยุทธศาสตร์พัฒนาความมั่นคงทางพลังงาน', 'แผนงานบูรณาการรัฐบาลดิจิทัล'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [3, 5, 1],
+                    borderWidth: 1
+                }]
+            },
+            options: options,
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx4 = document.getElementById('chart4');
+        new Chart(ctx4, {
+            type: 'pie',
+            data: {
+                labels: ['บริหารจัดการแผนพลังงาน', 'โครงการเพิ่มสมรรถนะด้านบริหารและจัดการพลังงานครบวงจรในชุมชนระดับตำบลและเครือข่าย', 'โครบงการพัฒนายุทศาสตร์พลังงาน', 'โครงการเสริมสร้างธรรมภิบาลในการติดตามและประเมินผลปฎิบัติราชการของหน่วยงานภาครัฐโดยใช้เทคโนโลยีดิจิทัล', 'โครงการเพิ่มประสิทธิภาพการขับเคลื่อนยุทธศาสตร์ด้านพลังงานในส่วนภูมิภาค'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [3, 5, 1, 15, 60],
+                    borderWidth: 1
+                }]
+            },
+            options: options,
+            plugins: [ChartDataLabels]
+        });
+
+
+        const ctx5 = document.getElementById('chart5');
+        const myChart5 = new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: [''],  // No labels for the x-axis in this case
+                datasets: [
+                    {
+                        label: 'ส่วนภูมิภาค',  // Label for the first bar
+                        data: [67.5323],
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)', // Blue for 'ส่วนภูมิภาค'
+                        borderColor: 'rgba(54, 162, 235, 1)', // Border color for 'ส่วนภูมิภาค'
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'ส่วนกลาง',  // Label for the second bar
+                        data: [103.3284],
+                        backgroundColor: 'rgba(144, 238, 144, 0.7)', // Green for 'ส่วนกลาง'
+                        borderColor: 'rgba(144, 238, 144, 1)', // Border color for 'ส่วนกลาง'
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: 'black',
+                        formatter: function (value) {
+                            return value.toFixed(4);
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+
+        });
+
+        const ctx6 = document.getElementById('chart6');
+        const myChart6 = new Chart(ctx6, {
+            type: 'bar',
+            data:
+            {
+                labels: ['กพภ.', 'สร.', 'ศปท.', 'ตสน.', 'กตร.', 'กกต.'],
+                datasets: [{
+                    label: '',
+                    data: [2, 3, 4, 5, 10, 50],
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(144, 238, 144, 0.7)',
+                    borderColor: 'rgba(144, 238, 144, 1)',
+                }]
+            },
+            options: {
+
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: 'black',
+                        formatter: function (value) {
+                            return value;
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    }
+
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx7 = document.getElementById('chart7');
+        const myChart7 = new Chart(ctx7, {
+            type: 'bar',
+            data:
+            {
+                labels: ['สมุทราปราการ', 'นนทบุรี', 'ลพบุรี', 'ระยอง', 'ตราด', 'ประจวบศิริขันธ์', 'ราชบุรี', 'เชียงใหม่', 'ชัยนาท', 'สระแก้ว', 'เพรชบุรี'],
+                datasets: [{
+                    label: '',
+                    data: [2, 3, 4, 5, 10, 50, 60, 62, 64, 70, 77],
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                }]
+            },
+            options: {
+
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+
+                    datalabels: {
+                        anchor: 'center',
+                        align: 'center',
+                        color: 'black',
+                        formatter: function (value) {
+                            return value;
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    }
+
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+
+
+        const ctx8 = document.getElementById('chart8');
+        const myChart8 = new Chart(ctx8, {
+            type: 'bar',
+            data: {
+                labels: ['ต.ค.', 'พ.ย.', 'ธ.ค.', 'มี.ค.', 'เม.ย.', 'พ.ค.'],
+                datasets: [
+                    {
+                        label: 'แผนตามมติ ค.ร.ม',
+                        data: [2, 44, 56, 76, 87, 99],
+                        borderColor: 'rgba(144, 238, 144, 1)',
+                        borderWidth: 1,
+                        type: 'bar'
+                    },
+                    {
+                        label: 'แผนการใช้จ่ายเงิน สป.พน. ปี 2567',
+                        data: [0, 0, 53, 60, 65, 90],
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderWidth: 1,
+                        type: 'bar'
+                    },
+                    {
+                        label: 'ผลเบิกจ่ายปี 66',
+                        data: [2, 44, 60, 76, 87, 99],
+                        fill: false,
+                        borderColor: '#f79d00',
+                        tension: 0.1,
+                        type: 'line'
+                    },
+                    {
+                        label: 'ผลเบิกจ่ายปี 67',
+                        data: [0, 0, 53, 60, 65, 90],
+                        fill: false,
+                        borderColor: '#6b6b6a',
+                        tension: 0.1,
+                        type: 'line'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        stacked: false,
+                    }
+                }
+            }
+        });
+
+        const ctx9 = document.getElementById('chart9');
+        new Chart(ctx9, {
+            type: 'pie',
+            data: {
+                labels: ['งบประมาณแผ่นดิน', 'เงินนอกงบประมาณ', 'งบจังหวัด', 'งบเบิกทับกัน'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [12, 19, 3, 5],
+                    borderWidth: 1
+                }]
+            },
+            options: options,
+            plugins: [ChartDataLabels]
+        });
+
+
+        const ctx10 = document.getElementById('chart10');
+        new Chart(ctx10, {
+            type: 'bar',
+            data: {
+                labels: ['งบประมาณแผ่นดิน', 'เงินนอกงบประมาณ', 'งบจังหวัด', 'งบเบิกทับกัน'],
+                datasets: [
+                    {
+                        label: 'เบิกจ่าย',
+                        data: [1.29, 17.25, 1.04, 79.25],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'คงเหลือ',
+                        data: [98.71, 82.75, 98.96, 20.75],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx11 = document.getElementById('chart11');
+        new Chart(ctx11, {
+            type: 'pie',
+            data: {
+                labels: ['งบบุคลากร', 'งบดำเนินงาน', 'งบลงทุน', 'งบอุดหนุน', 'งบรายการอื่น'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [37, 11, 42, 5, 5],
+                    borderWidth: 1
+                }]
+            },
+            options: options,
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx12 = document.getElementById('chart12');
+        new Chart(ctx12, {
+            type: 'bar',
+            data: {
+                labels: ['งบบุคลากร', 'งบดำเนินงาน', 'งบลงทุน', 'งบอุดหนุน', 'งบรายการอื่น'],
+                datasets: [
+                    {
+                        label: 'เบิกจ่าย',
+                        data: [1.29, 17.25, 1.04, 79.25, 4.6],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'คงเหลือ',
+                        data: [98.71, 82.75, 98.96, 20.75, 95.4],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx13 = document.getElementById('chart13');
+        new Chart(ctx13, {
+            type: 'bar',
+            data: {
+                labels: ['แผนงานบุคลากรภาครัฐ', 'แผนงานยุทธศาสตร์พัฒนาความมั่นคงทางพลังงาน', 'แผนงานการรัฐบาลดิจิทัล',],
+                datasets: [
+                    {
+                        label: 'เบิกจ่าย',
+                        data: [72, 89, 43],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'คงเหลือ',
+                        data: [28, 11, 57],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx14 = document.getElementById('chart14');
+        new Chart(ctx14, {
+            type: 'bar',
+            data: {
+                labels: ['บริหารจัดการแผนพลังงาน', 'โครงการเพิ่มสมรรถนะด้านการบริหารและจัดการพลังงานครบวงจรในชุมชนระดับตำบลละเครือข่าย', 'โครงการพัฒนายุทธศาสตร์พลังงาน',],
+                datasets: [
+                    {
+                        label: 'เบิกจ่าย',
+                        data: [95, 52, 21],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'คงเหลือ',
+                        data: [5, 48, 57],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx15 = document.getElementById('chart15');
+        new Chart(ctx15, {
+            type: 'bar',
+            data: {
+                labels: ['ส่วนภูมิภาค', 'ส่วนกลาง'],
+                datasets: [
+                    {
+                        label: 'เบิกจ่าย',
+                        data: [67, 90],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'คงเหลือ',
+                        data: [33, 10],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx16 = document.getElementById('chart16');
+        new Chart(ctx16, {
+            type: 'bar',
+            data: {
+                labels: ['กพภ.', 'สร.', 'ศปท.', 'ตสน.', 'กตร.', 'กกต.'],
+                datasets: [
+                    {
+                        label: 'เบิกจ่าย',
+                        data: [24, 25, 26, 27, 70, 90],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'คงเหลือ',
+                        data: [76, 75, 74, 73, 30, 10],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        const ctx17 = document.getElementById('chart17');
+        new Chart(ctx17, {
+            type: 'bar',
+            data: {
+                labels: ['สมุทราปราการ', 'นนทบุรี', 'ลพบุรี', 'ระยอง', 'ตราด', 'ประจวบศิริขันธ์', 'ราชบุรี', 'เชียงใหม่', 'ชัยนาท', 'สระแก้ว', 'เพรชบุรี'],
+                datasets: [
+                    {
+                        label: 'เบิกจ่าย',
+                        data: [24, 25, 26, 27, 70, 90, 91, 92, 93, 94, 95],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'คงเหลือ',
+                        data: [76, 75, 74, 73, 30, 10,9,8,7,6,5],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    </script>
+}

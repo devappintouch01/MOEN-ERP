@@ -1,0 +1,53 @@
+﻿<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalManageAdminCarModel">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span class="btn btn-sm btn-icon bg-danger "><i class="fa fa-close text-white"></i></span> ปฏิเสธการจองยานพาหนะ</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+               
+                <div class="row mb-3">
+                    <label class="col-form-label col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">เหตุผลการปฏิเสธ <span class="required"></span> : </label>                  
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <textarea class="form-control form-control-sm" rows="4"></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="modal-footer d-flex justify-content-between">
+                <div>
+                </div>
+                <div>
+                    <button id="btnConfirm" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">ยืนยัน</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                </div>
+                <div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*<script>
+    $(function () {
+        $('#btnConfirm').click(function () {
+            Swal.fire({ title: 'บันทึกข้อมูลสำเร็จ', text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+        });
+    });
+</script>*@
+

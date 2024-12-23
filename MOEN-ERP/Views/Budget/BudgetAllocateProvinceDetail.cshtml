@@ -1,0 +1,389 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">จัดสรรงบจังหวัด/งบกลุ่มจังหวัด</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">จัดสรรงบจังหวัด/งบกลุ่มจังหวัด</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขที่คำขอ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หน่วยงาน</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value="">กรุณาเลือก</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">รวมเงินคำของบประมาณ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+
+         
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ประเภทงบประมาณ</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value="">กรุณาเลือก</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">กลุ่มจังหวัด</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value="">กรุณาเลือก</option>
+                </select>
+            </div>
+            
+            <div class="col-md-8 mb-3">
+                <label class="col-form-label">ชื่องาน/โครงการ</label>
+                <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <input class="form-control form-control-sm" readonly value="" />
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">งบประมาณที่ได้รับอนุมัติ <span class="text-danger">*</span></label>
+                <input class="form-control form-control-sm" value="" />
+            </div>
+        </div>
+
+        <div class="col-md-12 mb-3 mt-10">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                        ข้อมูลทั่วไป
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                        แผนการใช้จ่ายงบประมาณ
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+                        แผนการจัดซื้อจัดจ้าง
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content">
+
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                    <div class="row mt-5">
+
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ชื่อแผนงาน</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">แนวทางการพัฒนา</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">หลักการและเหตุผล</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">วัตถุประสงค์ของโคงการ</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ตัวชี้วัดเชิงปริมาณ</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ตัวชี้วัดเชิงคุณภาพ</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ระยะเวลาในการดำเนินโครงการ</label>
+                            <input class="form-control form-control-sm" value="" readonly />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">พื้นที่เป้าหมาย</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">งบประมาณดำเนินงาน (บาท)</label>
+                            <input class="form-control form-control-sm" value="" readonly />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">กิจกรรมหลัก</label>
+                            <input class="form-control form-control-sm" value="" readonly />
+                        </div>
+
+                      
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                     
+                                        <th class="text-center" width="80"></th>
+                                        <th class="text-center" width="80">ลำดับ</th>
+                                        <th class="text-center">กิจกรรม</th>
+                                        <th class="text-center">งบประมาณ</th>
+                                        <th class="text-center">หน่วยงานที่เกี่ยวข้อง</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center" >
+                                            <a href="#" class="btn btn-icon btn-sm btn-light-info text-gray-800 text-hover-white fw-bold mb-0"
+                                               data-bs-toggle="modal" data-bs-target="#mdlDetail"
+                                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                                <i class="fa fa-search fs-4"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">ส่งเสริมระบบไฟฟ้าด้วยพลังงานแสงอาทิตย์ ขนาดไม่น้อยกว่า 60 กิโลวัตต์ สำหรับถนนคนเดินเมืองสิงห์บุรี</td>
+                                        <td class="text-center">2,000,000</td>
+                                        <td class="text-center">องค์กรปกครองท้องถิ่งสิงห์บุรี</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ผลผลิตของโครงการ (Out put)</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ผลลัพธ์ของโครงการ (Out come)</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                    <div class="row mt-5">
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                        <th class="text-center" width="100">ลำดับ</th>
+                                        <th class="text-center">เดือน</th>
+                                        <th class="text-center">จำนวนเงิน</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">ตุลาคม</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">พฤศจิกายน</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">3</td>
+                                        <td class="text-center">ธันวาคม</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">4</td>
+                                        <td class="text-center">มกราคม</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">5</td>
+                                        <td class="text-center">กุมภาพันธ์</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">6</td>
+                                        <td class="text-center">มีนาคม</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">7</td>
+                                        <td class="text-center">เมษายน</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">8</td>
+                                        <td class="text-center">พฤษภาคม</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">9</td>
+                                        <td class="text-center">มิถุนายน</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">10</td>
+                                        <td class="text-center">กรกฎาคม</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">11</td>
+                                        <td class="text-center">สิงหาคม</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">12</td>
+                                        <td class="text-center">กันยายน</td>
+                                        <td class="text-center"><input class="form-control form-control-sm" readonly /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-10">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="col-form-label">รวมเป็นเงินทั้งสิ้น</label>
+                            <input class="form-control form-control-sm text-end" readonly value="0.00" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                    <div class="row mt-5">
+                        <div class="col-md-9 mb-3">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="col-form-label">วิธีการจัดซื้อจัดจ้าง</label>
+                            <select class="form-select form-select-sm" disabled>
+                                <option value="">กรุณาเลือก</option>
+                            </select>
+                        </div>
+                    
+
+                        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm mt-3">
+                            <table class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                                <thead class="table-primary">
+                                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                       
+                                        <th class="text-center">ลำดับ</th>
+                                        <th class="text-center">ขั้นตอน</th>
+                                        <th class="text-center">เดือน</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                   
+                                        <td class="text-center">1</td>
+                                        <td class="text-center">จัดทำแผนจัดซื้อจัดจ้าง</td>
+                                        <td class="text-center">
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value="">กรุณาเลือก</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                 
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">ร่าง TOR</td>
+                                        <td class="text-center">
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value="">กรุณาเลือก</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                     
+                                        <td class="text-center">3</td>
+                                        <td class="text-center">จัดทำรายงาน</td>
+                                        <td class="text-center">
+                                            <select class="form-select form-select-sm" disabled>
+                                                <option value="">กรุณาเลือก</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">หมายเหตุ</label>
+                            <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row mt-10">
+            <div class="col-8">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> ยืนยัน</button>
+                <a href="@Url.Action("BudgetAllocateProvinceList","Budget")" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้าหลัก</a>
+                <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+            </div>
+     
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetail">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>กิจกรรมย่อย</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">กิจกรรม</label>
+                        <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="col-form-label">งบประมาณ</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" readonly>
+                            <span class="input-group-text">บาท</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">หน่วยงานที่เกี่ยวข้อง</label>
+                        <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">คำอธิบายเพิ่มเติม/หมายเหตุ</label>
+                        <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

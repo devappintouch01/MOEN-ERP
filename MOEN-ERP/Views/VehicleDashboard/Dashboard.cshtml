@@ -1,0 +1,227 @@
+﻿@model MOEN_ERP.Models.Data.DashboardVehicle
+
+@section Title{
+    <span class="fs-1 fw-semibold">Dashboard</span>
+
+}
+@section Breadcrumb{
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">Dashboard</li>
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row col-12">
+    <div class="card mb-6">
+        <div class="card-body">
+            <div class="row col-12">
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <div class="card text-light">
+                        <div class="card-header bg-primary bg-opacity-75">
+                            <div class="row col-12">
+                                <div class="col-8 pt-3">
+                                    <b style="font-size: 50px;">@(Model?.VDashboardVehicle?.VehicleBookingPerMonth ?? 0)</b>
+                                </div>
+                                <div class="col-4 text-end pt-6">
+                                    <i class="fa fa-car opacity-50 text-light" style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-12 p-2">
+                                    <b class="text-light">จำนวนการจองยานพาหนะประจำเดือน</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-primary text-center p-2">
+                            <a href="@Url.Action("VehicleDashboard","VehicleCalendar")" class="text-light">ปฏิทินการจองยานพาหนะ <i class="fa fa-arrow-circle-right text-light"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-6">
+        <div class="card-body">
+            <div class="row col-12">
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <a data-ajax="true" data-ajax-method="POST"
+                       data-ajax-mode="replace" data-ajax-update="#mdl"
+                       href="@Url.Action("GetTableVVehicle","VehicleDashboard")">
+                        <div class="card mb-3 border border-primary">
+                            <div class="row g-0">
+                                <div class="col-md-4 col-sm-12 bg-primary text-center p-5">
+                                    <i class="fa fa-car  text-light " style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-md-8 col-sm-12 pt-4 ps-4 pe-4">
+                                    <div class="">
+                                        <h4>จำนวนยานพาหนะ</h4>
+                                        <h1>@(Model?.VDashboardVehicle?.VehicleCount ?? 0)</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="col-md-3 col-sm-12 mt-2">
+                    <a data-ajax="true" data-ajax-method="POST"
+                       data-ajax-mode="replace" data-ajax-update="#mdl"
+                       href="@Url.Action("GetTableVOfficer","VehicleDashboard")">
+                        <div class="card mb-3 border border-success">
+                            <div class="row g-0">
+                                <div class="col-md-4 col-sm-12 bg-success text-center p-5">
+                                    <i class="fa fa-users  text-light " style="font-size: 50px;"></i>
+                                </div>
+                                <div class="col-md-8 col-sm-12 pt-4 ps-4 pe-4">
+                                    <div class="">
+                                        <h4>จำนวนพนักงานขับรถ</h4>
+                                        <h1>@(Model?.VDashboardVehicle?.DriverCount ?? 0)</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row col-12">
+    <div class="col-md-4 col-sm-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row col-12">
+                    <h2>สถิติการจองยานพาหนะประจำเดือน</h2>
+                    <canvas id="chart1" width="400" height="400"></canvas>
+                    <table class="mt-4">
+                        <tr class="mb-2">
+                            <th>ยานพาหนะ</th>
+                            <th class="text-end">จำนวน</th>
+                        </tr>
+                        @foreach (var item in Model?.VDashboardVehicleBookingStatistic)
+                        {
+                            <tr class="mb-2">
+                                <td>@item.VehicleRegistration</td>
+                                <td class="text-end">@item.BookingPerMonth</td>
+                            </tr>
+                        }
+
+                        <tr class="mb-2">
+                            <th>รวม</th>
+                            <th class="text-end">@(Model?.VDashboardVehicleBookingStatistic?.Sum(x => x.BookingPerMonth) ?? 0)</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row col-12">
+                    <h2>สถิติการปฏิบัติงานของ พขร. ของเดือน</h2>
+                    <canvas id="chart2" width="400" height="400"></canvas>
+                    <table class="mt-4">
+                        <tr class="mb-2">
+                            <th>พนักงานขับรถ</th>
+                            <th class="text-end">จำนวน</th>
+                        </tr>
+                        @foreach (var item in Model?.VDashboardDriverStatistic)
+                        {
+                            <tr class="mb-2">
+                                <td>@item.DriverName</td>
+                                <td class="text-end">@item.WorkPerMonth</td>
+                            </tr>
+                        }
+
+                        <tr class="mb-2">
+                            <th>รวม</th>
+                            <th class="text-end">@(Model?.VDashboardDriverStatistic?.Sum(x => x.WorkPerMonth) ?? 0)</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row col-12">
+                    <h2>สถิติการซ่อมบำรุงยานพาหนะประจำเดือน</h2>
+                    <canvas id="chart3" width="400" height="400"></canvas>
+                    <table class="mt-4">
+                        <tr class="mb-2">
+                            <th>ยานพาหนะ</th>
+                            <th class="text-end">จำนวน</th>
+                        </tr>
+                        @foreach (var item in Model?.VDashboardVehicleMaintenanceStatistic)
+                        {
+                            <tr class="mb-2">
+                                <td>@item.VehicleRegistration</td>
+                                <td class="text-end">@item.MaintenancePerMonth</td>
+                            </tr>
+                        }
+
+                        <tr class="mb-2">
+                            <th>รวม</th>
+                            <th class="text-end">@(Model?.VDashboardVehicleMaintenanceStatistic?.Sum(x => x.MaintenancePerMonth) ?? 0)</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="mdl"></div>
+
+<script>
+    var ctx1 = document.getElementById('chart1').getContext('2d');
+    var data1 = {
+        datasets: [{
+            data: [@Html.Raw(string.Join(",", Model?.VDashboardVehicleBookingStatistic.Select(d => d.BookingPerMonth)))],
+        }],
+        labels: [@Html.Raw(string.Join(",", Model?.VDashboardVehicleBookingStatistic.Select(d => $"\"{d.VehicleRegistration}\"")))]
+    };
+    getChart(ctx1, data1);
+
+    var ctx2 = document.getElementById('chart2').getContext('2d');
+    var data2 = {
+        datasets: [{
+            data: [@Html.Raw(string.Join(",", Model?.VDashboardDriverStatistic.Select(d => d.WorkPerMonth)))],
+        }],
+        labels: [@Html.Raw(string.Join(",", Model?.VDashboardDriverStatistic.Select(d => $"\"{d.DriverName}\"")))]
+    };
+    getChart(ctx2, data2);
+
+    var ctx3 = document.getElementById('chart3').getContext('2d');
+    var data3 = {
+        datasets: [{
+            data: [@Html.Raw(string.Join(",", Model?.VDashboardVehicleMaintenanceStatistic.Select(d => d.MaintenancePerMonth)))],
+        }],
+        labels: [@Html.Raw(string.Join(",", Model?.VDashboardVehicleMaintenanceStatistic.Select(d => $"\"{d.VehicleRegistration}\"")))]
+    };
+    getChart(ctx3, data3);
+
+    function getChart(ctx, data) {
+        var options = {
+            cutoutPercentage: 50,
+        };
+
+        var myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: options
+        });
+    }
+
+
+</script>

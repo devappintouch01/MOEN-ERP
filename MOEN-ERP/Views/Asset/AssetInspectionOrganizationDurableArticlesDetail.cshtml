@@ -1,0 +1,195 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายละเอียดสินทรัพย์</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายละเอียดสินทรัพย์</li>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขที่อ้างอิง</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ปีงบประมาณ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">วันที่เริ่มต้น</label>
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="Date1" id="Date1" readonly />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">วันที่สิ้นสุด</label>
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="Date1" id="Date1" readonly />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หมายเหตุ</label>
+                <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขครุภัณฑ์</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">เลขสินทรัพย์</label>
+                <input class="form-control form-control-sm" readonly />
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หน่วยงาน</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value="">ทั้งหมด</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หมวดหมู่ครุภัณฑ์</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value="">ทั้งหมด</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หมวดหมู่ย่อย</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value="">ทั้งหมด</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานที่เก็บ/ใช้งาน</label>
+                <select class="form-select form-select-sm" disabled>
+                    <option value="">ทั้งหมด</option>
+                </select>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="col-form-label">รายละเอีดสถานที่จัดเก็บ/ใช้งาน</label>
+                <textarea class="form-control form-control-sm" rows="2" readonly> </textarea>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานะ</label>
+                <div class="row fv-row mb-3 mt-2">
+                    <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                        <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                            <input class="form-check-input" type="radio" value="1" name="rdo1">
+                            <label class="form-check-label">
+                                ไม่พบ
+                            </label>
+                        </div>
+                        <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                            <input class="form-check-input" type="radio" value="2" name="rdo1">
+                            <label class="form-check-label">
+                                พบ
+                            </label>
+                        </div>
+                        <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                            <input class="form-check-input" type="radio" value="3" name="rdo1">
+                            <label class="form-check-label">
+                                พบผิดที่
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">หน่วยงานที่พบ</label>
+                <select class="form-select form-select-sm" >
+                    <option value="">ทั้งหมด</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+           
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สภาพ</label>
+                <div class="row fv-row mb-3 mt-2">
+                    <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                        <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                            <input class="form-check-input" type="radio" value="1" name="rdo1">
+                            <label class="form-check-label">
+                                ปกติ
+                            </label>
+                        </div>
+                        <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                            <input class="form-check-input" type="radio" value="2" name="rdo1">
+                            <label class="form-check-label">
+                                ชำรุด
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ลักษณะชำรุด</label>
+                <textarea class="form-control form-control-sm" rows="2" > </textarea>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <hr />
+            </div>
+
+            <h2>เปลี่ยนสถานะที่จัดเก็บ/ใช้งาน</h2>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานที่จัดเก็บ/ใช้งาน</label>
+                <select class="form-select form-select-sm" >
+                    <option value="">ทั้งหมด</option>
+                </select>
+            </div>
+
+            <div class="col-md-8 mb-3">
+                <label class="col-form-label">รายละเอียดสถานที่จัดเก็บ/ใช้งาน</label>
+                <textarea class="form-control form-control-sm" rows="2"></textarea>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ไฟล์แนบ</label>
+                <input type="file" class="form-control form-control-sm" />
+            </div>
+
+        </div>
+
+        <div class="mt-10 row">
+            <div class="col-12">
+                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                <a href="@Url.Action("AssetInspectionOrganizationDetail","Asset")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+

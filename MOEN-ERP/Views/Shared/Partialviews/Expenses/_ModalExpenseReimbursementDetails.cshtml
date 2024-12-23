@@ -1,0 +1,503 @@
+﻿@model MOEN_ERP.Models.ViewModel.ExpensesRequest.ExpenseReimbursementDetails
+@{
+    //var _read = Model.ActionType == "view" ? "disabled" : "";
+}
+
+<form id="frmModalEventExpenseReimbursementDetails" asp-action="EventExpenseReimbursementDetails" asp-controller="Shared">
+    <div class="modal fade" id="modalExpenseReimbursementDetails" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modalExpenseReimbursementDetails" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">รายละเอียดการเบิกค่าใช้จ่าย</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    @Html.HiddenFor(m => m.MeetingRoomBookingId)
+                    @Html.HiddenFor(m => m.CateringServiceRequestId)
+                    @Html.HiddenFor(m => m.CateringServiceExpensesId)
+                    @Html.HiddenFor(m => m.SubmitType)
+
+                    <div class="row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">เลขที่คำขอ :</label>
+                            <input type="text" asp-for="BookingCode" class="form-control form-control-sm" disabled />
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">วันที่ยื่น :</label>
+                            <input type="text" asp-for="BookingDate" value="@string.Format("{0:dd/MM/yyyy}",Model.BookingDate)" class="form-control form-control-sm" disabled />
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">สถานะ :</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="LastStatusName" disabled />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">ชื่อ - นามสกุล :</label>
+                            <input type="text" asp-for="BookerName" class="form-control form-control-sm" disabled />
+                        </div>
+                        <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                            <label class="col-form-label">คำของบประมาณ <span class="required"></span> :</label>
+                            <div class="input-group">
+                                @Html.HiddenFor(m => m.BudgetRequestId)
+                                <input type="text" class="form-control form-control-sm" asp-for="BudgetRequestName" disabled />
+
+                                @if ((Model.LastStatusId != null) && (Model.LastStatusId != 9))
+                                {
+
+                                }
+                                else
+                                {
+                                    if (Model.ActionType != "view")
+                                    {
+                                        <span class="btn btn-primary" id="basic-addon2">
+                                            <a href="javascript:void(0)" onclick="OpenModalSelectBudgetItems()"><i class="fas fa-search"></i></a>
+                                        </span>
+                                    }
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 fv-row">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                           
+                            @if (Model.ActionType == "view")
+                            {
+                                <label class="col-form-label">เรื่อง :</label>
+                                <textarea class="form-control" data-kt-autosize="true" asp-for="RequestDetail" disabled></textarea>
+                            }
+                            else
+                            {
+                                <label class="col-form-label">เรื่อง <span class="required"></span> :</label>
+                                <textarea class="form-control" data-kt-autosize="true" asp-for="RequestDetail"></textarea>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3 fv-row">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                           
+                            @if (Model.ActionType == "view")
+                            {
+                                <label class="col-form-label">เพื่อนำผลไปใช้ในการปฏิบัติงาน :</label>
+                                <textarea class="form-control" data-kt-autosize="true" asp-for="RequestPurpose" disabled></textarea>
+                            }
+                            else
+                            {
+                                <label class="col-form-label">เพื่อนำผลไปใช้ในการปฏิบัติงาน <span class="required"></span> :</label>
+                                <textarea class="form-control" data-kt-autosize="true" asp-for="RequestPurpose"></textarea>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">ค่าอาหารว่างและเครื่องดื่ม/มื้อ :</label>
+                            @if ((Model.LastStatusId != null) && (Model.LastStatusId != 9))
+                            {
+                                <input type="text" asp-for="SnackCost" class="form-control form-control-sm" disabled />
+                                @Html.HiddenFor(m => m.SnackCost)
+                            }
+                            else
+                            {
+
+                                <input type="text" asp-for="SnackCost" class="form-control form-control-sm money-meal" autocomplete="off" onkeypress="return OnlyNumbersDot(event,false)" onpaste="handlePaste(event)" disabled="@(Model.ActionType == "view")" />
+                            }
+
+                        </div>
+                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <label class="col-form-label">จำนวนคน :</label>
+                            @if ((Model.LastStatusId != null) && (Model.LastStatusId != 9))
+                            {
+                                <input type="text" asp-for="SnackNumber" class="form-control form-control-sm" disabled />
+                                @Html.HiddenFor(m => m.SnackNumber)
+                            }
+                            else
+                            {
+
+                                <input type="text" asp-for="SnackNumber" class="form-control form-control-sm money-meal" autocomplete="off" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled="@(Model.ActionType == "view")" />
+                            }
+                        </div>
+                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-12">
+                            <label class="col-form-label">จำนวนมื้อ :</label>
+                            @if ((Model.LastStatusId != null) && (Model.LastStatusId != 9))
+                            {
+                                @Html.HiddenFor(m => m.SnackRepast)
+                                <select asp-for="SnackRepast" class="form-select form-select-sm" data-control="select2" disabled>
+                                    <option value=0>กรุณาเลือก</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                </select>
+                            }
+                            else
+                            {
+
+                                <select asp-for="SnackRepast" class="form-select form-select-sm" data-control="select2" disabled="@(Model.ActionType == "view")">
+                                    <option value="0">กรุณาเลือก</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                            }
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">รวมเป็นเงิน :</label>
+                            @* @if (Model.LastStatusId != null || Model.LastStatusId != 9)
+                            {*@
+                            @Html.HiddenFor(m => m.SnackCostAmount)
+                            <input type="text" id="txtSnackCostAmount" value="@Model.SnackCostAmount" class="form-control form-control-sm" disabled />
+                            @*   }
+                            else
+                            {
+                            <input type="text" asp-for="SnackCostAmount" class="form-control form-control-sm" />
+
+                            }*@
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">ค่าอาหารกลางวัน :</label>
+                            @if ((Model.LastStatusId != null) && (Model.LastStatusId != 9))
+                            {
+                                @Html.HiddenFor(m => m.LunchCost)
+                                <input type="text" asp-for="LunchCost" class="form-control form-control-sm" disabled />
+                            }
+                            else
+                            {
+                                <input type="text" asp-for="LunchCost" class="form-control form-control-sm money-meal" autocomplete="off" onkeypress="return OnlyNumbersDot(event,false)" onpaste="handlePaste(event)" disabled="@(Model.ActionType == "view")" />
+
+                            }
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">จำนวนคน :</label>
+                            @if ((Model.LastStatusId != null) && (Model.LastStatusId != 9))
+                            {
+                                @Html.HiddenFor(m => m.LunchNumber)
+                                <input type="text" asp-for="LunchNumber" class="form-control form-control-sm" disabled />
+                            }
+                            else
+                            {
+
+                                <input type="text" asp-for="LunchNumber" class="form-control form-control-sm money-meal" autocomplete="off" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled="@(Model.ActionType == "view")" />
+                            }
+                        </div>
+
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">รวมเป็นเงิน :</label>
+                            @* @if (Model.LastStatusId != null || Model.LastStatusId != 9)
+                            {*@
+                            @Html.HiddenFor(m => m.LunchCostAmount)
+                            <input type="text" id="txtLunchCostAmount" value="@Model.LunchCostAmount" class="form-control form-control-sm" disabled />
+                            @*}
+                            else
+                            {
+
+                            <input type="text" asp-for="LunchCostAmount" class="form-control form-control-sm" />
+                            }*@
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">ค่าอาหารเย็น :</label>
+                            @if ((Model.LastStatusId != null) && (Model.LastStatusId != 9))
+                            {
+                                @Html.HiddenFor(m => m.DinnerCost)
+                                <input type="text" asp-for="DinnerCost" class="form-control form-control-sm" disabled />
+                            }
+                            else
+                            {
+
+                                <input type="text" asp-for="DinnerCost" class="form-control form-control-sm money-meal" autocomplete="off" onkeypress="return OnlyNumbersDot(event,false)" onpaste="handlePaste(event)" disabled="@(Model.ActionType == "view")" />
+                            }
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">จำนวนคน :</label>
+                            @if ((Model.LastStatusId != null) && (Model.LastStatusId != 9))
+                            {
+                                @Html.HiddenFor(m => m.DinnerNumber)
+                                <input type="text" asp-for="DinnerNumber" class="form-control form-control-sm" disabled />
+                            }
+                            else
+                            {
+                                <input type="text" asp-for="DinnerNumber" class="form-control form-control-sm money-meal" autocomplete="off" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled="@(Model.ActionType == "view")" />
+
+                            }
+                        </div>
+
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">รวมเป็นเงิน :</label>
+                            @Html.HiddenFor(m => m.DinnerCostAmount)
+                            <input type="text" id="txtDinnerCostAmount" value="@Model.DinnerCostAmount" class="form-control form-control-sm" disabled />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+
+                        <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-12">
+
+
+
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex mt-2">
+
+                                <label class="col-form-label">ดำเนินการในระบบ :</label>
+                                &nbsp;
+                                @if (Model.LastStatusId != null)
+                                {
+                                    @Html.HiddenFor(m => m.SystemOperationType)
+                                    <div class="form-check  form-check-custom form-check-solid  me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                        <input class="form-check-input" type="radio" value="2" asp-for="SystemOperationType" checked=@(Model.SystemOperationType == 2) disabled>
+                                        <label class="form-check-label">
+                                            ระบบสารบรรณ
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                        <input class="form-check-input" type="radio" value="1" asp-for="SystemOperationType" checked=@(Model.SystemOperationType == 1) disabled>
+                                        <label class="form-check-label">
+                                            ระบบบริหารจัดการห้องประชุม
+                                        </label>
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="form-check  form-check-custom form-check-solid  me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                        <input class="form-check-input" type="radio" value="2" asp-for="SystemOperationType" checked=@(Model.SystemOperationType == 2 || Model.CateringServiceExpensesId == 0 ) disabled="@(Model.ActionType == "view")">
+                                        <label class="form-check-label">
+                                            ระบบสารบรรณ
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                        <input class="form-check-input" type="radio" value="1" asp-for="SystemOperationType" checked=@(Model.SystemOperationType == 1)) disabled="@(Model.ActionType == "view")">
+                                        <label class="form-check-label">
+                                            ระบบบริหารจัดการห้องประชุม
+                                        </label>
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">รวมเบิกทั้งสิ้น :</label>
+                            @Html.HiddenFor(m => m.ExpensesCostAmount)
+                            <input type="text" id="txtExpensesCostAmount" value="@Model.ExpensesCostAmount" class="form-control form-control-sm" disabled />
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+
+                    <div>
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                        @if (Model.ActionType != "view")
+                        {
+                            <button id="btnExpenseReimDetailReSendForm" type="button" class="btn btn-sm btn-primary @(Model.LastStatusId == 9 ? "" : "d-none")"><i class="fa fa-save"></i>ส่งแบบฟอร์มอีกครั้ง</button>
+                            <button id="btnExpenseReimDetailSubmitForm" type="button" class="btn btn-sm btn-primary @(Model.LastStatusId == null || Model.LastStatusId == 1 ? "" : "d-none")"><i class="fa fa-save"></i>บันทึก</button>
+                            <button id="btnExpenseReimDetailCancelForm" type="button" data-url="@Url.Action("EventCancelExpenseReimbursementDetails","Shared", new{ pMeetingRoomBookingId = Model.MeetingRoomBookingId , pCateringServiceRequestId = Model.CateringServiceRequestId , pCateringServiceExpensesId = Model.CateringServiceExpensesId })" class="btn btn-sm btn-danger @(Model.LastStatusId == 1 || Model.LastStatusId == 9 ? "" : "d-none")"><i class="fa fa-close"></i>ยกเลิก</button>
+                        }
+                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="divModalEvent"></div>
+<div id="divModalSelectBudgetItems"></div>
+<script>
+
+    var divModalEvent = $('#divModalEvent');
+
+    var divModalSelectBudgetItems = $('#divModalSelectBudgetItems');
+
+    function OpenModalSelectBudgetItems() {
+        showWait();
+        var url = '@Url.Action("SelectBudgetItems","Shared")';
+        $.get(url).done(function (data) {
+            hideWait();
+            divModalSelectBudgetItems.html(data);
+            divModalSelectBudgetItems.find('.modal').modal('show');
+        });
+    }
+
+    //--ส่งแบบฟอร์มอีกครั้ง
+    $('#btnExpenseReimDetailReSendForm').click(function (e) {
+        $('#frmModalEventExpenseReimbursementDetails #SubmitType').val('resend-form');
+        $('#frmModalEventExpenseReimbursementDetails').submit();
+    });
+
+
+    //--บันทึก
+    $('#btnExpenseReimDetailSubmitForm').click(function (e) {
+        $('#frmModalEventExpenseReimbursementDetails #SubmitType').val('submit-form');
+        $('#frmModalEventExpenseReimbursementDetails').submit();
+    });
+
+    //--ยกเลิก
+    $('#btnExpenseReimDetailCancelForm').click(function (e) {
+        e.preventDefault();
+        var url = $(this).data('url');
+        $.get(url).done(function (data) {
+            divModalEvent.html(data);
+            divModalEvent.find('.modal').modal('show');
+        });
+    });
+
+
+
+
+    //--Caculate
+    $(".money-meal").keyup(function () {
+        debugger
+        //--อาหารว่าง
+        const snackCost = parseFloat($('#frmModalEventExpenseReimbursementDetails #SnackCost').val()) || 0.00;
+        const snackNumber = parseFloat(parseInt($('#frmModalEventExpenseReimbursementDetails #SnackNumber').val()) || 0);
+        const snackRepast = parseFloat(parseInt($('#frmModalEventExpenseReimbursementDetails #SnackRepast').val()) || 0);
+
+        const snackCostAmount = parseFloat(snackCost * snackNumber * snackRepast).toFixed(2);
+
+        $('#frmModalEventExpenseReimbursementDetails #txtSnackCostAmount').val(snackCostAmount);
+        $('#frmModalEventExpenseReimbursementDetails #SnackCostAmount').val(snackCostAmount);
+
+
+        //--อาหารกลางวัน
+        const lunchCost = parseFloat($('#frmModalEventExpenseReimbursementDetails #LunchCost').val()) || 0.00;
+        const lunchNumber = parseFloat(parseInt($('#frmModalEventExpenseReimbursementDetails #LunchNumber').val()) || 0);
+        const lunchCostAmount = parseFloat(lunchCost * lunchNumber).toFixed(2);
+
+        $('#frmModalEventExpenseReimbursementDetails #txtLunchCostAmount').val(lunchCostAmount);
+        $('#frmModalEventExpenseReimbursementDetails #LunchCostAmount').val(lunchCostAmount);
+
+        //--อาหารเย็น
+        const dinnerCost = parseFloat($('#frmModalEventExpenseReimbursementDetails #DinnerCost').val()) || 0.00;
+        const dinnerNumber = parseFloat(parseInt($('#frmModalEventExpenseReimbursementDetails #DinnerNumber').val()) || 0);
+        const dinnerCostAmount = parseFloat(dinnerCost * dinnerNumber).toFixed(2);
+        $('#frmModalEventExpenseReimbursementDetails #txtDinnerCostAmount').val(dinnerCostAmount);
+        $('#frmModalEventExpenseReimbursementDetails #DinnerCostAmount').val(dinnerCostAmount);
+
+        //--รวมทั้งหมด
+
+
+        const expensesCostAmountTotal = parseFloat(parseFloat(snackCostAmount) + parseFloat(lunchCostAmount) + parseFloat(dinnerCostAmount)).toFixed(2);
+
+        $('#frmModalEventExpenseReimbursementDetails #txtExpensesCostAmount').val(expensesCostAmountTotal);
+        $('#frmModalEventExpenseReimbursementDetails #ExpensesCostAmount').val(expensesCostAmountTotal);
+
+    });
+
+
+
+    //---- Save ----//
+    var validatorEventEventExpenseReimbursementDetails;
+    $(function () {
+        // Define form element
+        const formEventEventExpenseReimbursementDetails = document.getElementById('frmModalEventExpenseReimbursementDetails');
+
+        validatorEventEventExpenseReimbursementDetails = FormValidation.formValidation(
+            formEventEventExpenseReimbursementDetails,
+            {
+
+                fields: {
+
+                    'RequestDetail': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุรายละเอียดรายการ'
+                            },
+                        }
+                    },
+                    'RequestPurpose': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเพื่อนำผลไปใช้ในการปฏิบัติงาน'
+                            },
+                        }
+                    },
+                    'BudgetRequestName': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุคำของบประมาณ'
+                            },
+                        }
+                    },
+                    
+
+
+                },
+
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        );
+
+
+    });
+
+
+    $('#frmModalEventExpenseReimbursementDetails').submit(async function (e) {
+
+        e.preventDefault();
+
+        var $validEventEventExpenseReimbursementDetails = await validatorEventEventExpenseReimbursementDetails.validate().then(function (status) { return status });
+        if ($validEventEventExpenseReimbursementDetails != 'Valid') return false;
+
+        showWait();
+
+        //--post
+        $.post($(this).attr('action'), $(this).serialize(), function (res) {
+            hideWait();
+            if (res.type == "success") {
+                Swal.fire({ title: res.message, text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            $('.modal').modal('hide');
+                            $('.modal-backdrop').remove();
+                            window.location.reload();
+                        }
+                    });
+            }
+            else {
+                Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+            }
+        }, 'json');
+
+        //--post end
+        return false;
+        //--
+    });
+
+
+</script>

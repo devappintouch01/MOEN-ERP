@@ -1,0 +1,113 @@
+﻿/*
+@font-face {
+    font-family: 'Kanit';
+    src: url('../fonts/Kanit-Medium.eot');
+    src: url('../fonts/Kanit-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Kanit-Medium.woff2') format('woff2'),
+        url('../fonts/Kanit-Medium.woff') format('woff'),
+        url('../fonts/Kanit-Medium.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Kanit';
+    src: url('../fonts/Kanit-Medium.eot');
+    src: url('../fonts/Kanit-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Kanit-Medium.woff2') format('woff2'),
+        url('../fonts/Kanit-Medium.woff') format('woff'),
+        url('../fonts/Kanit-Medium.ttf') format('truetype');
+    font-weight: bolder;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kanit';
+    src: url('../fonts/Kanit-MediumItalic.eot');
+    src: url('../fonts/Kanit-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Kanit-MediumItalic.woff2') format('woff2'),
+        url('../fonts/Kanit-MediumItalic.woff') format('woff'),
+        url('../fonts/Kanit-MediumItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Kanit';
+    src: url('../fonts/Kanit-MediumItalic.eot');
+    src: url('../fonts/Kanit-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Kanit-MediumItalic.woff2') format('woff2'),
+        url('../fonts/Kanit-MediumItalic.woff') format('woff'),
+        url('../fonts/Kanit-MediumItalic.ttf') format('truetype');
+    font-weight: bolder;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Kanit';
+    src: url('../fonts/Kanit-Light.eot');
+    src: url('../fonts/Kanit-Light.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Kanit-Light.woff2') format('woff2'),
+        url('../fonts/Kanit-Light.woff') format('woff'),
+        url('../fonts/Kanit-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Kanit';
+    src: url('../fonts/Kanit-LightItalic.eot');
+    src: url('../fonts/Kanit-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Kanit-LightItalic.woff2') format('woff2'),
+        url('../fonts/Kanit-LightItalic.woff') format('woff'),
+        url('../fonts/Kanit-LightItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+*/
+
+
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('../fonts/thsarabunnew-webfont.eot');
+    src: url('../fonts/thsarabunnew-webfont.eot?#iefix') format('embedded-opentype'), 
+        url('../fonts/thsarabunnew-webfont.woff') format('woff'), 
+        url('../fonts/thsarabunnew-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('../fonts/thsarabunnew_bolditalic-webfont.eot');
+    src: url('../fonts/thsarabunnew_bolditalic-webfont.eot?#iefix') format('embedded-opentype'), 
+        url('../fonts/thsarabunnew_bolditalic-webfont.woff') format('woff'), 
+        url('../fonts/thsarabunnew_bolditalic-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('../fonts/thsarabunnew_italic-webfont.eot');
+    src: url('../fonts/thsarabunnew_italic-webfont.eot?#iefix') format('embedded-opentype'), 
+        url('../fonts/thsarabunnew_italic-webfont.woff') format('woff'), 
+        url('../fonts/thsarabunnew_italic-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('../fonts/thsarabunnew_bold-webfont.eot');
+    src: url('../fonts/thsarabunnew_bold-webfont.eot?#iefix') format('embedded-opentype'), 
+        url('../fonts/thsarabunnew_bold-webfont.woff') format('woff'), 
+        url('../fonts/thsarabunnew_bold-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.thsarabunnew {
+    font-family: 'THSarabunNew', sans-serif;
+}
+
+

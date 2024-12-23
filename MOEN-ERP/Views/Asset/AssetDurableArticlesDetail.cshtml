@@ -1,0 +1,1282 @@
+﻿@model MOEN_ERP.Models.Data.AssetDetailModel
+
+@{
+    var textType = Model.asset.AssetCategory == "C" ? "รถยนต์" : Model.asset.AssetCategory == "B" ? "อาคารและสิ่งปลูกสร้าง" : Model.asset.AssetCategory == "I" ? "สินทรัพย์ไม่มีตัวตน" : "ครุภัณฑ์";
+}
+
+@section Title {
+    <span class="fs-1 fw-semibold">ทะเบียนคุมทรัพย์สิน(@textType)</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">ทะเบียนคุมทรัพย์สิน(@textType)</li>
+}
+@using (Html.BeginForm("SaveAssetDetail", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.asset.Id)
+    @Html.HiddenFor(x => x.asset.AssetCategory)
+    @Html.HiddenFor(x => x.guidPage)
+    <input type="hidden" id="copy" name="copy" />
+    <input type="hidden" id="txtType" name="txtType" value="@Model.asset.AssetCategory" />
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขครุภัณฑ์</label>
+                    <input class="form-control form-control-sm" readonly asp-for="asset.Code" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขครุภัณฑ์ (เดิม)</label>
+                    <input class="form-control form-control-sm" asp-for="asset.CodeOld" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขสินทรัพย์</label>
+                    <input class="form-control form-control-sm" asp-for="asset.AssetNumberGfmis" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">ศูนย์ต้นทุน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.CostCenterId" id="CostCenterId" asp-items="ViewBag.MasterCostCenter">
+                        <option value="">กรุณาเลือก</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqCostCenterId">กรุณาเลือกศูนย์ต้นทุน</small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">หน่วยงาน</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.OrganizationId" id="OrganizationId" asp-items="ViewBag.MasterOrganization">
+                        <option value="">กรุณาเลือก</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqOrganizationId">กรุณาเลือกหน่วยงาน</small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    @if (Model.asset.AssetCategory == "D" || Model.asset.AssetCategory == "I")
+                    {
+                        <label class="col-form-label">&nbsp;</label>
+                        <div class="row fv-row mb-3 mt-2">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="true" name="asset.IsBelow" checked="@(Model.asset.IsBelow)">
+                                    <label class="form-check-label">
+                                        เป็นครุภัณฑ์ต่ำกว่าเกณฑ์
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">หมวดหมู่ครุภัณฑ์</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.AssetTypeId" id="AssetTypeId" asp-items="ViewBag.MasterAssetType">
+                        <option value="">กรุณาเลือก</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqAssetTypeId">กรุณาเลือกหมวดหมู่ครุภัณฑ์</small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label required">หมวดหมู่ย่อย</label>
+                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.AssetClassId" id="AssetClassId" asp-items="ViewBag.MasterAssetClass">
+                        <option value="">กรุณาเลือก</option>
+                    </select>
+                    <small class="text-danger d-none" id="reqAssetClassId">กรุณาเลือกหมวดหมู่ย่อย</small>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">สถานะ</label>
+                    @{
+                        var statusName = Model.asset.AssetStatus == "A" ? "ใช้งาน" : Model.asset.AssetStatus == "C" ? "ตัดจำหน่าย" : Model.asset.AssetStatus == "W" ? "รอจำหน่าย" : "";
+                    }
+                    @Html.HiddenFor(x => x.asset.AssetStatus)
+                    <input class="form-control form-control-sm" readonly value="@statusName" />
+                </div>
+
+                @if (Model.asset.AssetCategory == "D")
+                {
+                    <div class="col-md-8 mb-3">
+                        <label class="col-form-label required">ชื่อรายการ</label>
+                        <input class="form-control form-control-sm" asp-for="asset.AssetName" id="AssetName" />
+                        <small class="text-danger d-none" id="reqAssetName">กรุณากรอกชื่อรายการ</small>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="col-form-label">&nbsp;</label>
+                        <div class="row fv-row mb-3 mt-2">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="true" name="asset.IsSet" id="IsSet" checked="@(Model.asset.IsSet)" readonly="@(Model.asset.IsSet)">
+                                    <label class="form-check-label">
+                                        เป็นชุด
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input class="form-check-input" type="checkbox" value="true" name="asset.IsChild" checked="@(Model.asset.IsChild)" readonly="@(Model.asset.IsChild)">
+                                    <label class="form-check-label">
+                                        เป็นครุภัณฑ์ภายในชุด
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label required">ชื่อรายการ</label>
+                        <input class="form-control form-control-sm" asp-for="asset.AssetName" id="AssetName" />
+                        <small class="text-danger d-none" id="reqAssetName">กรุณากรอกชื่อรายการ</small>
+                    </div>
+                }
+
+                <div class="col-md-12 mb-3 mt-10">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                                ข้อมูลทั่วไป
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                                ค่าเสื่อม
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+                                ซ่อมบำรุง
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="4-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">
+                                เปลี่ยนแปลง
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="5-tab" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="tab5" aria-selected="false">
+                                ครุภัณฑ์ที่เกี่ยวข้อง
+                            </button>
+                        </li>
+                        @if (Model.asset.AssetCategory == "D")
+                        {
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="6-tab" data-bs-toggle="tab" data-bs-target="#tab6" type="button" role="tab" aria-controls="tab6" aria-selected="false">
+                                    ครุภัณฑ์ในชุด
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+
+                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                            <div class="row mt-5">
+                                @if (Model.asset.AssetCategory == "B")
+                                {
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">ประเภทที่ดิน</label>
+                                        <select class="form-select form-select-sm" data-control="select2" asp-for="asset.LandTypeId" asp-items="ViewBag.MasterLandType">
+                                            <option value="">กรุณาเลือก</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-9 mb-3">
+                                        <label class="col-form-label">ชื่ออาคาร</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.BuildingName" />
+                                    </div>
+
+                                }
+
+                                @if (Model.asset.AssetCategory == "C" || Model.asset.AssetCategory == "D" || Model.asset.AssetCategory == "I")
+                                {
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">ยี่ห้อ</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.Brand" />
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">รุ่น/แบบ</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.Model" />
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">หมายเลขเครื่อง(S/N)</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.SerialNumber" />
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">หน่วย</label>
+                                        <select class="form-select form-select-sm" data-control="select2" asp-for="asset.UnitId" asp-items="ViewBag.MasterUnit">
+                                            <option value="">กรุณาเลือก</option>
+                                        </select>
+                                    </div>
+                                }
+                                @if (Model.asset.AssetCategory == "C")
+                                {
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">จำนวนที่นั่ง</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.CarSeats" />
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">น้ำมันเชื้อเพลิง</label>
+                                        <select class="form-select form-select-sm" data-control="select2" asp-for="asset.FuelTypeId" asp-items="ViewBag.MasterFuelType">
+                                            <option value="">กรุณาเลือก</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">เครื่องรถยนต์</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.EngineNumber" />
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">เลขตัวรถ</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.ChassisNumber" />
+                                    </div>
+                                }
+                                @if (Model.asset.AssetCategory == "I")
+                                {
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">IP Address</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.Ipaddress" />
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">ผู้ให้บริการ (Provider)</label>
+                                        <input class="form-control form-control-sm" asp-for="asset.ProviderName" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                    </div>
+                                }
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="col-form-label">ลักษณะ / คุณสมบัติ</label>
+                                    <textarea class="form-control form-control-sm" rows="2" name="asset.Spec">@Model.asset.Spec</textarea>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="col-form-label">รายละเอียด</label>
+                                    <textarea class="form-control form-control-sm" rows="2" name="asset.AssetDetail">@Model.asset.AssetDetail</textarea>
+                                </div>
+
+
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">อายุการใช้งาน(ค่าเสื่อม)</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" asp-for="asset.LifeTimeDepreciation">
+                                        <span class="input-group-text">ปี</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">อายุการใช้งาน(ทดแทน)</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" asp-for="asset.LifeTimeUse">
+                                        <span class="input-group-text">ปี</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label required">ราคาต่อหน่วย</label>
+                                    <input class="form-control form-control-sm" asp-for="asset.Cost" id="Cost" />
+                                    <small class="text-danger d-none" id="reqCost">กรุณากรอกราคาต่อหน่วย</small>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">ราคาซาก</label>
+                                    <input class="form-control form-control-sm" asp-for="asset.ScrapValue" />
+                                </div>
+
+                                <br />
+                                <hr />
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">แหล่งเงิน</label>
+                                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.AssetBudgetTypeId" asp-items="ViewBag.MasterAssetBudgetType">
+                                        <option value="">กรุณาเลือก</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">วิธีการได้มา</label>
+                                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.ProcurementMethodId" asp-items="ViewBag.MasterProcurementMethod">
+                                        <option value="">กรุณาเลือก</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label required">วันที่ตรวจรับ</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="asset.ApproveDate" id="ApproveDate" value="@Model.asset.ApproveDate?.ToString("dd/MM/yyyy")" />
+                                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                    </div>
+                                    <small class="text-danger d-none" id="reqApproveDate">กรุณากรอกวันที่ตรวจรับ</small>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">วันที่ได้รับทรัพย์สิน / วันที่ได้รับโอน</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="asset.ReceiveDate" id="ReceiveDate" value="@Model.asset.ReceiveDate?.ToString("dd/MM/yyyy")" />
+                                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="col-form-label">ชื่อผู้ขาย/ผู้รับจ้าง/ผู้บริจาค</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" asp-for="asset.SupplierName" id="SupplierName">
+                                        <input type="hidden" asp-for="asset.SupplierId" id="SupplierId">
+                                        <button class="btn btn-primary" type="button" onclick="OpenMdlSupplier('SupplierName','SupplierId','SupplierFullAddress','SupplierPhone')"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">ที่อยู่</label>
+                                    <textarea class="form-control form-control-sm" rows="2" id="SupplierFullAddress">@Model.asset.SupplierFullAddress</textarea>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">เบอร์โทรศัพท์</label>
+                                    <input class="form-control form-control-sm" asp-for="asset.SupplierPhone" id="SupplierPhone" />
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">การได้มาของสินทรัพย์</label>
+                                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.AssetAcquisitionTypeId" asp-items="ViewBag.MasterAssetAcquisitionType">
+                                        <option value="">กรุณาเลือก</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">เอกสาร</label>
+                                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.DocumentTypeId" asp-items="ViewBag.MasterDocumentType">
+                                        <option value="">กรุณาเลือก</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">เลขที่</label>
+                                    <input class="form-control form-control-sm" asp-for="asset.DocumentNumber" />
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">ลงวันที่</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="asset.DocumentDate" id="DocumentDate" value="@Model.asset.DocumentDate?.ToString("dd/MM/yyyy")" />
+                                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @if (Model.asset.AssetCategory == "D" || Model.asset.AssetCategory == "I")
+                                {
+                                    <br />
+                                    <hr />
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">ระยะเวลารับประกัน</label>
+                                        <input class="form-control form-select-sm" asp-for="asset.WarrantyTime" />
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">&ensp;</label>
+                                        <select class="form-select form-select-sm" asp-for="asset.WarrantyPeriod">
+                                            <option value="">กรุณาเลือก</option>
+                                            <option value="D">วัน</option>
+                                            <option value="M">เดือน</option>
+                                            <option value="Y">ปี</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">วันที่เริ่มรับประกัน </label>
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="asset.WarrantyStartDate" id="WarrantyStartDate" value="@Model.asset.WarrantyStartDate?.ToString("dd/MM/yyyy")" />
+                                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">วันที่สิ้นสุดการรับประกัน</label>
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="asset.WarrantyEndDate" id="WarrantyEndDate" value="@Model.asset.WarrantyEndDate?.ToString("dd/MM/yyyy")" />
+                                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">&nbsp;</label>
+                                        <div class="row fv-row mb-3 mt-2">
+                                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                                <div class="form-check  form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                                    <input class="form-check-input" type="checkbox" name="asset.IsInMa" checked="@(Model.asset.IsInMa)">
+                                                    <label class="form-check-label">
+                                                        อยู่ในช่วง MA
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">เลขที่สัญญา</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control" asp-for="asset.ProcurementCode" id="ProcurementCode">
+                                            <input type="hidden" asp-for="asset.ProcurementId" id="ProcurementId">
+                                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#mdlProcurementCode" onclick="OpenMdlProcurementCode()"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">วันที่เริ่มต้นสัญญา </label>
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="asset.ProcurementStartDate" id="ProcurementStartDate" value="@Model.asset.ProcurementStartDate?.ToString("dd/MM/yyyy")" />
+                                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">วันที่สิ้นสุดสัญญา</label>
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="asset.ProcurementEndDate" id="ProcurementEndDate" value="@Model.asset.ProcurementEndDate?.ToString("dd/MM/yyyy")" />
+                                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <br />
+                                <hr />
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">ผู้เบิก</label>
+                                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.CurrentResponsibleOfficerId" asp-items="ViewBag.VOfficer">
+                                        <option value="">กรุณาเลือก</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">สถานที่จัดเก็บ/ใช้งาน</label>
+                                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.StorePlaceId" asp-items="ViewBag.MasterStorePlace">
+                                        <option value="">กรุณาเลือก</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">รายละเอียดสถานที่จัดเก็บ/ใช้งาน</label>
+                                    <textarea class="form-control form-control-sm" rows="2" name="asset.StorePlaceDetail">@Model.asset.StorePlaceDetail</textarea>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="col-form-label">ผู้ยืม</label>
+                                    <select class="form-select form-select-sm" data-control="select2" asp-for="asset.CurrentBorrowerOfficerId" asp-items="ViewBag.VOfficer">
+                                        <option value="">กรุณาเลือก</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label class="col-form-label">หมายเหตุ</label>
+                                    <textarea class="form-control form-control-sm" rows="2" name="asset.Remark">@Model.asset.Remark</textarea>
+                                </div>
+                                <br />
+                                <hr />
+                                @if (Model.asset.AssetCategory == "D")
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <label class="col-form-label">รูปครุภัณฑ์ <span class="text-danger">*</span></label>
+                                        <div id="file1"></div>
+                                        <small class="text-danger d-none" id="reqFileGuidIdA">กรุณาแนบไฟล์รูปครุภัณฑ์</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="col-form-label">รูปหมายเลขครุภัณฑ์ <span class="text-danger">*</span></label>
+                                        <div id="file2"></div>
+                                        <small class="text-danger d-none" id="reqFileGuidIdN">กรุณาแนบไฟล์รูปหมายเลขครุภัณฑ์</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="col-form-label">รูปสถานที่จัดเก็บ <span class="text-danger">*</span></label>
+                                        <div id="file3"></div>
+                                        <small class="text-danger d-none" id="reqFileGuidIdS">กรุณาแนบไฟล์รูปสถานที่จัดเก็บ</small>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <label class="col-form-label">รูปครุภัณฑ์</label>
+                                        <div id="file1"></div>
+                                    </div>
+                                }
+
+
+                         
+
+                                <br />
+                                <hr />
+                             
+                                @if ((Model.asset.AssetCategory == "D" || Model.asset.AssetCategory == "I") && Model.asset.Code != null)
+                                {
+                                    <div class="col-md-12 mb-3">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <div class="w-200px text-center" id="divQR">
+                                            <img src="@ViewBag.QRCodeImage" alt="QR Code" class="w-100 ps-3 pe-3" />
+                                            <b>@Model.asset.Code</b>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center mt-3">
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="printDiv('divQR')"><i class="fa fa-print"></i> พิมพ์ QR Code</button>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                            <div class="row mt-5">
+
+                                @if (Model.asset?.Id != 0)
+                                {
+                                    <div class="col-md-3 mb-3">
+                                        <label class="col-form-label">แสดงค่าเสื่อม ณ วันที่</label>
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="DateDepreciation" id="DateDepreciation" />
+                                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-9 mb-3">
+                                        <label class="col-form-label">&nbsp;</label>
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="showDepreciation('false')"><i class="fa fa-search"></i> แสดง</button>
+                                            <button type="button" class="btn btn-warning btn-sm" onclick="showDepreciation('true')"><i class="fa fa-save"></i> ปรับปรุงค่าเสื่อม</button>
+                                        </div>
+                                    </div>
+                                }
+
+
+
+                                <div id="divTableTab2">
+                                    @await Html.PartialAsync("_tableAssetDetailTab2", Model)
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                            <div class="row mt-5">
+                                <div class="col-md-12 mb-3 text-end">
+                                    <a class="btn btn-success btn-sm"
+                                       data-ajax="true"
+                                       data-ajax-method="POST"
+                                       data-ajax-mode="replace"
+                                       data-ajax-update="#mdlMaintenanceDetail"
+                                       href='@Url.Action("AssetMaintenanceDetail", "Asset" , new {guidPage = Model.guidPage})'>
+                                        <i class="fa fa-plus"></i> เพิ่มรายการ
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeTableTab3()"><i class="fa fa-trash"></i> ลบรายการ</button>
+                                </div>
+
+                                <div id="divTableTab3">
+                                    @await Html.PartialAsync("_tableAssetDetailTab3", Model)
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+
+                            <div class="row mt-5">
+
+                                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                                    <table id="table1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 js-table-notorder">
+                                        <thead class="table-primary">
+                                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                                <th class="text-center">ลำดับ</th>
+                                                <th class="text-center">วันที่</th>
+                                                <th class="text-center">การเปลี่ยนแปลง</th>
+                                                <th class="text-center">รายละเอียด</th>
+                                                <th class="text-center">ผู้รับผิดชอบ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                var no = 1;
+                                            }
+                                            @foreach (var item in Model.vAssetChanges ?? new List<MOEN_ERP.DAL.Models.VAssetChange>())
+                                            {
+                                                <tr>
+                                                    <td class="text-center">@no</td>
+                                                    <td class="text-center">@item.ChangeDate?.ToString("dd/MM/yyyy")</td>
+                                                    <td class="text-center">@item.ChangeTypeName</td>
+                                                    <td class="text-center">@item.ChangeDetail</td>
+                                                    <td class="text-center">@item.ResponsibleOfficerName</td>
+                                                </tr>
+                                                no++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
+
+                            <div class="row mt-5">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-end">
+                                    <button type="button" class="btn btn-success btn-sm" onclick="OpenMdlVAsset()">
+                                        <i class="fa fa-plus"></i> เพิ่มรายการ
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeTableTab5()"><i class="fa fa-trash"></i> ลบรายการ</button>
+                                </div>
+
+                                <div id="divTableTab5">
+                                    @await Html.PartialAsync("_tableAssetDetailTab5", Model)
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="tab6-tab">
+
+                            <div class="row mt-5">
+
+                                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+                                    <table id="table6" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                                        <thead class="table-primary">
+                                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                                <th class="text-center" width="50"></th>
+                                                <th class="text-center" width="150">ลำดับ</th>
+                                                <th class="text-center">เลขครุภัณฑ์</th>
+                                                <th class="text-center">รายการ</th>
+                                                <th class="text-center">หมวดครุภัณฑ์</th>
+                                                <th class="text-center">หมวดหมู่ย่อย</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                no = 1;
+                                                var actionLink = "";
+                                                if (Model.asset.AssetCategory == "D") actionLink = "AssetDurableArticlesDetail";
+                                                else if (Model.asset.AssetCategory == "C") actionLink = "AssetCarDetail";
+                                                else if (Model.asset.AssetCategory == "B") actionLink = "AssetBuildingDetail";
+                                                else if (Model.asset.AssetCategory == "I") actionLink = "AssetIntangibleDetail";
+
+                                            }
+                                            @foreach (var item in Model.vAsset ?? new List<MOEN_ERP.DAL.Models.VAsset>())
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <a href="@Url.Action(actionLink,"Asset" , new {asId = item.Id})" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                                                           data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                                            <i class="fa fa-edit fs-4"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">@no</td>
+                                                    <td class="text-center">@item.Code</td>
+                                                    <td class="text-center">@item.AssetName</td>
+                                                    <td class="text-center">@item.AssetTypeName</td>
+                                                    <td class="text-center">@item.AssetClassName</td>
+                                                </tr>
+                                                no++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mt-10 row">
+                <div class="col-8">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="submitForm('btnsave')"><i class="fa fa-save"></i> บันทึก</button>
+                    <button class="d-none" id="btnsave"></button>
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#mdlCopy"><i class="fa fa-copy"></i> คัดลอก</button>
+                    @if (Model.asset.AssetStatus == "A")
+                    {
+                        <button id="deleteAssetBtn" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> ลบ</button>
+                    }
+
+                    @{
+                        var actionLinkBack = "";
+                        if (Model.asset.AssetCategory == "D") actionLinkBack = "AssetDurableArticlesList";
+                        else if (Model.asset.AssetCategory == "C") actionLinkBack = "AssetCarList";
+                        else if (Model.asset.AssetCategory == "B") actionLinkBack = "AssetBuildingList";
+                        else if (Model.asset.AssetCategory == "I") actionLinkBack = "AssetIntangibleList";
+                    }
+                    <a href="@Url.Action(actionLinkBack,"Asset")" class="btn btn-secondary btn-sm"><i class="fas fa-redo"></i> กลับหน้าหลัก</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+<div id="mdlMaintenanceDetail"></div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlDetailVasset">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>ครุภัณฑ์</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.AjaxBeginForm("GetTableVAssetGroup", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblVAsset" }, new { enctype = "multipart/form-data", id = "searchFormVAsset" }))
+                {
+                    <input type="hidden" id="vasAid" name="vasAid" />
+                    <div class="row mb-3">
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขครุภัณฑ์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <input class="form-control form-control-sm" name="vasCode" id="vasCode" />
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขสินทรัพย์</label>
+                            </div>
+                            <div class="col-8 text-end">
+                                <input class="form-control form-control-sm" name="vasAssetNumberGFMIS" id="vasAssetNumberGFMIS" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                            <button type="button" id="btnResetSearchVasset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                        </div>
+                    </div>
+                }
+                <div id="divTblVAsset"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" onclick="AddVAsset()" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="d-none">
+    @using (Html.BeginForm("DelAssetDetail", "Asset", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmDelAssetDetail" }))
+    {
+        <input type="hidden" name="asId" value="@Model.asset.Id" />
+        <input type="hidden" name="type" value="@Model.asset.AssetCategory" />
+        <input type="hidden" name="guidPage" value="@Model.guidPage" />
+    }
+</div>
+
+<script>
+    function OpenMdlVAsset() {
+        $('#vasCode').val('');
+        $('#vasAssetNumberGFMIS').val('');
+        $('#vasAid').val('@(Model.asset.Id)');
+        $('#searchFormVAsset').submit();
+        $('#mdlDetailVasset').modal('show');
+    }
+
+    $('#btnResetSearchVasset').click(function () {
+        $('#vasCode').val('');
+        $('#vasAssetNumberGFMIS').val('');
+        $('#searchFormVAsset').submit();
+    });
+
+    function AddVAsset() {
+        var selectedIds = [];
+        var checkboxes = document.querySelectorAll('.item-checkbox-Vasset:checked');
+
+        checkboxes.forEach(function (checkbox) {
+            selectedIds.push(checkbox.value);
+        });
+
+        if (selectedIds.length > 0) {
+            $.ajax({
+                url: '@Url.Action("SaveVAssetGroupSelect", "Asset")',
+                type: 'POST',
+                data: { lstId: selectedIds, guidPage: '@Model.guidPage', asId: '@Model.asset.Id' },
+                success: function (response) {
+                    $('#divTableTab5').html(response);
+                },
+                error: function () {
+                    alert('เกิดข้อผิดพลาดในการบันทึก');
+                }
+            });
+        } else {
+            alert('กรุณาเลือกอย่างน้อย 1 รายการ');
+        }
+    }
+</script>
+
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlCopy">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายละเอียดการคัดลอกข้อมูล</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+
+                    <div class="col-md-12 mb-3">
+                        <label class="col-form-label">จำนวนการคัดลอก</label>
+                        <input class="form-control form-control-sm" type="number" id="txtCopy" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-start">
+                <button type="button" onclick="submitCopy('btnsave')" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlSupplier">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายละเอียดผู้ขาย</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.AjaxBeginForm("GetTableVSupplier", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblVSupplier" }, new { enctype = "multipart/form-data", id = "searchForm" }))
+                {
+                    <input type="hidden" id="updateSupplierName" />
+                    <input type="hidden" id="updateSupplierId" />
+                    <input type="hidden" id="updateSupplierFullAddress" />
+                    <input type="hidden" id="updateSupplierPhone" />
+                    <div class="row mb-3">
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                                <label class="col-form-label">ชื่อผู้ขาย</label>
+                            </div>
+                            <div class="col-8">
+                                <input class="form-control form-control-sm" name="nameThai" id="nameThai" />
+                            </div>
+                        </div>
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                            </div>
+                            <div class="col-8">
+                                <button type="submit" id="btnSearch" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                                <button id="btnResetSearch" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                            </div>
+                        </div>
+                        <div id="divTblVSupplier"></div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnColseMdlSupplier" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlProcurementCode">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <label>รายละเอียดผู้ขาย</label>
+                </h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.AjaxBeginForm("GetTableVProcurement", "Asset", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divTblVProcurement" }, new { enctype = "multipart/form-data", id = "searchFormPmc" }))
+                {
+                    <div class="row mb-3">
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">ปีงบประมาณ</label>
+                            </div>
+                            <div class="col-8">
+                                <input class="form-control form-control-sm" name="pmcBudgetYear" id="pmcBudgetYear" />
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">เลขที่สัญญา/ใบสั่งซื้อ</label>
+                            </div>
+                            <div class="col-8">
+                                <input class="form-control form-control-sm" name="pmcCode" id="pmcCode" />
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">วันที่สัญญา/ใบสั่งซื้อ</label>
+                            </div>
+                            <div class="col-8">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="pmcContractDateFrom" id="pmcContractDateFrom" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-6 mb-3">
+                            <div class="col-4 text-end">
+                                <label class="col-form-label">ถึง</label>
+                            </div>
+                            <div class="col-8">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control form-control-sm datepickerinput" placeholder="วว/ดด/ปปปป" name="pmcContractDateTo" id="pmcContractDateTo" />
+                                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                                <label class="col-form-label">ผู้ขายผู้จำหน่าย</label>
+                            </div>
+                            <div class="col-10">
+                                <input class="form-control form-control-sm" name="pmcSupplierName" id="pmcSupplierName" />
+                            </div>
+                        </div>
+                        <div class="row col-md-12 mb-3">
+                            <div class="col-2 text-end">
+                            </div>
+                            <div class="col-8">
+                                <button type="submit" id="btnSearchPmc" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+                                <button id="btnResetSearchPmc" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+                            </div>
+                        </div>
+                        <div id="divTblVProcurement"></div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnColseMdlProcurementCode" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+
+        function validateField(fieldId, errorId, tabId) {
+            if ($(fieldId).val() === "") {
+                $(errorId).removeClass("d-none");
+                $(window).scrollTop($(errorId).offset().top - 150);
+                if (tabId) $(`#${tabId}`).click();
+                return false;
+            }
+            return true;
+        }
+
+        function validateFields(fields) {
+            let isValid = true;
+            fields.forEach(({ fieldId, errorId, tabId }) => {
+                if (!validateField(fieldId, errorId, tabId)) {
+                    isValid = false;
+                }
+            });
+            return isValid;
+        }
+
+        function submitCopy(type) {
+            $('#mdlCopy').modal('hide');
+            let fields = [
+                { fieldId: "#ApproveDate", errorId: "#reqApproveDate", tabId: "1-tab" },
+                { fieldId: "#Cost", errorId: "#reqCost", tabId: "1-tab" },
+                { fieldId: "#AssetName", errorId: "#reqAssetName" },
+                { fieldId: "#AssetClassId", errorId: "#reqAssetClassId" },
+                { fieldId: "#AssetTypeId", errorId: "#reqAssetTypeId" },
+                { fieldId: "#OrganizationId", errorId: "#reqOrganizationId" },
+                { fieldId: "#CostCenterId", errorId: "#reqCostCenterId" },
+            ];
+
+            if ($('#txtType').val() == "D") {
+                fields = fields.concat([
+                    { fieldId: "#FileGuidIdS", errorId: "#reqFileGuidIdS", tabId: "1-tab" },
+                    { fieldId: "#FileGuidIdN", errorId: "#reqFileGuidIdN", tabId: "1-tab" },
+                    { fieldId: "#FileGuidIdA", errorId: "#reqFileGuidIdA", tabId: "1-tab" },
+                ]);
+            }
+
+            if (validateFields(fields)) {
+                $('#copy').val($('#txtCopy').val());
+                $("#" + type).click();
+            }
+        }
+
+        function submitForm(type) {
+            let fields = [
+                { fieldId: "#Cost", errorId: "#reqCost", tabId: "1-tab" },
+                { fieldId: "#AssetName", errorId: "#reqAssetName" },
+                { fieldId: "#AssetClassId", errorId: "#reqAssetClassId" },
+                { fieldId: "#AssetTypeId", errorId: "#reqAssetTypeId" },
+                { fieldId: "#OrganizationId", errorId: "#reqOrganizationId" },
+                { fieldId: "#CostCenterId", errorId: "#reqCostCenterId" },
+            ];
+
+            if ($('#txtType').val() == "D") {
+                fields = fields.concat([
+                    { fieldId: "#FileGuidIdS", errorId: "#reqFileGuidIdS", tabId: "1-tab" },
+                    { fieldId: "#FileGuidIdN", errorId: "#reqFileGuidIdN", tabId: "1-tab" },
+                    { fieldId: "#FileGuidIdA", errorId: "#reqFileGuidIdA", tabId: "1-tab" },
+                ]);
+            }
+
+            if (validateFields(fields)) {
+                if ($('#IsSet').is(':checked')) {
+                    $('#mdlCopy').modal('show');
+                } else {
+                    Swal.fire({
+                        text: 'ต้องการบันทึกข้อมูลนี้ใช่หรือไม่',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'บันทึก',
+                        cancelButtonText: 'ยกเลิก',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $("#" + type).click();
+                        }
+                    });
+                }
+            }
+        }
+
+
+        SetInputDate('ApproveDate');
+        SetInputDate('ReceiveDate');
+        SetInputDate('DocumentDate');
+
+
+        function OpenMdlProcurementCode() {
+            $('#pmcBudgetYear').val('');
+            $('#pmcCode').val('');
+            $('#pmcContractDateFrom').val('');
+            $('#pmcContractDateTo').val('');
+            $('#pmcSupplierName').val('');
+            $('#searchFormPmc').submit();
+        }
+
+        function AddProcurementCode(code, id) {
+            $('#ProcurementCode').val(code);
+            $('#ProcurementId').val(id);
+            $('#btnColseMdlProcurementCode').click();
+        }
+
+        $('#btnResetSearchPmc').click(function () {
+            setTimeout(
+                function () {
+                    $('#searchFormPmc').submit();
+                }, 500);
+        });
+
+
+        function OpenMdlSupplier(supplierName, supplierId, supplierFullAddress, supplierPhone) {
+            $('#nameThai').val('');
+            $('#searchForm').submit();
+            $('#updateSupplierName').val(supplierName);
+            $('#updateSupplierId').val(supplierId);
+            $('#updateSupplierFullAddress').val(supplierFullAddress);
+            $('#updateSupplierPhone').val(supplierPhone);
+            $('#mdlSupplier').modal('show');
+        }
+        function AddSupplier(name, id, address, phone) {
+            $('#' + $('#updateSupplierName').val()).val(name);
+            $('#' + $('#updateSupplierId').val()).val(id);
+            $('#' + $('#updateSupplierFullAddress').val()).val(address);
+            $('#' + $('#updateSupplierPhone').val()).val(phone);
+            $('#btnColseMdlSupplier').click();
+        }
+        $('#btnResetSearch').click(function () {
+            $('#nameThai').val('');
+            $('#searchForm').submit();
+        });
+
+        SetInputDate('pmcContractDateFrom');
+        SetInputDate('pmcContractDateTo');
+
+        AttachFileImage('file1', '@(Model.asset.Id)', 'FileGuidId', null, null, 'A', false, false);
+        AttachFileImage('file2', '@(Model.asset.Id)', 'FileGuidId', null, null, 'N', false, false);
+        AttachFileImage('file3', '@(Model.asset.Id)', 'FileGuidId', null, null, 'S', false, false);
+
+
+        function showDepreciation(reset) {
+            var dateDpt = $("#DateDepreciation").val();
+
+            $.ajax({
+                url: '@Url.Action("GetDepreciation", "Asset")',
+                type: 'POST',
+                data: { DateDepreciation: dateDpt, asId: '@Model.asset.Id', reset: reset },
+                success: function (response) {
+                    $('#divTableTab2').html(response);
+                },
+                error: function () {
+                    alert('เกิดข้อผิดพลาดในการบันทึก');
+                }
+            });
+        }
+
+
+        $('#tblTab2, #tblTab3 ,#tblTab5 , #table6').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "order": [],
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+
+        $('#deleteAssetBtn').on('click', function () {
+            Swal.fire({
+                title: 'ยืนยันการลบ?',
+                text: 'ต้องการลบรายการนี้หรือไม่',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#frmDelAssetDetail').submit();
+                }
+            });
+        });
+
+        @{
+            var text = "@media print {body {-webkit-print-color-adjust: exact;} @page { size: auto; margin: 0mm; } body { visibility: hidden; }#divQR { visibility: visible; }#divQR img { max-width: 100%; max-height: 100%; object-fit: contain; }";
+        }
+
+        function printDiv(divId) {
+            var divContent = document.getElementById(divId).innerHTML;
+
+            var printWindow = window.open('', '', 'width=600,height=600');
+            printWindow.document.write(
+                '<style>' +
+                '#divQR { width: 1.7in; height: 1.7in; text-align: center; }' +
+                '#divQR img { width: 100%; height: 100%; }' +
+                '@text' +
+                '</style>' +
+                '</head>' +
+                '<div id="divQR">' + divContent + '</div>'
+            );
+            printWindow.document.close();
+
+            printWindow.print();
+
+            printWindow.onafterprint = function () {
+                printWindow.close();
+            };
+        }
+
+    </script>
+
+    @if (ViewBag.success != null)
+    {
+        <script>
+            Swal.fire('@ViewBag.success', '', 'success');
+        </script>
+    }
+    @if (ViewBag.error != null)
+    {
+        <script>
+            Swal.fire('@ViewBag.error', '', 'error');
+        </script>
+    }
+
+    @if (Model.asset?.Id != 0)
+    {
+        <script>
+            SetInputDate('DateDepreciation');
+        </script>
+    }
+
+    @if (Model.asset?.AssetCategory == "D" || Model.asset?.AssetCategory == "I")
+    {
+        <script>
+            SetInputDate('WarrantyStartDate');
+            SetInputDate('WarrantyEndDate');
+            SetInputDate('ProcurementStartDate');
+            SetInputDate('ProcurementEndDate');
+        </script>
+    }
+
+
+
+}

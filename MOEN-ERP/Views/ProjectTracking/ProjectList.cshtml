@@ -1,0 +1,190 @@
+﻿@section Title {
+    <span class="fs-1 fw-semibold">รายการโครงการ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">รายการโครงการ</li>
+}
+
+<div class="card">
+
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="card-title">
+            <div class="d-flex align-items-center position-relative my-1">
+                <h2>ค้นหา&nbsp;&nbsp;</h2> 
+                <input id="btnFilter" onclick="showHideFilter()" type="button" style="border:unset; font-size:x-small;" value="แสดง"></input><button style="border:unset; font-size:x-small;" onclick=" showHideFilter()"> <i class="fas fa-angle-down"></i></button>
+            </div>
+        </div>  
+        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+            <a id="btnAdd" class="btn btn-success btn-sm" href="@Url.Action("ProjectDetail","ProjectTracking")">
+                <i class="fa fa-plus"></i> สร้างใหม่
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body" id="divFilter" style="display: none;">
+        <div class="row mb-3">
+            <div class="row col-md-6 mb-3">
+                <div class="col-3 text-end">
+                    <label class="col-form-label">ปีงบประมาณ</label>
+                </div>
+                <div class="col-9">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+            <div class="row col-md-6 mb-3">
+                <div class="col-3 text-end">
+                    <label class="col-form-label">ชื่อโครงการ</label>
+                </div>
+                <div class="col-9">
+                    <input class="form-control form-control-sm" />
+                </div>
+            </div>
+            <div class="row col-md-6 mb-3">
+                <div class="col-3 text-end">
+                    <label class="col-form-label">หน่วยงาน</label>
+                </div>
+                <div class="col-9">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row col-md-6 mb-3">
+                <div class="col-3 text-end">
+                    <label class="col-form-label">ประเภทงบ</label>
+                </div>
+                <div class="col-9">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row col-md-6 mb-3">
+                <div class="col-3 text-end">
+                    <label class="col-form-label">สถานะ</label>
+                </div>
+                <div class="col-9">
+                    <select class="form-select form-select-sm">
+                        <option value="">ทั้งหมด</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row col-md-6 mb-3 align-items-center">
+                <div class="col-3 text-end">
+                    <label class="col-form-label">รูปแบบโครงการ</label>
+                </div>
+                <div class="col-9">
+                    <div class="row fv-row">
+                        <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                <input class="form-check-input" type="radio" value="true" name="Active" checked>
+                                <label class="form-check-label">
+                                    ใช้งบประมาณ
+                                </label>
+                            </div>
+                            <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                <input class="form-check-input" type="radio" value="false" name="Active">
+                                <label class="form-check-label">
+                                    ไม่ใช้งบประมาณ
+                                </label>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> ค้นหา</button>
+            <button id="btnResetSearch" type="reset" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> ล้างเงื่อนไข</button>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-10">
+    <div class="card-body">
+        <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm">
+            <table id="tblMain" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 ">
+                <thead class="table-primary">
+                    <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                        <th class="text-center"></th>
+                        <th class="text-center" style="width:5%">#</th>
+                        <th class="text-center">ปีงบประมาณ</th>
+                        <th class="text-center">หน่วยงาน</th>
+                        <th class="text-center">ชื่อโครงการ</th>
+                        <th class="text-center">ประเภทงบ</th>
+                        <th class="text-center">รูปแบบโครงการ</th>
+                        <th class="text-center">สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <a href="@Url.Action("ProjectDetail","ProjectTracking")" class="btn btn-icon btn-sm btn-light-warning text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="แก้ไขรายละเอียด">
+                                <i class="fa fa-edit fs-4"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-sm btn-light-danger text-gray-800 text-hover-white fw-bold mb-0"
+                               data-bs-toggle="tooltip" data-bs-custom-class="tooltip-inverse" title="ลบ">
+                                <i class="fa fa-trash fs-4"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">2567</td>
+                        <td class="text-center">หน่วยงาน 1</td>
+                        <td class="text-center">ชื่อโครงการ 1</td>
+                        <td class="text-center">เงินในงบประมาณ</td>
+                        <td class="text-center">ใช้งบประมาณ</td>
+                        <td class="text-center">ส่งเรื่อง</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#tblMain').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "lengthMenu": [25, 50, 100],
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 25,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>'
+        });
+
+
+        function showHideFilter() {
+            var x = document.getElementById("divFilter");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+
+            var elem = document.getElementById("btnFilter");
+            if (elem.value == "ซ่อน") elem.value = "แสดง";
+            else elem.value = "ซ่อน";
+        }
+
+       
+    </script>
+}
+

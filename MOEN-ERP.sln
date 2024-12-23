@@ -1,0 +1,88 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOEN-ERP", "MOEN-ERP\MOEN-ERP.csproj", "{70AE056C-3CD7-49BF-8F62-5E6D727A9F59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOEN-ERP.Models", "MOEN-ERP.Models\MOEN-ERP.Models.csproj", "{5FFD4173-9105-4C74-BB9F-705D7065D131}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOEN-ERP.Global", "MOEN-ERP.Global\MOEN-ERP.Global.csproj", "{12C0DBD6-D74C-41E8-91D8-AF35AE8123FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOEN-ERP.API", "MOEN-ERP.API\MOEN-ERP.API.csproj", "{52CC76B8-4948-4D57-A82F-5BA71380BCF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOEN-ERP.DAL", "MOEN-ERP.DAL\MOEN-ERP.DAL.csproj", "{D834E576-2D14-4111-B9D4-072FC4014805}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOEN-ERP.Reports", "MOEN-ERP.Reports\MOEN-ERP.Reports.csproj", "{DEDC07A4-FDC2-4C53-B825-B27B40078727}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOEN-ERP.Utilities", "MOEN-ERP.Utilities\MOEN-ERP.Utilities.csproj", "{6AD5603D-48B7-40B6-984C-64D58E4675A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70AE056C-3CD7-49BF-8F62-5E6D727A9F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70AE056C-3CD7-49BF-8F62-5E6D727A9F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70AE056C-3CD7-49BF-8F62-5E6D727A9F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70AE056C-3CD7-49BF-8F62-5E6D727A9F59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FFD4173-9105-4C74-BB9F-705D7065D131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFD4173-9105-4C74-BB9F-705D7065D131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FFD4173-9105-4C74-BB9F-705D7065D131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FFD4173-9105-4C74-BB9F-705D7065D131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C0DBD6-D74C-41E8-91D8-AF35AE8123FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C0DBD6-D74C-41E8-91D8-AF35AE8123FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C0DBD6-D74C-41E8-91D8-AF35AE8123FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C0DBD6-D74C-41E8-91D8-AF35AE8123FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52CC76B8-4948-4D57-A82F-5BA71380BCF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52CC76B8-4948-4D57-A82F-5BA71380BCF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52CC76B8-4948-4D57-A82F-5BA71380BCF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52CC76B8-4948-4D57-A82F-5BA71380BCF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D834E576-2D14-4111-B9D4-072FC4014805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D834E576-2D14-4111-B9D4-072FC4014805}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D834E576-2D14-4111-B9D4-072FC4014805}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D834E576-2D14-4111-B9D4-072FC4014805}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEDC07A4-FDC2-4C53-B825-B27B40078727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEDC07A4-FDC2-4C53-B825-B27B40078727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEDC07A4-FDC2-4C53-B825-B27B40078727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEDC07A4-FDC2-4C53-B825-B27B40078727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD5603D-48B7-40B6-984C-64D58E4675A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD5603D-48B7-40B6-984C-64D58E4675A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD5603D-48B7-40B6-984C-64D58E4675A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD5603D-48B7-40B6-984C-64D58E4675A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B1854E23-4B1B-40DA-81C0-A53826F148FD}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://dev.softsuite.co.th:8080/tfs/sscollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = MOEN-ERP.API\\MOEN-ERP.API.csproj
+		SccProjectName1 = MOEN-ERP.API
+		SccLocalPath1 = MOEN-ERP.API
+		SccProjectUniqueName2 = MOEN-ERP.DAL\\MOEN-ERP.DAL.csproj
+		SccProjectName2 = MOEN-ERP.DAL
+		SccLocalPath2 = MOEN-ERP.DAL
+		SccProjectUniqueName3 = MOEN-ERP.Global\\MOEN-ERP.Global.csproj
+		SccProjectName3 = MOEN-ERP.Global
+		SccLocalPath3 = MOEN-ERP.Global
+		SccProjectUniqueName4 = MOEN-ERP.Models\\MOEN-ERP.Models.csproj
+		SccProjectName4 = MOEN-ERP.Models
+		SccLocalPath4 = MOEN-ERP.Models
+		SccProjectUniqueName5 = MOEN-ERP.Reports\\MOEN-ERP.Reports.csproj
+		SccProjectName5 = MOEN-ERP.Reports
+		SccLocalPath5 = MOEN-ERP.Reports
+		SccProjectUniqueName6 = MOEN-ERP.Utilities\\MOEN-ERP.Utilities.csproj
+		SccProjectName6 = MOEN-ERP.Utilities
+		SccLocalPath6 = MOEN-ERP.Utilities
+		SccProjectUniqueName7 = MOEN-ERP\\MOEN-ERP.csproj
+		SccProjectName7 = MOEN-ERP
+		SccLocalPath7 = MOEN-ERP
+	EndGlobalSection
+EndGlobal

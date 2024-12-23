@@ -1,0 +1,41 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleQueueData.VehicleQueueManagement
+
+@{
+    var curUser = new Appz(this.Context).CurrentSignInUser;
+}
+
+<div class="modal fade" id="modalEventMeetingRoomBooking" tabindex="-1" role="dialog" aria-labelledby="modalEventMeetingRoomBooking" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h5 class="modal-title">กระดาษคิวการเดินรถ</h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+
+                    <iframe name="Preview" id="Preview" src='@Url.Action("ReportVehicleQueue","GenerateFile",new{ QueueDate = @Model?.CurrentQueueDate })' onload="hideWait();" style="width: 100%; height: 800px;">
+                    </iframe>
+
+
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+
+                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

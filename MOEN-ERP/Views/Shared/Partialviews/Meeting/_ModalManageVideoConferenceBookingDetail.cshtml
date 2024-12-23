@@ -1,0 +1,481 @@
+﻿@model MOEN_ERP.Models.ViewModel.ConferenceBooking.VideoConferenceBookingDetail
+
+
+<form id="frmModalManageVideoConferenceBookingDetail" asp-action="EventManageVideoConferenceBookingDetail" asp-controller="Shared">
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalModalManageVideoConferenceBookingDetail">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    @Html.HiddenFor(m => m.VideoConferenceBookingId)
+                    @Html.HiddenFor(m => m.ActionType)
+                    @Html.HiddenFor(m => m.LastStatusId)
+                    @Html.HiddenFor(m => m.SubmitType)
+
+                    @if (Model.ActionType == "new")
+                    {
+                        <h3 class="modal-title"><span class="btn btn-sm btn-icon bg-success"><i class="fa fa-plus text-white"></i></span> รายละเอียดการขอใช้ระบบประชุมทางไกล</h3>
+                    }
+                    else if (Model.ActionType == "edit")
+                    {
+                        <h3 class="modal-title"><span class="btn btn-sm btn-icon bg-warning"><i class="fa fa-edit text-white"></i></span> แก้ไขรายละเอียดการขอใช้ระบบประชุมทางไกล</h3>
+                    }
+                    else if (Model.ActionType == "view")
+                    {
+                        <h3 class="modal-title"><span class="btn btn-sm btn-icon bg-primary"><i class="fa fa-search text-white"></i></span> รายละเอียดการขอใช้ระบบประชุมทางไกล</h3>
+                    }
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div class="row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">เลขที่การจอง:</label>
+                            <input type="text" asp-for="BookingCode" class="form-control form-control-sm" disabled />
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">วันที่จอง:</label>
+                            <input type="text" asp-for="BookingDate" value="@string.Format("{0:dd/MM/yyyy}",Model.BookingDate)" class="form-control form-control-sm" disabled />
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">ชื่อ - นามสกุล:</label>
+                            @Html.HiddenFor(m => m.BookerId)
+                            <input type="text" class="form-control form-control-sm" asp-for="BookerName" disabled />
+                        </div>
+                    </div>
+
+                    <div class="row fv-row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">สำนัก:</label>
+                            <input type="text" asp-for="BookerOrgName" class="form-control form-control-sm" disabled />
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">ส่วน<span class="required"></span>:</label>
+                            <select asp-for="DivisionId" class="form-select form-select-sm select2-js" data-control="select2" data-dropdown-parent="#modalModalManageVideoConferenceBookingDetail" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownOrganization,"Value","Text"))" disabled="@(Model?.ActionType == "view")">
+                                <option value="0">กรุณาเลือก</option>
+                            </select>
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">เบอร์โทรศัพท์<span class="required"></span>:</label>
+                            <input type="text" asp-for="BookerPhone" class="form-control form-control-sm" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled="@(Model?.ActionType == "view")" />
+                        </div>
+                    </div>
+
+
+                    <div class="row fv-row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">อีเมล<span class="required"></span>:</label>
+                            <input type="text" asp-for="BookerEmail" class="form-control form-control-sm mask-email" placeholder="ระบุอีเมลสำหรับแจ้ง Link / ID การประชุม" disabled="@(Model?.ActionType == "view")" />
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">วันที่ใช้ห้องประชุม<span class="required"></span>:</label>
+                            <div class="row">
+                                <div class="col-lg col-md col-sm-12">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm datetimepicker" asp-for="UseDateFrom" asp-format="{0:dd/MM/yyyy}" autocomplete="off" disabled="@(Model?.ActionType == "view")" />
+                                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-12 text-center form-control-label">
+                                    <label class="pt-2">ถึง </label>
+                                </div>
+                                <div class="col-lg col-md col-sm-12">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm datetimepicker" asp-for="UseDateTo" asp-format="{0:dd/MM/yyyy}" autocomplete="off" disabled="@(Model?.ActionType == "view")" />
+                                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">เวลาที่ใช้ห้องประชุม<span class="required"></span>:</label>
+                            <div class="row">
+                                <div class="col-lg col-md col-sm-12">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm" asp-for="UseDateFromTime" asp-format="{0:HH:mm}" autocomplete="off" disabled="@(Model?.ActionType == "view")" />
+                                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                            <i class="fas fa-clock fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-12 text-center form-control-label">
+                                    <label class="pt-2">ถึง </label>
+                                </div>
+                                <div class="col-lg col-md col-sm-12">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control form-control-sm" asp-for="UseDateToTime" asp-format="{0:HH:mm}" autocomplete="off" disabled="@(Model?.ActionType == "view")" />
+                                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                            <i class="fas fa-clock fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fv-row mb-5">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <label class="col-form-label">เรื่อง/คณะที่ประชุม<span class="required"></span>:</label>
+                            <textarea class="form-control" data-kt-autosize="true" asp-for="Topic" disabled="@(Model?.ActionType == "view")"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row fv-row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">Application<span class="required"></span>:</label>
+                            <select asp-for="ConferenceId" class="form-select form-select-sm select2-js" data-control="select2" data-dropdown-parent="#modalModalManageVideoConferenceBookingDetail" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownConferenceApplication,"Value","Text"))" disabled="@(Model?.ActionType == "view")">
+                                <option value="0">กรุณาเลือก</option>
+                            </select>
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">License<span class="required"></span>:</label>
+                            <select asp-for="LicenseId" class="form-select form-select-sm select2-js" data-control="select2" data-dropdown-parent="#modalModalManageVideoConferenceBookingDetail" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownVideoConferenceLicense,"Value","Text"))" disabled="@(Model?.ActionType == "view")">
+                                <option value="0">กรุณาเลือก</option>
+                            </select>
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">ประเภทการจอง<span class="required"></span>:</label>
+                            <select asp-for="BookingTypeId" class="form-select form-select-sm select2-js" data-control="select2" data-dropdown-parent="#modalModalManageVideoConferenceBookingDetail" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownMeetingRoomBookingType,"Value","Text"))" disabled="@(Model?.ActionType == "view")">
+                                <option value="0">กรุณาเลือก</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row fv-row mb-3">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">จำนวนผู้เข้าร่วม<span class="required"></span>:</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="Participants" autocomplete="off" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled="@(Model?.ActionType == "view")" />
+                        </div>
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                            <label class="col-form-label">ระดับความต้องการ<span class="required"></span>:</label>
+                            <select asp-for="BookingPriorityId" class="form-select form-select-sm select2-js" data-control="select2" data-dropdown-parent="#modalModalManageVideoConferenceBookingDetail" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.DropdownVideoConferenceBookingPriority,"Value","Text"))" disabled="@(Model?.ActionType == "view")">
+                                <option value="0">กรุณาเลือก</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="row fv-row mb-5">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input id="rdoIsHostFalse" class="form-check-input" type="checkbox" value="true" name="IsLicense" checked="@(Model?.IsLicense == true)" disabled="@(Model?.ActionType == "view")">
+                                    <label class="form-check-label" for="rdoIsHostFalse">
+                                        ต้องการขอใช้สิทธิ์ license
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-custom form-check-solid   me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                    <input id="rdoIsHostTrue" class="form-check-input" type="checkbox" value="true" name="IsHost" checked="@(Model?.IsHost == true)" disabled="@(Model?.ActionType == "view")">
+                                    <label class="form-check-label" for="rdoIsHostTrue">
+                                        ต้องการเป็น Host และสร้างห้อง
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fv-row mb-5">
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <label class="col-form-label">หมายเหตุ:</label>
+                            <textarea class="form-control" data-kt-autosize="true" asp-for="Remark" disabled="@(Model?.ActionType == "view")"></textarea>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" onclick="SubmitFormData('send-form')" class="btn btn-sm btn-primary @(Model?.LastStatusId == null && Model?.ActionType != "view" ? "":"d-none")"><i class="fa fa-save"></i>ส่งแบบฟอร์ม</button>
+                    <button type="button" onclick="SubmitFormData('submit-form')" class="btn btn-sm btn-primary @(Model?.IsFinish == false && Model?.ActionType != "view"  ? "":"d-none")"><i class="fa fa-save"></i>บันทึก</button>
+                    <button id="btnCancelForm" type="button" data-url="@Url.Action("EventCancelConferenceBooking","ConferenceBooking",new {pConferenceBookingId = Model?.VideoConferenceBookingId})" class="btn btn-sm btn-danger @(Model?.LastStatusId != null && Model.IsFinish != true && Model?.ActionType != "view" ? "":"d-none")"><i class="fa fa-close"></i>ยกเลิก</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div id="divModalEvent"></div>
+</form>
+
+
+<script src="~/js/custom/input-mask.js"></script>
+<script>
+
+    //SetRealteConferenceApplicationAndLicense('#ConferenceId', '#LicenseId');
+    SetRealteDate('UseDateFrom', 'UseDateTo');
+    SetInputTime('UseDateFromTime');
+    SetInputTime('UseDateToTime');
+    inintDropdownLicenseForVideoConferenceBooking('#UseDateFrom', '#UseDateTo', '#UseDateFromTime', '#UseDateToTime', '#ConferenceId', '#LicenseId');
+
+    $(document).ready(function () {
+        $('.select2-js').select2();
+    });
+
+    var validatorModalManageVideoConferenceBookingDetail;
+
+    $(function () {
+
+        // Define form element
+        const formModalManageVideoConferenceBookingDetail = document.getElementById('frmModalManageVideoConferenceBookingDetail');
+
+        validatorModalManageVideoConferenceBookingDetail = FormValidation.formValidation(
+            formModalManageVideoConferenceBookingDetail,
+            {
+                fields: {
+                    'DivisionId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุส่วน'
+                            },
+                            callback: {
+                                message: 'กรุณาระบุส่วน',
+                                callback: function (input) {
+                                    if (input.value == '0') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'BookerPhone': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเบอร์โทรศัพท์'
+                            }
+                        }
+                    },
+                    'BookerEmail': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุอีเมล'
+                            }
+                        }
+                    },
+                    'UseDateFrom': {
+                        validators: {
+                            //date: {
+                            //    format: 'DD/MM/YYYY',
+                            //    message: 'ระบุวันที่ใช้ห้องประชุม วว/ดด/ปปปป',
+                            //},
+                            notEmpty: {
+                                message: 'กรุณาระบุวันที่ใช้ห้องประชุม'
+                            },
+
+                        }
+                    },
+                    'UseDateTo': {
+                        validators: {
+                            //date: {
+                            //    format: 'DD/MM/YYYY',
+                            //    message: 'ระบุถึงวันที่ใช้ห้องประชุม วว/ดด/ปปปป',
+                            //},
+                            notEmpty: {
+                                message: 'กรุณาระบุถึงวันที่ใช้ห้องประชุม'
+                            }
+                        }
+                    },
+                    'UseDateFromTime': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเวลาที่ใช้ห้องประชุม'
+                            }
+                        }
+                    },
+                    'UseDateToTime': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุถึงเวลาที่ใช้ห้องประชุม'
+                            }
+                        }
+                    },
+                    'Topic': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเรื่อง/คณะที่ประชุม'
+                            }
+                        }
+                    },
+                    'ConferenceId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุ Application'
+                            },
+                            callback: {
+                                message: 'กรุณาระบุ Application',
+                                callback: function (input) {
+                                    if (input.value == '0') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'LicenseId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุ License'
+                            },
+                            callback: {
+                                message: 'กรุณาระบุ License',
+                                callback: function (input) {
+                                    if (input.value == '0') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'BookingTypeId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุประเภทการจอง'
+                            },
+                            callback: {
+                                message: 'กรุณาระบุประเภทการจอง',
+                                callback: function (input) {
+                                    if (input.value == '0') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'Participants': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุจำนวนผู้เข้าร่วม'
+                            }
+                        }
+                    },
+                    'BookingPriorityId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุระดับความต้องการ'
+                            },
+                            callback: {
+                                message: 'กรุณาระบุระดับความต้องการ',
+                                callback: function (input) {
+                                    if (input.value == '0') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+
+                },
+
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        );
+
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="DivisionId"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('DivisionId');
+        });
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="UseDateFrom"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('UseDateFrom');
+        });
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="UseDateTo"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('UseDateTo');
+        });
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="UseDateFromTime"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('UseDateFromTime');
+        });
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="UseDateToTime"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('UseDateToTime');
+        });
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="ConferenceId"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('ConferenceId');
+        });
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="LicenseId"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('LicenseId');
+        });
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="BookingTypeId"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('BookingTypeId');
+        });
+        $(formModalManageVideoConferenceBookingDetail.querySelector('[name="BookingPriorityId"]')).on('change', function () {
+            validatorModalManageVideoConferenceBookingDetail.revalidateField('BookingPriorityId');
+        });
+
+
+    });
+
+
+
+
+    //---- Save ----//
+
+    $('#frmModalManageVideoConferenceBookingDetail').submit(async function (e) {
+        // debugger
+        e.preventDefault();
+        var $validModalManageVideoConferenceBookingDetail = await validatorModalManageVideoConferenceBookingDetail.validate().then(function (status) { return status });
+        if ($validModalManageVideoConferenceBookingDetail != 'Valid') return false;
+        //--
+        showWait();
+        //--post
+        $.post($(this).attr('action'), $(this).serialize(), function (res) {
+            hideWait();
+            if (res.type == "success") {
+                Swal.fire({ title: res.message, text: '', icon: 'success', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            $('.modal').modal('hide');
+                            $('.modal-backdrop').remove();
+                            $('#frmSearchVideoConferenceBooking').submit();
+                        }
+                    });
+            }
+            else {
+                Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+            }
+        }, 'json');
+
+        //--post end
+        return false;
+        //--
+    });
+
+
+    //--
+    function SubmitFormData(_submitType) {
+        $('#SubmitType').val(_submitType);
+        $('#frmModalManageVideoConferenceBookingDetail').submit();
+    }
+    //--
+
+    $('#btnCancelForm').click(function (e) {
+        e.preventDefault();
+        showWait();
+        var url = $(this).data('url');
+        $.get(url).done(function (data) {
+            hideWait();
+            $('#divModalEvent').html(data);
+            $('#divModalEvent').find('.modal').modal('show');
+        });
+
+    });
+
+</script>

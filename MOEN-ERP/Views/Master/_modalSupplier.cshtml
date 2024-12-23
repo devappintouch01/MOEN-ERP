@@ -1,0 +1,327 @@
+﻿@using Newtonsoft.Json
+@model MOEN_ERP.Models.ViewModel.SupplierModel
+
+@using (Html.AjaxBeginForm("SaveSupplier", "Master", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tbl" }, new { enctype = "multipart/form-data", @class = "needs-validation", @novalidate = "novalidate" }))
+{
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlSupplier">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <label>ผู้จำหน่าย/ผู้รับจ้าง</label>
+                    </h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(x => x.Supplier.Id)
+
+                    <div class="row mb-5">
+
+                        <div class="col-md-12 mb-3">
+                            <label class="col-form-label">ประเภทบุคคล : <span class="text-danger">*</span></label>
+                            <div class="row fv-row">
+                                <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                        <input class="form-check-input" type="radio" value="P" name="Supplier.PersonType" checked="@(Model?.Supplier.PersonType == "P")">
+                                        <label class="form-check-label">
+                                            บุคคลธรรมดา
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10">
+                                        <input class="form-check-input" type="radio" value="C" name="Supplier.PersonType" checked="@(Model?.Supplier.PersonType == "C")">
+                                        <label class="form-check-label">
+                                            นิติบุคคล
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 mb-3">
+                            <label class="col-form-label">ชื่อ : <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.NameThai" name="Supplier.NameThai" required />
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="col-form-label">&nbsp;</label>
+                            <div class="form-check mt-3 ms-3">
+                                <input class="form-check-input" type="checkbox"
+                                       checked=@(Model.Supplier.Active ?? true ) value="true" name="Supplier.Active" id="Supplier.Active">
+                                <label class="form-check-label ms-2" for="Active">
+                                    ใช้งาน
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">เลขประจำตัวผู้เสียภาษี : <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.TaxId" name="Supplier.TaxId" onkeypress="return isNumberKey(event)" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">เลขข้อมูลหลักผู้ขาย : </label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.SupplierCode" name="Supplier.SupplierCode" onkeypress="return isNumberKey(event)" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ที่อยู่:</label>
+                            <textarea class="form-control form-control-sm" rows="2" name="Supplier.Address">@Model.Supplier.Address</textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                        </div>
+              
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">จังหวัด : </label>
+                            <select class="form-select form-select-sm" name="Supplier.ProvinceId" asp-for="Supplier.ProvinceId" asp-items="ViewBag.MasterProvince" id="cmbProvince" onchange="SetCMBProvinceAmphurTambon('cmbProvince')">
+                                <option value="">ระบุจังหวัด</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">อำเภอ : </label>
+                            <select class="form-select form-select-sm" name="Supplier.AmphurId" asp-for="Supplier.AmphurId" asp-items="ViewBag.MasterAmphur" id="cmbAmphur" onchange="SetCMBProvinceAmphurTambon('cmbAmphur')">
+                                <option value="">ระบุอำเภอ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ตำบล : </label>
+                            <select class="form-select form-select-sm" name="Supplier.TambonId" asp-for="Supplier.TambonId" asp-items="ViewBag.MasterTambon" id="cmbTambon" onchange="SetCMBProvinceAmphurTambon('cmbTambon')">
+                                <option value="">ระบุตำบล</option>
+                            </select>
+                        </div>
+                       
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">รหัสไปรษณีย์ : </label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.ZipCode" name="Supplier.ZipCode" id="inpZipCode" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">โทรศัพท์ : </label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.Phone" name="Supplier.Phone" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ธนาคาร : </label>
+                            <select class="form-select form-select-sm" name="Supplier.BankId" asp-for="Supplier.BankId" asp-items="ViewBag.MasterBank">
+                                <option value="">ระบุธนาคาร</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">สาขา : </label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.BankBranch" name="Supplier.BankBranch" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">เลขที่บัญชี : </label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.BankAccount" name="Supplier.BankAccount" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ชื่อบัญชี : </label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.AccountName" name="Supplier.AccountName" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">ไฟล์แนบ </label>
+                            <div id="fileList"></div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="col-form-label">E-mail : </label>
+                            <input class="form-control form-control-sm" asp-for="Supplier.Email" name="Supplier.Email" onkeypress="return isNoThaiKey(event)" />
+                        </div>
+
+                    </div>
+                  
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> บันทึก</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal"><i class="fa  fa-ban"></i>  ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    
+    $('#mdlSupplier').modal('show');   
+    
+    AttachFile('fileList', '@Model.Supplier.Id', 'FileGuidId', null, 'Supplier', null, false, false);
+
+    (function () {
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        hideWait();
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
+
+    function SetCMBProvinceAmphurTambon(cmbType) {
+        var cmbProvince = document.getElementById("cmbProvince");
+        var cmbAmphur = document.getElementById("cmbAmphur");
+        var cmbTambon = document.getElementById("cmbTambon");
+        var inpZipCode = document.getElementById("inpZipCode");
+
+        $.ajax({
+            url: '@Url.Action("SetCMBProvinceAmphurTambon", "Master")',
+            data: {
+                    provinceId: cmbProvince.value,
+                    amphurId: cmbAmphur.value,
+                    tambonId: cmbTambon.value,
+                    cmbType: cmbType
+            },
+            type: "Post",
+            //dataType: "json",
+            traditional: true,
+            success: function (data) {
+
+                // var blnSetCMBProvince = data.blnSetCMBProvince;
+                var blnSetCMBAmphur = data.blnSetCMBAmphur;
+                var blnSetCMBTambon = data.blnSetCMBTambon;
+
+                var setProvinceId = data.setProvinceId;
+                var setAmphurId = data.setAmphurId;
+                var setTambonId = data.setTambonId;
+
+                var setZipCode = data.setZipCode;
+                var elem;
+
+                //------- cmbAmphur ----- (+) 
+                if (blnSetCMBAmphur == true)
+                {                   
+                    var listItemMasterAmphur = data.listItemMasterAmphur;
+                    var length = cmbAmphur.options.length;
+                    for (i = length - 1; i >= 0; i--) {
+                        cmbAmphur.options[i] = null;
+                    }
+
+                    if (listItemMasterAmphur != null && listItemMasterAmphur.length > 0) { 
+                       
+                        for (var i = 0; i < listItemMasterAmphur.length; i++) {
+                            var item = listItemMasterAmphur[i];                            
+                            // var elem = document.createElement("option");
+                            // alert(item.text);
+                            // alert(item.value);
+                            if (i == 0) {
+                                elem = document.createElement("option");
+                                elem.textContent = "ระบุอำเภอ";
+                                elem.value = -1;
+                                cmbAmphur.appendChild(elem);
+                            }
+                            elem = document.createElement("option");
+                            elem.textContent = item.text;
+                            elem.value = item.value;
+                            cmbAmphur.appendChild(elem);
+                        }
+                    }
+                    else {
+                            
+                        elem = document.createElement("option");
+                        elem.textContent = "ไม่พบข้อมูลอำเภอ";
+                        elem.value = -1;
+                        cmbAmphur.appendChild(elem);
+
+                    }
+                    
+                }               
+                //------- cmbAmphur ----- (-)
+
+                //------- cmbTambon ----- (+)
+                if (blnSetCMBTambon == true) {
+                    var listItemMasterTambon = data.listItemMasterTambon;
+                    var length = cmbTambon.options.length;
+                    for (i = length - 1; i >= 0; i--) {
+                        cmbTambon.options[i] = null;
+                    }
+
+                    if (listItemMasterTambon != null && listItemMasterTambon.length > 0) {                       
+
+                        for (var i = 0; i < listItemMasterTambon.length; i++) {
+                            var item = listItemMasterTambon[i];
+                            var elem;
+                            if (i == 0) {
+                                elem = document.createElement("option");
+                                elem.textContent = "ระบุตำบล";
+                                elem.value = -1;
+                                cmbTambon.appendChild(elem);
+                            }
+                            elem = document.createElement("option");
+                            elem.textContent = item.text;
+                            elem.value = item.value;
+                            cmbTambon.appendChild(elem);
+                        }
+                    }
+                    else {
+                       
+                        elem = document.createElement("option");
+                        elem.textContent = "ไม่พบข้อมูลตำบล";
+                        elem.value = -1;
+                        cmbTambon.appendChild(elem);
+                    }
+                  
+                }               
+                //------- cmbTambon ----- (-)
+                if (setProvinceId > 0) { 
+                    // alert(setProvinceId);
+                    cmbProvince.value = setProvinceId;
+                }
+                if (setAmphurId > 0) {
+                    // alert(setAmphurId);
+                    cmbAmphur.value = setAmphurId;
+                }
+                if (setTambonId > 0) {
+                    // alert(setTambonId);
+                    cmbTambon.value = setTambonId;
+                }
+
+                //Set ZipCode
+                inpZipCode.value = setZipCode;
+
+            }
+        });
+
+    }
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+       
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function isNoThaiKey(evt) {
+  
+        var ew = (evt.which) ? evt.which : evt.keyCode;
+        if (3585 <= ew && ew <= 3630) {
+            return false;
+        }
+        else if (3632 <= ew && ew <= 3655) {
+            return false;
+        }
+        else if (3648 <= ew && ew <= 3652) {
+            return false;
+        }
+        else if (3656 <= ew && ew <= 3659) {
+            return false;
+        }
+        else if (3664 <= ew && ew <= 3673) {
+            return false;
+        }
+        else if (3631 <= ew && ew <= 3675) {
+            return false;
+        }
+        return true;
+
+      
+    }
+
+</script>
+

@@ -1,0 +1,179 @@
+﻿@model MOEN_ERP.Models.ViewModel.MeetingRoomBooking.MeetingRoomBookingEventPreview
+
+@{
+    var curUser = new Appz(this.Context).CurrentSignInUser;
+}
+
+<div class="modal fade" id="modalEventMeetingRoomBooking" tabindex="-1" role="dialog" aria-labelledby="modalEventMeetingRoomBooking" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                @switch (Model.EventsModel.ActionType)
+                {
+                    case "view":
+                        <h5 class="modal-title">เอกสารการจองห้องประชุม</h5>
+                        break;
+                    case "consider":
+                        <h5 class="modal-title">อนุมัติการจองห้องประชุม</h5>
+                        break;
+                }
+
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+
+                    <iframe name="Preview" id="Preview" src='@Url.Action("ReportMeetingRoomBookingForm","GenerateFile",new{ ReportId = @Model?.MeetingRoomBooking?.MeetingRoomBookingId })' onload="hideWait();" style="width: 100%; height: 800px;">
+                    </iframe>
+
+
+                </div>
+                <h5 class="mb-5 mt-5">ประวัติการดำเนินการ</h5>
+
+                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md">
+
+                    <table id="tblEventMeetingRoomBooking" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7">
+                        <thead class="table-primary">
+                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+                                <th class="text-center">วันที่</th>
+                                <th class="text-center">ผู้ดำเนินการ</th>
+                                <th class="text-center">ผู้พิจารณาลำดับถัดไป</th>
+                                <th class="text-center">การดำเนินการ</th>
+                                <th class="text-center">ความคิดเห็น</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in Model.MeetingRoomBookingHistoryList)
+                            {
+                                <tr>
+                                    <td class="text-center">@string.Format("{0:dd/MM/yyyy HH:mm}", row.CreateOn)</td>
+                                    <td class="text-center">@row.ActorName</td>
+                                    <td class="text-center">@row.NextActorName</td>
+                                    <td class="text-center">@row.ActionName</td>
+                                    <td class="text-center">@row.ActionRemark</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+
+                <div>
+                </div>
+                <div>
+                </div>
+                <div>
+                    @switch (Model.EventsModel.ActionType)
+                    {
+                        case "consider":
+                            if ((Model?.MeetingRoomBooking?.NextActorUserId == curUser?.User?.Id || Model?.MeetingRoomBooking?.LastWorkProcessRoleId == 14) && (Model?.MeetingRoomBooking?.LastStatusId == 1 || Model?.MeetingRoomBooking?.LastStatusId == 10 || Model?.MeetingRoomBooking?.LastStatusId == 11))
+                            {
+                                <button type="button" data-url="@Url.Action("EventApproveConsiderMeetingRoomBooking","Shared",new{ pBookingId = Model?.MeetingRoomBooking?.MeetingRoomBookingId })" data-event-booking="approve" class="btn btn-sm btn-success"><i class="fa fa-check"></i> อนุมัติ</button>
+                            }
+                            if ((Model?.MeetingRoomBooking?.NextActorUserId == curUser?.User?.Id || Model?.MeetingRoomBooking?.LastWorkProcessRoleId == 14) && (Model?.MeetingRoomBooking?.LastStatusId == 1 || Model?.MeetingRoomBooking?.LastStatusId == 10 || Model?.MeetingRoomBooking?.LastStatusId == 11))
+                            {
+                                <button data-url="@Url.Action("EventDisapprovedConsiderMeetingRoomBooking", "Shared",new {pBookingId = Model?.MeetingRoomBooking?.MeetingRoomBookingId})" data-event-booking="disapproved" class="btn btn-sm btn-danger"><i class="fa fa-close"></i> ไม่อนุมัติ</button>
+                            }
+                            if ((Model?.MeetingRoomBooking?.NextActorUserId == curUser?.User?.Id || Model?.MeetingRoomBooking?.LastWorkProcessRoleId == 14) && (Model?.MeetingRoomBooking?.LastStatusId == 1 || Model?.MeetingRoomBooking?.LastStatusId == 10 || Model?.MeetingRoomBooking?.LastStatusId == 11))
+                            {
+                                <button data-url="@Url.Action("EventSendBackEditConsiderMeetingRoomBooking", "Shared",new {pBookingId = Model?.MeetingRoomBooking?.MeetingRoomBookingId})" data-event-booking="send-back-edit" class="btn btn-sm btn-warning"><i class="fa fa-reply"></i> ส่งกลับแก้ไข</button>
+                            }
+                            if ((Model?.MeetingRoomBooking?.NextActorUserId == curUser?.User?.Id || Model?.MeetingRoomBooking?.LastWorkProcessRoleId == 14) && (Model?.MeetingRoomBooking?.LastStatusId == 7 || Model?.MeetingRoomBooking?.LastStatusId == 8))
+                            {
+                                <button data-url="@Url.Action("EventApproveCancelConsiderMeetingRoomBooking", "Shared",new {pBookingId = Model?.MeetingRoomBooking?.MeetingRoomBookingId})" data-event-booking="approve-cancel" class="btn btn-sm btn-success"><i class="fa fa-check"></i> อนุมัติการขอยกเลิก</button>
+                            }
+                            break;
+                    }
+                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divModalEvent"></div>
+
+<script>
+    $(function () {
+
+        $('#tblEventMeetingRoomBooking').DataTable({
+            language: {
+                url: `${baseURL}/js/th.json`,
+            },
+            "paging": true,
+            "searching": false,
+            "lengthChange": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: 'none',
+                    target: ''
+                }
+            },
+            "pageLength": 10,
+            deferLoading: 10,
+            dom: '<"float-left"f>rt<"row"<"col-sm-4"i><"col-sm-4 text-center"l><"col-sm-4"p>>',
+            order: [[0, 'desc']]
+        });
+
+        var divModalEvent = $('#divModalEvent');
+
+        $('button[data-toggle="ajax-modal-servicerequest"]').click(function () {
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                divModalEvent.html(data);
+                divModalEvent.find('.modal').modal('show');
+            });
+        });
+
+        //--อนุมัติ
+        $('button[data-event-booking="approve"]').click(function () {
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                divModalEvent.html(data);
+                divModalEvent.find('.modal').modal('show');
+            });
+        });
+
+        //--ไม่อนุมัติ
+        $('button[data-event-booking="disapproved"]').click(function () {
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                divModalEvent.html(data);
+                divModalEvent.find('.modal').modal('show');
+            });
+        });
+
+
+        //--ส่งกลับแก้ไข
+        $('button[data-event-booking="send-back-edit"]').click(function () {
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                divModalEvent.html(data);
+                divModalEvent.find('.modal').modal('show');
+            });
+        });
+
+        //--อนุมัติการขอยกเลิก
+        $('button[data-event-booking="approve-cancel"]').click(function () {
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                divModalEvent.html(data);
+                divModalEvent.find('.modal').modal('show');
+            });
+        });
+
+    });
+</script>

@@ -1,0 +1,642 @@
+﻿@using Newtonsoft.Json
+@model MOEN_ERP.Models.ViewModel.AssetRequisitionMaterialCentralDetailModel
+
+
+@section Title {
+    <span class="fs-1 fw-semibold">เบิกจ่ายวัสดุจากหน่วยจัดซื้อ</span>
+
+}
+@section Breadcrumb {
+    <li class="breadcrumb-item pe-3"><a href="#" class="pe-3">หน้าแรก</a></li>
+    <li class="breadcrumb-item pe-3 text-muted">เบิกจ่ายวัสดุจากหน่วยจัดซื้อ</li>
+}
+
+@using (Html.BeginForm("SaveAssetRequisitionMaterialCentral", "Asset", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+   @*  <div class="card mt-10" id="divMain" > *@
+    <input type="hidden" asp-for="materialRequisition.Id" name="materialRequisition.Id" id="pMaterialRequisitionId" />
+    <input type="hidden" asp-for="materialRequisition.BudgetYear" name="materialRequisition.BudgetYear" id="pMaterialRequisitionBudgetYear" />
+    <input type="hidden" asp-for="materialRequisition.Running" name="materialRequisition.Running" id="pMaterialRequisitionRunning" />
+    <input type="hidden" asp-for="materialRequisition.RequestType" name="materialRequisition.RequestType" id="pMaterialRequisitionRequestType" />
+    <input type="hidden" asp-for="materialRequisition.StatusId" name="materialRequisition.StatusId" id="pMaterialRequisitionStatusId" />
+    <input type="hidden" asp-for="guidPage" name="guidPage" id="pGuidPage" />
+
+    <div class="card-body">
+            <div class="row mb-3">
+            @Html.HiddenFor(x => x.materialRequisition.Id)         
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">เลขที่เอกสาร</label>
+                    <input id="inpCode" class="form-control form-control-sm" asp-for="materialRequisition.Code" name="materialRequisition.Code" readonly />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่เอกสาร <span class="text-danger">*</span></label>
+                    <div class="position-relative">
+                    <input id="inpRequestDate" type="text" class="form-control form-control-sm datepickerinput" asp-for="materialRequisition.RequestDate" asp-format="{0:dd/MM/yyyy}" autocomplete="off" placeholder="วว/ดด/ปปปป" required />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>                 
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">สถานะ</label>
+                    <input id="inpStatusId" class="form-control form-control-sm" asp-items="ViewBag.MasterStatus" asp-for="statusName" name="statusName" readonly />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้เบิกพัสดุ <span class="text-danger">*</span></label>
+                    <select id="cmbRequestBy" class="form-select form-select-sm" name="materialRequisition.RequestBy" asp-for="materialRequisition.RequestBy" asp-items="ViewBag.Officer" required>
+                        <option value="">กรุณาเลือก</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">หน่วยงาน <span class="text-danger">*</span></label>
+                <select id="cmbOrganization" class="form-select form-select-sm" name="materialRequisition.OrganizationId" asp-for="materialRequisition.OrganizationId" asp-items="ViewBag.MasterOrganization" onchange="SetCMBWarehouse()" required>
+                        <option value="">กรุณาเลือก</option>
+                    </select>                 
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">คลังวัสดุ <span class="text-danger">*</span></label>
+                    <select id="cmbWarehouse" class="form-select form-select-sm" name="materialRequisition.WarehouseId" asp-for="materialRequisition.WarehouseId" asp-items="ViewBag.MasterWarehouse" required>
+                        <option value="">กรุณาเลือก</option>
+                    </select>                 
+                </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">ต้องการใช้ภายในวันที่ <span class="text-danger">*</span></label>
+                <div class="position-relative">
+                    <input id="inpExpectDate" type="text" class="form-control form-control-sm datepickerinput" asp-for="materialRequisition.ExpectDate" asp-format="{0:dd/MM/yyyy}" autocomplete="off" placeholder="วว/ดด/ปปปป" />
+                    <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                        <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">รายละเอียด:</label>
+                <textarea id="txtDetail" class="form-control form-control-sm" rows="2" name="materialRequisition.Detail">@Model.materialRequisition.Detail</textarea>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="col-form-label">สถานที่ใช้งาน:</label>
+                <textarea id="txtStorePlaceDetail" class="form-control form-control-sm" rows="2" name="materialRequisition.StorePlaceDetail">@Model.materialRequisition.StorePlaceDetail</textarea>
+            </div>
+
+                <br />
+                <hr />
+
+                <div class="row fv-row mb-3">
+                    <label class="col-form-label fw-bold col-lg-6">รายการวัสดุ</label>
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 text-end"> 
+
+                        @if (Model.materialRequisition.Id != 0)
+                        {                           
+                            <button type="button" class="btn btn-success btn-sm" onclick="OpenSelctMaterialStock()"><i class="fa fa-plus"></i> เพิ่มรายการ</button>
+                        }
+                        else if (Model.materialRequisition.Id == 0)
+                        {
+                            <button type="button" class="btn btn-success btn-sm" onclick="onSubmit()">
+                                <i class="fa fa-plus"></i> เพิ่มรายการ
+                            </button>
+                        }
+
+                        @* <button class="btn btn-danger btn-sm text-end"><i class="fa fa-trash"></i> ลบรายการ</button> *@
+                        <button type="button" class="btn btn-danger btn-sm text-end" onclick="RemoveSelctMaterialStock()"><i class="fa fa-trash"></i> ลบรายการ</button>
+                    </div>
+                </div>
+
+                <div id="divtableAssetRequisitionMaterialCentralItem">
+                    @await Html.PartialAsync("_tableAssetRequisitionMaterialCentralItem", Model)
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้สั่งจ่าย</label>
+                    <select id="cmbDeliverApproveOfficerId" class="form-select form-select-sm" name="materialRequisition.DeliverApproveOfficerId" asp-for="materialRequisition.DeliverApproveOfficerId" asp-items="ViewBag.Officer">
+                        <option value="">กรุณาเลือก</option>
+                    </select>
+                </div> 
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้จ่ายพัสดุ</label>
+                    <select id="cmbDeliverOfficerId" class="form-select form-select-sm" name="materialRequisition.DeliverOfficerId" asp-for="materialRequisition.DeliverOfficerId" asp-items="ViewBag.Officer">
+                        <option value="">กรุณาเลือก</option>
+                    </select>
+                </div>
+                 <div class="col-md-4 mb-3">
+                    <label class="col-form-label">ผู้รับพัสดุ</label>
+                    <select id="cmbReceiveOfficerId" class="form-select form-select-sm" name="materialRequisition.ReceiveOfficerId" asp-for="materialRequisition.ReceiveOfficerId" asp-items="ViewBag.Officer">
+                        <option value="">กรุณาเลือก</option>
+                    </select>
+                </div>
+        @*        
+            <div class="col-md-4 mb-3">
+            </div> *@
+
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่สั่งจ่าย</label>
+                    <div class="position-relative">
+                        <div class="position-relative">
+                        <input id="inpDeliverApproveDate" type="text" class="form-control form-control-sm datepickerinput" asp-for="materialRequisition.DeliverApproveDate" asp-format="{0:dd/MM/yyyy}" autocomplete="off" placeholder="วว/ดด/ปปปป" readonly />
+                            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                                <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                            </div>
+                        </div>
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่จ่ายพัสดุ</label>
+                    <div class="position-relative">
+                    <input id="inpDeliverDate" type="text" class="form-control form-control-sm datepickerinput" asp-for="materialRequisition.DeliverDate" asp-format="{0:dd/MM/yyyy}" autocomplete="off" placeholder="วว/ดด/ปปปป" readonly />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่รับพัสดุ</label>
+                    <div class="position-relative">
+                    <input id="inpReceiveDate" type="text" class="form-control form-control-sm datepickerinput" asp-for="materialRequisition.ReceiveDate" asp-format="{0:dd/MM/yyyy}" autocomplete="off" placeholder="วว/ดด/ปปปป" readonly />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 mb-3">
+                    <label class="col-form-label">หมายเหตุที่ส่งกลับ</label>
+                    <textarea id="txtReturnRemark" class="form-control form-control-sm" rows="2" name="materialRequisition.ReturnRemark" readonly>@Model.materialRequisition.ReturnRemark</textarea>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="col-form-label">วันที่ส่งกลับ</label>
+                    <div class="position-relative">
+                    <input id="inpReturnDate" type="text" class="form-control form-control-sm datepickerinput" asp-for="materialRequisition.ReturnDate" asp-format="{0:dd/MM/yyyy}" autocomplete="off" placeholder="วว/ดด/ปปปป" readonly />
+                        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+                            <i class="fas fa-calendar fs-1hx"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3"> 
+                    <label class="col-form-label">ไฟล์แนบ </label>
+                    <div id="fileList"></div>
+                </div>                
+            </div>
+
+            <div class="mt-10 row">
+                <div class="col-6">
+                  @*   <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button> *@
+                    <button type="button" id="btnBeforSave" onclick="submitForm('btnSave')" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> บันทึก</button>
+                    <button type="submit" id="btnSave" class="d-none"></button>
+                    <button class="btn btn-warning btn-sm"><i class="fa fa-paper-plane"></i> ส่งเรื่อง</button>
+                    <button type="button" id="btnDelete" class="btn btn-danger btn-sm" onclick="DeleteAssetRequisitionMaterialCentralDetailView()"><i class="fa fa-trash"></i> ลบ</button>               
+                    <a href="@Url.Action("AssetRequisitionMaterialCentralList","Asset")" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> กลับหน้าหลัก</a>
+                    <button class="btn btn-info btn-sm"><i class="fa fa-print"></i> พิมพ์</button>
+                </div>
+                <div class="col-6 text-end">
+                <button id="btnApprove" type="button" class="btn btn-success btn-sm" onclick="ApproveAssetRequisitionMaterialCentral()"><i class="fa fa-check"></i> อนุมัติ</button>
+                <button id="btnReject" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> ไม่อนุมัติ</button>
+                <button id="btnSendBack" type="button" class="btn btn-warning btn-sm" onclick="OpenModalSendBack()"><i class="fas fa-share"></i> ส่งกลับแก้ไข</button>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlDetailHistory"><i class="fa fa-history"></i> ประวัติการพิจารณา</button>
+                </div>
+
+            </div>
+        </div>
+    @* </div> *@
+}
+
+<div id="mdlMaterialStock"></div>
+<div id="mdlSendBack"></div>
+
+<div class="d-none">
+    @using (Html.BeginForm("DeleteAssetRequisitionMaterialCentralDetailView", "Asset", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmDelAssetRequisitionMaterialCentralDetail" }))
+    {
+        <input type="hidden" name="asId" value="@Model.materialRequisition.Id" />       
+        <input type="hidden" name="guidPage" value="@Model.guidPage" />
+    }
+</div>
+
+<div class="d-none">
+    @using (Html.BeginForm("ApproveAssetRequisitionMaterialCentral", "Asset", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmApproveAssetRequisitionMaterialCentralDetail" }))
+    {
+        <input type="hidden" name="asId" value="@Model.materialRequisition.Id" />
+        <input type="hidden" name="guidPage" value="@Model.guidPage" />
+    }
+</div>
+
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="mdlHistoryDetail">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+
+                    <div class="tab-content" id="myTabHistory">
+                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                            <div class="row mt-5">
+                                <div class="col-md-12 mb-3">
+                                    <table id="tbl1" class="table table-row-dashed table-hover table-row-gray-300 align-middle gy-5 gs-7 tblAsset">
+                                        <thead class="table-primary">
+                                            <tr class="fw-semibold fs-6 text-gray-80 fw-bold">
+
+                                                <th class="text-center" style="width:5%">#</th>
+                                                <th class="text-center">วันที่</th>
+                                                <th class="text-center">ผู้ดำเนินการ</th>
+                                                <th class="text-center">ผู้ดำเนินการลำดับถัดไป</th>
+                                                <th class="text-center">การดำเนินการ</th>
+                                                <th class="text-center">ความคิดเห็น</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">09/08/2567</td>
+                                                <td class="text-center">เจ้าหน้าที่ทดสอบ1</td>
+                                                <td class="text-center">เจ้าหน้าที่พัสดุ1</td>
+                                                <td class="text-center">ส่งเรื่องพิจารณา</td>
+                                                <td class="text-center">เรียบร้อยสมบูรณ์ดี</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2</td>
+                                                <td class="text-center">10/08/2567</td>
+                                                <td class="text-center">เจ้าหน้าที่พัสดุ1</td>
+                                                <td class="text-center">เจ้าหน้าที่ทดสอบ1</td>
+                                                <td class="text-center">ส่งกลับแก้ไข</td>
+                                                <td class="text-center"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+    @if (ViewBag.success != null)
+    {
+        <script>          
+            Swal.fire('@ViewBag.success', '', 'success');
+        </script>
+    }
+   
+    @if (ViewBag.error != null)
+    {
+        <script>
+            Swal.fire('@ViewBag.error', '', 'error');
+        </script>
+    }
+
+    <script>
+
+        AttachFile('fileList', '@Model.materialRequisition.Id', 'FileGuidId', null, 'MaterialRequisition', null, false, false);
+        SetInputDate('inpRequestDate');
+        SetInputDate('inpExpectDate');      
+        SetInputDate('inpReturnDate');
+        $('#mdlMaterialStock').modal('show');
+
+        function submitForm(type) {
+            var submit = true;
+            var pId;
+            pId = document.getElementById("pMaterialRequisitionId");
+
+            //Get MaterialRequisitionItem Value(Input) forsave
+                var myTbl = null;
+                var requisitionItemId;
+                var materialStockId;
+                var requestAmount;
+                var receiveAmount;
+                var remark;
+                var rowscount;
+                var arrayRMItem = [];
+                var onerow;
+                var chkrows;
+                var countData = 0;
+
+                myTbl = document.getElementById("tblAssetRequisitionMaterialCentralItem");
+                rowscount = document.getElementById("tblAssetRequisitionMaterialCentralItem").rows.length;
+
+                for (let i = 1; i < rowscount; i++) {
+                    chkrows = myTbl.rows[i].cells[0].innerHTML;
+                    if (chkrows != 'ไม่มีข้อมูลในตาราง') {
+                        requisitionItemId = myTbl.rows[i].cells[9].innerHTML;
+                        materialStockId = myTbl.rows[i].cells[10].innerHTML;
+                        requestAmount = myTbl.rows[i].cells[4].getElementsByTagName('input')[0].value;
+                        receiveAmount = myTbl.rows[i].cells[5].getElementsByTagName('input')[0].value;
+                        remark = myTbl.rows[i].cells[8].getElementsByTagName('input')[0].value;
+
+                        if (requestAmount == '') {
+                            requestAmount = 0;
+                        }
+                        if (receiveAmount == '') {
+                            receiveAmount = 0;
+                        }
+                        onerow = requisitionItemId + "," + materialStockId + "," + requestAmount + "," + receiveAmount + "," + remark;
+                        arrayRMItem.push(onerow);
+                        countData += 1;
+                    }
+                }
+
+            if (countData > 0) {
+                // Get MaterialRequisitionItem to session
+                var pGuidPage = document.getElementById("pGuidPage");
+
+                    $.ajax({
+                    url: '@Url.Action("GetMaterialRequisitionItemInput", "Asset")',
+                        data: {
+                            pId: pId.value,
+                            arrayRMItem: arrayRMItem,
+                            guidPage: pGuidPage.value
+                        },
+                        type: "Post",
+                        //dataType: "json",
+                        traditional: true,
+                        success: function (data) {                           
+
+                         }
+                    });
+            }
+
+            
+            if (submit) {
+                $("#" + type).click();
+            }
+        }
+                
+        function DeleteAssetRequisitionMaterialCentralDetailView(){                      
+                        Swal.fire({
+                        title: 'ยืนยันการลบ?',
+                        text: 'ต้องการลบรายการนี้หรือไม่',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'ตกลง',
+                        cancelButtonText: 'ยกเลิก',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#frmDelAssetRequisitionMaterialCentralDetail').submit();
+                        }
+                    });
+                }
+
+        function ApproveAssetRequisitionMaterialCentral() {
+            Swal.fire({
+                title: 'ยืนยันการอนุมัติ?',
+                text: 'ต้องการอนุมัติหรือไม่',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#frmApproveAssetRequisitionMaterialCentralDetail').submit();
+                }
+            });
+        }
+      
+
+        function OpenSelctMaterialStock() {
+
+            var pMaterialRequisitionId = document.getElementById("pMaterialRequisitionId");
+            var pGuidPage = document.getElementById("pGuidPage");
+
+            var myTbl = null;
+            var requisitionItemId;
+            var materialStockId;
+            var requestAmount;
+            var receiveAmount;
+            var remark;
+            var rowscount;
+            var arrayRMItem = [];
+            var onerow;
+
+            myTbl = document.getElementById("tblAssetRequisitionMaterialCentralItem");
+            rowscount = document.getElementById("tblAssetRequisitionMaterialCentralItem").rows.length;
+
+            for (let i = 1; i < rowscount; i++) {
+                requisitionItemId = myTbl.rows[i].cells[9].innerHTML;
+                materialStockId = myTbl.rows[i].cells[10].innerHTML;
+                requestAmount = myTbl.rows[i].cells[4].getElementsByTagName('input')[0].value;
+                receiveAmount = myTbl.rows[i].cells[5].getElementsByTagName('input')[0].value;
+                remark = myTbl.rows[i].cells[8].getElementsByTagName('input')[0].value;
+
+                if (requestAmount == '') {
+                    requestAmount = 0;
+                }
+                if (receiveAmount == '') {
+                    receiveAmount = 0;
+                }
+
+                onerow = requisitionItemId + "," + materialStockId + "," + requestAmount + "," + receiveAmount + "," + remark;
+                arrayRMItem.push(onerow);
+            }
+
+
+            $.ajax({
+                url: '@Url.Action("OpenSelctMaterialStock", "Asset")',
+                data: {
+                    MaterialRequisitionId: pMaterialRequisitionId.value,
+                    arrayRMItem: arrayRMItem,
+                    guidPage: pGuidPage.value
+                },
+                type: "Post",
+                //dataType: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#mdlMaterialStock').html(data);
+                    $('#mdlMaterialStock').find('.modal').modal('show');
+                    hideWait();
+
+                }
+            });
+        }
+
+
+        function OpenModalSendBack() {
+
+            var pId;
+            pId = document.getElementById("pMaterialRequisitionId");
+
+            $.ajax({
+                url: '@Url.Action("OpenModalSendBack", "Asset")',
+                data: {
+                    pId: pId.value,                   
+                },
+                type: "Post",
+                //dataType: "json",
+                traditional: true,
+                success: function (data) {
+                    $('#mdlSendBack').html(data);
+                    $('#mdlSendBack').find('.modal').modal('show');
+                    hideWait();
+
+                }
+            });
+        
+        }
+
+        function onSubmit() {
+            Swal.fire({
+                title: "กรุณาบันทึกก่อนทำรายการ",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "บันทึก",
+                confirmButtonColor: '#3085d6',
+                cancelButtonText: "ยกเลิก",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#btnBeforSave").click();
+                }
+            });
+        }
+
+        function RemoveSelctMaterialStock() {
+
+            var myTbl = null;
+            var rowscount;
+            var blnChkSelect;
+            var lstRemove;
+            var requisitionItemId;
+            var materialStockId;
+            var requestAmount;
+            var receiveAmount;
+            var remark;
+            var arrayRMItem = [];
+            var onerow;
+            var numSel;
+
+            var pGuidPage = document.getElementById("pGuidPage");
+            var pMaterialRequisitionId = document.getElementById("pMaterialRequisitionId")
+            myTbl = document.getElementById("tblAssetRequisitionMaterialCentralItem");
+            rowscount = myTbl.rows.length;
+            numSel = 0;
+            for (let i = 1; i < rowscount; i++) {
+
+                blnChkSelect = true;
+                blnChkSelect = myTbl.rows[i].cells[0].getElementsByTagName('input')[0].checked;
+
+                if (blnChkSelect == false) {
+                    requisitionItemId = myTbl.rows[i].cells[9].innerHTML;
+                    materialStockId = myTbl.rows[i].cells[10].innerHTML;
+                    requestAmount = myTbl.rows[i].cells[4].getElementsByTagName('input')[0].value;
+                    receiveAmount = myTbl.rows[i].cells[5].getElementsByTagName('input')[0].value;
+                    remark = myTbl.rows[i].cells[8].getElementsByTagName('input')[0].value;
+
+                    if (requestAmount == '') {
+                        requestAmount = 0;
+                    }
+                    if (receiveAmount == '') {
+                        receiveAmount = 0;
+                    }
+
+                    onerow = requisitionItemId + "," + materialStockId + "," + requestAmount + "," + receiveAmount + "," + remark;
+                    arrayRMItem.push(onerow);
+                }
+                else {
+                    numSel = numSel + 1;
+                }
+            }
+
+
+            if (numSel > 0) {
+                Swal.fire({
+                    title: "ต้องการลบรายการที่เลือกหรือไม่",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "ลบรายการ",
+                    confirmButtonColor: '#ff0000',
+                    cancelButtonText: "ยกเลิก",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("RemoveSelctMaterialStock", "Asset")',
+                            data: {
+                                arrayRMItem: arrayRMItem,
+                                requisitionId: pMaterialRequisitionId.value,
+                                guidPage: pGuidPage.value
+                            },
+                            type: "Post",
+                            //dataType: "json",
+                            traditional: true,
+                            success: function (data) {
+                                $("#divtableAssetRequisitionMaterialCentralItem").html(data);
+                                Swal.fire('ลบรายการที่เลือกสำเร็จ', '', 'success');
+                            }
+                        });
+                    }
+                });
+            } else {
+                alert('กรุณาเลือกอย่างน้อย 1 รายการ');
+            }
+        }            
+
+    
+        function SetCMBWarehouse() {     
+            alert('change');
+            var cmbOrganization = document.getElementById("cmbOrganization");
+            var cmbWarehouse = document.getElementById("cmbWarehouse");
+
+            $.ajax({
+                url: '@Url.Action("SetCMBWarehouse", "Asset")',
+                data: {
+                    organizationId: cmbOrganization.value
+                },
+                type: "Post",
+                //dataType: "json",
+                traditional: true,
+                success: function (data) {
+                  
+                    var elem;
+                    var listItemMasterWarehouse = data;                 
+                    var length = cmbWarehouse.options.length;
+                    for (i = length - 1; i >= 0; i--) {                       
+                        cmbWarehouse.options[i] = null;
+                    }
+                                     
+                    if (listItemMasterWarehouse != null && listItemMasterWarehouse.length > 0) {
+                        for (var i = 0; i < listItemMasterWarehouse.length; i++) {
+                            var item = listItemMasterWarehouse[i];                          
+                            if (i == 0) {
+                                elem = document.createElement("option");
+                                elem.textContent = "กรุณาระบุ";
+                                elem.value = -1;
+                                cmbWarehouse.appendChild(elem);
+                            }
+                            elem = document.createElement("option");
+                            elem.textContent = item.text;
+                            elem.value = item.value;
+                            cmbWarehouse.appendChild(elem);
+                        }
+                    }
+                    else {
+                        elem = document.createElement("option");
+                        elem.textContent = "ไม่พบข้อมูลคลังวัสดุ";
+                        elem.value = -1;
+                        cmbWarehouse.appendChild(elem);
+                    }
+                }
+            });
+        }
+     
+    </script>
+
+
+   
+ 
+}
+
+    

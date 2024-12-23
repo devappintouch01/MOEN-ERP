@@ -1,0 +1,438 @@
+﻿@model MOEN_ERP.Models.ViewModel.VehicleRecord.VehicleRecordBookingFormEvent
+
+@{
+    var _read = Model.ActionType == "view" ? true : false;
+}
+
+@if (Model.StartCarMileage == null) { Model.StartCarMileage = 0; }
+
+<form id="frmModalEventRecordVehicleBookingForm" asp-action="EventRecordVehicleBookingForm" asp-controller="Shared" method="post">
+
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="modalEventRecordVehicleBookingForm">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h3 class="modal-title">
+                        @if (Model.ActionType == "new")
+                        {
+                            <span class="btn btn-sm btn-icon bg-success">
+                                <i class="fa fa-check text-white"></i>
+                            </span>
+                            <label>บันทึกการเดินทาง</label>
+                        }
+                        else if (Model.ActionType == "edit")
+                        {
+                            <span class="btn btn-sm btn-icon bg-warning">
+                                <i class="fa fa-edit text-white"></i>
+                            </span>
+                            <label>เเก้ไขบันทึกการเดินทาง</label>
+                        }
+                        else
+                        {
+                            <span class="btn btn-sm btn-icon bg-primary">
+                                <i class="fa fa-compass text-white"></i>
+                            </span>
+                            <label>รายละเอียดบันทึกการเดินทาง</label>
+                        }
+                    </h3>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+
+                    @Html.HiddenFor(m => m.VehicleBookingId)
+                    @Html.HiddenFor(m => m.VehicleBookingAssignId)
+                    @Html.HiddenFor(m => m.VehicleBookingRecordId)
+                    @Html.HiddenFor(m => m.ActionType)
+                    @Html.HiddenFor(m => m.VehicleId)
+                    @Html.HiddenFor(m => m.TravelDistance)
+
+                    <div class="row mb-4">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">เลขที่ใบจอง : </label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <input type="text" class="form-control form-control-sm" asp-for="VehicleBookingCode" disabled />
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">เลขทะเบียน : </label>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <input type="text" class="form-control form-control-sm" asp-for="VehicleRegistration" disabled />
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-4">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">วันที่เดินทาง : </label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" asp-for="TravelFromDate" asp-format="{0:dd/MM/yyyy}" disabled />
+                                        <span class="input-group-text" id="basic-addon2">
+                                            <i class="fas fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">ถึงวันที่ : </label>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" asp-for="TravelToDate" asp-format="{0:dd/MM/yyyy}" disabled />
+                                        <span class="input-group-text" id="basic-addon2">
+                                            <i class="fas fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">เวลาที่เดินทาง : </label>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" asp-for="BookingTravelFromDate" asp-format="{0:HH:mm}" onkeypress="return OnlyNumbersTime(event,false)" onpaste="handlePaste(event)" disabled />
+                                        <span class="input-group-text" id="basic-addon2">
+                                            <i class="fas fa-clock"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">ถึงเวลา : </label>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" asp-for="BookingTravelToDate" asp-format="{0:HH:mm}" onkeypress="return OnlyNumbersTime(event,false)" onpaste="handlePaste(event)" disabled />
+                                        <span class="input-group-text" id="basic-addon2">
+                                            <i class="fas fa-clock"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 fv-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+
+                              
+
+
+                                @if (Model.ActionType == "new")
+                                {
+                                    <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                        <label class="fw-bold">เลขไมล์เริ่มต้น<span class="required"></span> : </label>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <input type="text" class="form-control form-control-sm" asp-for="StartCarMileage" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled="@(_read)" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                        <label class="fw-bold">เลขไมล์เริ่มต้น : </label>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        @Html.HiddenFor(m => m.StartCarMileage)
+                                        <input type="text" class="form-control form-control-sm" asp-for="StartCarMileage" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled />
+                                    </div>
+                                }
+
+
+
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">เลขไมล์สิ้นสุด<span class="required"></span> : </label>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <input type="text" class="form-control form-control-sm" asp-for="FinishCarMileage" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled="@(_read)" />
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 ">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">ระยะทาง (กม.) : </label>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+
+                                    <input type="text" class="form-control form-control-sm" asp-for="TravelDistance" onkeypress="return OnlyNumbers(event,false)" onpaste="handlePaste(event)" disabled />
+
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">ตรวจสภาพรถ<span class="required"></span> : </label>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12 fv-row">
+                                    <div class="d-xxl-flex d-xl-flex d-lg-flex d-md-flex d-sm-flex">
+                                        <div class="form-check  form-check-custom form-check-solid  me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                            <input class="form-check-input" type="radio" name="CarInspectionStatus" value="1" checked="@(Model?.CarInspectionStatus == 1)" disabled="@(_read)" />
+                                            <label class="form-check-label">
+                                                เรียบร้อย
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-custom form-check-solid me-xxl-10 me-xl-10 me-lg-10 me-md-10 me-sm-10 mb-2">
+                                            <input class="form-check-input" type="radio" name="CarInspectionStatus" value="2" checked="@(Model?.CarInspectionStatus == 2)" disabled="@(_read)">
+                                            <label class="form-check-label">
+                                                ไม่เรียบร้อย
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check form-check-custom form-check-solid me-xxl-12 ">
+                                        <input class="form-check-input d-none" type="radio" name="CarInspectionStatus" value="" disabled="@(_read)">
+                                        <label class="form-check-label d-none">
+                                        </label>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-4 fv-row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 form-control-label text-lg-end">
+                                    <label class="fw-bold">หมายเหตุ : </label>
+                                </div>
+
+                                <div class="col-lg-10 col-md-10 col-sm-12">
+
+                                    <textarea asp-for="Remark" class="form-control" data-kt-autosize="true" disabled="@(_read)"></textarea>
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    @if (_read == false)
+                    {
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>บันทึก</button>
+                    }
+
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" id="btn-hide-modal">ปิด</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="divModalQueue"></div>
+</form>
+
+<script>
+
+
+    //SetRealteDate('TravelFromDate', 'TravelToDate');
+    //SetInputTime('TravelFromDateTime');
+    //SetInputTime('TravelToDateTime');
+
+
+    //$(document).ready(function () {
+    //    $('.select2-js').select2();
+    //});
+
+    var validatorEventRecordVehicleBookingForm;
+    $(function () {
+        // Define form element
+        const formEventRecordVehicleBookingForm = document.getElementById('frmModalEventRecordVehicleBookingForm');
+
+        validatorEventRecordVehicleBookingForm = FormValidation.formValidation(
+            formEventRecordVehicleBookingForm,
+            {
+
+                fields: {
+
+                    'FinishCarMileage': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเลขไมล์สิ้นสุด'
+                            },
+                            //callback: {
+                            //    message: 'กรุณาระบุเลขไมล์สิ้นสุดมากกว่าเลขไมล์เริ่มต้น',
+                            //    callback: function (input) {
+                            //        //if (input.value == '0') {
+                            //        //    return false;
+                            //        //}
+                            //        var startMileage = $('#StartCarMileage').val();
+                            //        if (parseFloat(input.value) <= parseFloat(startMileage)) {
+                            //            return false;
+                            //        }
+                            //    }
+                            //}
+                        }
+                    },
+                    'StartCarMileage': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุเลขไมล์เริ่มต้น'
+                            },
+                            //callback: {
+                            //    message: 'กรุณาระบุเลขไมล์สิ้นสุดมากกว่าเลขไมล์เริ่มต้น',
+                            //    callback: function (input) {
+                            //        //if (input.value == '0') {
+                            //        //    return false;
+                            //        //}
+                            //        var startMileage = $('#StartCarMileage').val();
+                            //        if (parseFloat(input.value) <= parseFloat(startMileage)) {
+                            //            return false;
+                            //        }
+                            //    }
+                            //}
+                        }
+                    },
+                    'CarInspectionStatus': {
+                        validators: {
+                            notEmpty: {
+                                message: 'กรุณาระบุสภาพรถ'
+                            },
+                        }
+                    },
+
+                },
+
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        );
+
+
+    });
+
+    //---- Save ----//
+
+    $('#frmModalEventRecordVehicleBookingForm').submit(async function (e) {
+        //--
+        debugger
+        e.preventDefault();
+
+        var $validEventRecordVehicleBookingForm = await validatorEventRecordVehicleBookingForm.validate().then(function (status) { return status });
+        if ($validEventRecordVehicleBookingForm != 'Valid') return false;
+
+        //--
+        showWait();
+        //--post
+        $.post($(this).attr('action'), $(this).serialize(), function (res) {
+            hideWait();
+            if (res.type == "success" || res.type == "warning") {
+                Swal.fire({ title: res.message, text: '', icon: res.type, confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', allowOutsideClick: false, allowEscapeKey: false, })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            $('.modal').modal('hide');
+                            $('.modal-backdrop').remove();
+
+                            var type = '@(Model?.ActionType)';
+                            if (res.type == "success" && type == "new") {
+                                var url = '@(Url.Action("RecordedVehicleBookingList", "VehicleRecord"))';
+                                window.location.replace(url);
+                            }
+                            else {
+                                window.location.reload();
+                            }
+
+                        }
+                    });
+            }
+            else {
+                if (res.id != null) {
+                    Swal.fire({
+                        title: res.message,
+                        text: '',
+                        icon: 'error',
+                        confirmButtonText: 'รายการก่อนหน้า',
+                        confirmButtonColor: '#3B9EF8', 
+                        allowOutsideClick: false, 
+                        allowEscapeKey: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#btn-hide-modal').click();
+                            showWait();
+                            var url = '@Url.Action("EventRecordVehicleBookingForm","Shared")' + "?pVehicleBookingAssignId=" + res.id + "&pActionType=new";
+                            $.get(url).done(function (data) {
+                                divModal.html(data);
+                                divModal.find('.modal').modal('show');
+                                hideWait();
+                            });
+                        }
+                    });
+                }
+                else {
+                    Swal.fire({ title: res.message, text: '', icon: 'error', confirmButtonText: 'ตกลง', confirmButtonColor: '#3B9EF8', });
+                }
+            }
+        }, 'json');
+
+        //--post end
+        return false;
+        //--
+    });
+
+
+
+</script>

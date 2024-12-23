@@ -1,0 +1,210 @@
+﻿@model MOEN_ERP.Models.MockupViewModel
+@{
+    var actionType = Model.ActionType;
+}
+<div class="modal fade" id="modal-Preview" tabindex="-1" role="dialog" aria-labelledby="modalUploadMultiple" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if (actionType == "audiovisual-audiovisual-service" || actionType == "audiovisual-approve-service-requests")
+                {
+                    <h5 class="modal-title">อนุมัติการขอใช้บริการโสตทัศน์</h5>
+                }
+                else if (actionType == "catering-approve-service-requests")
+                {
+                    <h5 class="modal-title">อนุมัติการขอใช้บริการจัดเลี้ยง</h5>
+                }
+                else if (actionType == "catering-audiovisual-service")
+                {
+                    <h5 class="modal-title">ยืนยันการขอใช้บริการจัดเลี้ยง</h5>
+                }
+                else if (actionType == "consider-booking-list")
+                {
+                    <h5 class="modal-title">อนุมัติการจองห้องประชุม</h5>
+                }
+                else if (actionType == "approve-carbooking")
+                {
+                    <h5 class="modal-title">อนุมัติการจองยานพาหนะ</h5>
+                }
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+                    @* <iframe name="Preview" id="Preview" src="~/PDF/แบบฟอร์มขอใช้บริการงานโสต.pdf" onload="hideWait();" style="width: 100%; height: 800px;">
+                    </iframe>*@
+                    @if (actionType == "audiovisual-audiovisual-service" || actionType == "audiovisual-approve-service-requests")
+                    {
+                        <iframe name="Preview" id="Preview" src="~/PDF/แบบฟอร์มขอใช้บริการงานโสต.pdf" onload="hideWait();" style="width: 100%; height: 800px;">
+                        </iframe>
+                    }
+                    else if (actionType == "catering-approve-service-requests" || actionType == "catering-audiovisual-service" || actionType == "consider-booking-list")
+                    {
+                        <iframe name="Preview" id="Preview" src="~/PDF/แบบขอใช้บริการจัดเลี้ยง.pdf" onload="hideWait();" style="width: 100%; height: 800px;">
+                        </iframe>
+                    }
+                    else if (actionType == "approve-carbooking")
+                    {
+                        <iframe name="Preview" id="Preview" src="~/PDF/ขออนุญาตใช้รถยนต์.pdf" onload="hideWait();" style="width: 100%; height: 800px;">
+                        </iframe>
+                    }
+
+                </div>
+                <h5 class="mb-5">ประวัติการพิจารณา</h5>
+
+                <div class="table-responsive-xxl table-responsive-xl table-responsive-lg table-responsive-md">
+                    @if (actionType == "audiovisual-audiovisual-service" || actionType == "audiovisual-approve-service-requests")
+                    {
+                        <table id="table1" class="table table-row-dashed table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80">
+                                    <th>วันที่</th>
+                                    <th>ผู้พิจารณา</th>
+                                    <th>ผู้พิจารณาลำดับถัดไป</th>
+                                    <th>การพิจารณา</th>
+                                    <th>ความคิดเห็น</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>03/06/2566 10:00</td>
+                                    <td>นายเจ้าหน้าที่ส่วนงานพัสดุ</td>
+                                    <td></td>
+                                    <td>อนุมัติให้ดำเนินการ</td>
+                                    <td>เห็นควรดำเนินการ</td>
+                                </tr>
+                                <tr>
+                                    <td>02/06/2566 08:00</td>
+                                    <td>นายทดสอบ จองห้องประชุม</td>
+                                    <td>นายเจ้าหน้าที่ ส่วนงานพัสดุ</td>
+                                    <td>ส่งเรื่องพิจารณา</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else if (actionType == "catering-approve-service-requests" || actionType == "catering-audiovisual-service" || actionType == "consider-booking-list")
+                    {
+                        <table id="table1" class="table table-row-dashed table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80">
+                                    <th>วันที่</th>
+                                    <th>ผู้พิจารณา</th>
+                                    <th>ผู้พิจารณาลำดับถัดไป</th>
+                                    <th>การพิจารณา</th>
+                                    <th>ความคิดเห็น</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>03/06/2566 10:00</td>
+                                    <td>นายเจ้าผู้อำนวยการ สก.</td>
+                                    <td>นายเจ้าหน้าที่ ฝ่ายจัดเลี้ยง</td>
+                                    <td>อนุมัติให้ดำเนินการ</td>
+                                    <td>เห็นควรดำเนินการ</td>
+                                </tr>
+                                <tr>
+                                    <td>02/06/2566 08:00</td>
+                                    <td>นายทดสอบ ขอใช้บริการ</td>
+                                    <td>นายเจ้าผู้อำนวยการ สก.</td>
+                                    <td>ส่งเรื่องพิจารณา</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else if (actionType == "approve-carbooking")
+                    {
+                        <table id="table1" class="table table-row-dashed table-row-gray-300 align-middle gy-5 gs-7 js-table">
+                            <thead class="table-primary">
+                                <tr class="fw-semibold fs-6 text-gray-80">
+                                    <th>วันที่</th>
+                                    <th>ผู้พิจารณา</th>
+                                    <th>ผู้พิจารณาลำดับถัดไป</th>
+                                    <th>การพิจารณา</th>
+                                    <th>ความคิดเห็น</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>03/06/2566 10:00</td>
+                                    <td>นายเจ้าหน้าที่ ส่วนงานพัสดุ</td>
+                                    <td></td>
+                                    <td>อนุมัติให้ดำเนินการ</td>
+                                    <td>เห็นควรดำเนินการ</td>
+                                </tr>
+                                <tr>
+                                    <td>02/06/2566 08:00</td>
+                                    <td>นายทดสอบ จองยานพาหนะ</td>
+                                    <td>นายเจ้าหน้าที่ ส่วนงานพัสดุ</td>
+                                    <td>ส่งเรื่องพิจารณา</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    
+                    }
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                @if (actionType == "audiovisual-audiovisual-service" || actionType == "catering-audiovisual-service")
+                {
+                    <div>
+                        <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fa fa-chevron-left"></i> กลับหน้ารายการ</button>
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="modal"><i class="fas fa-check"></i> ดำเนินการแล้ว</button>
+                    </div>
+                }
+                else if (actionType == "audiovisual-approve-service-requests" || actionType == "catering-approve-service-requests" || actionType == "consider-booking-list")
+                {
+                    <div>
+                        <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fa fa-chevron-left"></i> กลับหน้ารายการ</button>
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                        <button data-url="@Url.Action("EventServiceRequest", "Consider",new {actypeType = "approve", formType = "room"})" data-toggle="ajax-modal-servicerequest" class="btn btn-sm btn-success" data-bs-dismiss="modal"><i class="fa fa-check"></i> อนุมัติ</button>
+                        <button data-url="@Url.Action("EventServiceRequest", "Consider",new {actypeType = "dis-approval", formType = "room"})" data-toggle="ajax-modal-servicerequest" class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-close"></i> ไม่อนุมัติ</button>
+                    </div>
+                }
+                 else if (actionType == "approve-carbooking")
+                {
+                    <div>
+                        
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                        <button data-url="@Url.Action("EventServiceRequest", "Consider",new {actypeType = "approve", formType = "car"})" data-toggle="ajax-modal-servicerequest" class="btn btn-sm btn-success" data-bs-dismiss="modal"><i class="fa fa-check"></i> อนุมัติ</button>
+                        <button data-url="@Url.Action("EventServiceRequest", "Consider",new {actypeType = "dis-approval", formType = "car"})" data-toggle="ajax-modal-servicerequest" class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-close"></i> ไม่อนุมัติ</button>
+                        <button data-url="@Url.Action("EventServiceRequest", "Consider",new {actypeType = "sendback-edit", formType = "car"})" data-toggle="ajax-modal-servicerequest" class="btn btn-sm btn-warning" data-bs-dismiss="modal"><i class="fa fa-reply"></i> ส่งกลับแก้ไข</button>
+                        <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">กลับหน้ารายการ</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divModalApprove"></div>
+
+<script>
+    $(function () {
+
+        var divModalApprove = $('#divModalApprove');
+
+        $('button[data-toggle="ajax-modal-servicerequest"]').click(function () {
+            var url = $(this).data('url');
+            $.get(url).done(function (data) {
+                divModalApprove.html(data);
+                divModalApprove.find('.modal').modal('show');
+            });
+        });
+
+    });
+</script>
